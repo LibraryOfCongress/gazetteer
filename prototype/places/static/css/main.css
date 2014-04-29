@@ -1,0 +1,353 @@
+html, body
+{width:100%; 
+height:100%;} 
+
+body
+{font-family:Helvetica, Arial, 'DejaVu Sans', sans-serif;
+color:#666;}
+
+/*.wrapper
+{min-height:100%;}*/
+
+.header
+{width:100%;
+padding:0.5% 0;
+/*background-color:grey;*/
+height:13%;}
+
+#logo
+{max-height:100%;}
+
+#logoMain
+{float:left;
+margin-left:1%;
+margin-right:2%;
+padding-top:.2%;}
+
+#logoMain p {
+    font-family: Garamond, "Trebuchet MS", Tahoma, Helvetica, Arial, 'DejaVu Sans', sans-serif;
+    color: #838383;
+}
+
+.searchForm
+{margin-left:2%;
+padding-top:2%;}
+
+.search
+{width:30%; /*fine if i give this width in percent, right?*/
+height:24px; /*here, a fixed width shouldn't be a problem, right?, what is someone's seeing it on an iphone?*/
+padding-left:8px;
+padding-right:8px;
+-moz-border-radius:16px;
+-webkit-border-radius:16px;
+border-radius:16px;
+
+/*-moz-box-shadow: rgba(0,0,0, 0.3) 0px 0px 8px;  
+-webkit-box-shadow: rgba(0,0,0, 0.3) 0px 0px 8px;
+box-shadow: rgba(0,0,0, 0.3) 0px 0px 8px;
+background-color:rgba(254, 254, 254, 0.9);*/
+
+/*
+-moz-box-shadow:inset 2px 2px 8px 1px #aca7a7;
+-webkit-box-shadow:inset 2px 2px 8px 1px #aca7a7;
+box-shadow:inset 2px 2px 8px 1px #aca7a7;
+border:1px solid #c8c6c6;
+-moz-border-radius:16px;
+-webkit-border-radius:16px;
+border-radius:20px;
+*/
+background-position:98% 50%;
+background-repeat:no-repeat;}
+
+.loading
+{background-image:url(/static/images/loading-indicator.gif);}
+
+.search:focus
+{outline:none;
+border:1px solid #999;
+-moz-border-radius:16px;
+-webkit-border-radius:16px;
+border-radius:16px;} /*this doesn't work need to find a way to give the outline border radius on focus*/
+
+#searchButton
+{height:26px;
+margin-left:1%;
+padding-left:8px;
+padding-right:8px;
+-moz-border-radius:4px;
+-webkit-border-radius:4px;
+border-radius:4px;}
+
+#jsonLink
+{font-size:10px;}
+
+#logoText
+{font-family:Garamond, "Trebuchet MS", Tahoma, Helvetica, Arial, 'DejaVu Sans', sans-serif; 
+font-weight:bold;
+font-size:16px;
+text-transform:uppercase;
+color:#838383;
+padding-top:10px;
+line-height:100%;}
+
+#entropyLink
+{text-decoration:none;
+margin-top:-10px;
+line-height:100%;}
+
+.content
+{/*padding-bottom: 100px;*/
+margin-bottom:1%;
+height:68%;
+}
+
+
+.nav
+{width:98%;
+margin-bottom:1%;
+margin:0 auto;}
+
+.nav ul
+{padding-top: 4px;
+padding-bottom: 4px;
+padding-left:1%;
+background-image:url(http://gazetteer.in/admin/media/img/admin/default-bg.gif);
+background-color:#7CA0C7;} 
+
+.nav ul li
+{padding-right: 60px;
+list-style:none;
+display:inline;
+color:#FFF;
+font-weight:bold;
+cursor:pointer;}
+
+.nav ul li a
+{text-decoration:none;
+color:#FFF;}
+
+.nav ul li a:hover
+{color:#036;}
+
+
+.mapListSection
+{float:left;
+width:33%;
+margin-left:1%;
+margin-right:1%;}
+
+/*.mapList
+{
+}*/
+
+.mapList li
+{font-size:16px;
+padding-bottom:14px;
+cursor:pointer;}
+
+.mapList li:hover
+{color:#7e4444;}
+
+.highlighted {
+    background-color: #C4DFFB;
+}
+
+#nameList
+{width:40%;}
+
+#typeList
+{width:25%;}
+
+#countyList
+{width:25%;}
+
+#stateList
+{width:10%;}
+
+.resultsList
+{font-weight:bold;}
+
+#totalResults
+{font-size:10px;
+float:left;
+padding-left:4px;
+color:#666;}
+
+#showingResults
+{font-size:10px;
+float:right;
+padding-right:4px;
+color:#666;}
+
+#noOfResults, #currPageNo, #totalPages, #of
+{font-weight:normal;}
+
+.map
+{float:left;
+width:50%;
+margin-right:1%;
+height:100%;
+border:1px solid #C6C6C6;}
+ 
+.paginate
+{width:320px; /*is a fixed width fine, because percentages screw this up*/
+margin:0 auto;}
+
+.paginate li
+{float:left;
+margin-right:9px;
+margin-bottom:12px;
+font-size:10px;
+border:1px solid #e5e5e5;
+padding:2px 4px;
+cursor:pointer;
+background: #b5b5b5; /* Old browsers */
+background: -moz-linear-gradient(top, #FFF 0%, #e5e5e5 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFF), color-stop(100%,#e5e5e5)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #FFF 0%,#b8b8b8 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #FFF 0%,#e5e5e5 100%); /* Opera11.10+ */
+background: -ms-linear-gradient(top, #FFF 0%,#e5e5e5 100%); /* IE10+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#FFF', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-9 */
+background: linear-gradient(top, #FFF 0%,#e5e5e5 100%); /* W3C */
+}
+
+.paginate li a
+{text-decoration:none;
+color:#666;
+}
+
+
+.paginate li:first-child, .paginate li:last-child /*wont work in old IE versions, will have to test how it works*/
+{border:1px solid transparent;
+background:none;
+font-size:10px;}
+
+.paginate li:hover
+{-moz-box-shadow:2px 3px 4px #c6c0c0;
+-webkit-box-shadow:2px 3px 4px #c6c0c0;
+box-shadow:2px 3px 4px #c6c0c0;
+-moz-transform:scale(1.25);
+-webkit-transform:scale(1.25);
+-o-transform:scale(1.25);
+transform:scale(1.25);}
+
+/*.paginateSelected li*/ /*do i need to repeat all these classes from the .paginate div ?, also do the same for first child and last child please*/
+/*{float:left;
+color:#272727;
+margin-right:12px;
+font-size:10px;
+border:1px solid #e5e5e5;
+padding:2px 4px;
+cursor:pointer;
+background: #b5b5b5; 
+background: -moz-linear-gradient(top, #d19f9f 0%, #e5e5e5 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d19f9f), color-stop(100%,#e5e5e5));
+background: -webkit-linear-gradient(top, #d19f9f 0%,#e5e5e5 100%); 
+background: -o-linear-gradient(top, #d19f9f 0%,#e5e5e5 100%); 
+background: -ms-linear-gradient(top, #d19f9f 0%,#e5e5e5 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d19f9f', endColorstr='#e5e5e5',GradientType=0 ); 
+background: linear-gradient(top, #d19f9f 0%,#e5e5e5 100%); 
+-moz-transform:scale(1.25);
+-webkit-transform:scale(1.25);
+-o-transform:scale(1.25);
+transform:scale(1.25);}*/
+
+.firstLast
+{font-size:10px;
+padding-bottom:8px;
+padding-left: 6px !important;
+padding-right: 4px;
+cursor:pointer;
+clear:both;
+list-style:none;
+position: relative;
+margin-left: 0px !important;}
+
+.first, .last, .next, .previous
+{border:1px solid #e5e5e5;
+padding:2px 4px;
+color:#666;
+-moz-box-shadow:2px 3px 4px #c6c0c0;
+-webkit-box-shadow:2px 3px 4px #c6c0c0;
+box-shadow:2px 3px 4px #c6c0c0;
+font-weight:bold;
+text-align:center;}
+
+.firstLast li
+{display:inline;
+font-size:10px;}
+
+/*.first, .previous, .next
+{float:left;}
+
+.next
+{margin-left:20px;}
+
+.first
+{margin-right:60px;}*/
+
+.last
+{/*float:right*/;
+position:absolute;
+right:6px;}
+
+/*.next, .previous
+{font-weight: bold;
+font-size: 10px;
+color: #666;}*/
+
+.next
+{float:right;
+margin-right:17%;}
+
+.previous
+{margin-left:9%;}
+
+/*.next:hover, .previous:hover
+{color:#036;}*/
+
+.clear
+{clear:both;}
+
+.first:hover, .last:hover, .next:hover, .previous:hover
+{-moz-box-shadow:2px 3px 4px #c6c0c0;
+-webkit-box-shadow:2px 3px 4px #c6c0c0;
+box-shadow:2px 3px 4px 2px #c6c0c0;}
+
+
+.footer 
+{position:relative;
+/*height:100px*/ /*may need to be changed if content exceeds*/
+/*margin-top:-100px;*/
+width:100%;
+height:7.6%; /*HA HA HA HA HA HA HA DECIMALS should work, right*/
+/*margin:0 auto;*/
+/*background-color:grey;*/
+color:#666;
+font-size:10px;
+clear:both;} 
+
+#footerLinks
+{padding-top: 6px;
+position: absolute;
+bottom: 0px;
+right: 10px;}
+
+.footer a, .footer a:link, .footer a:visited, .footer a:active
+{text-decoration:none;
+font-size:10px;
+color:#666;}
+
+.footer a:hover
+{color:#036;}
+
+#mapList thead {
+    font-weight:bold;
+}
+
+.viewSimilar {
+    text-decoration: none;
+    font-size: 11px;
+    font-style: italic;
+    color: #666;
+}

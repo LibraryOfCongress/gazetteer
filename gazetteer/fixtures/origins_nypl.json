@@ -1,0 +1,142 @@
+[
+    {
+        "model": "gazetteer.origin",
+        "pk": 1,
+        "fields": {
+            "name": "Robinsons Atlas Brooklyn 1886",
+            "description": "Robinson's atlas of the city of Brooklyn, New York : embracing all territory within its corporate limits; from official records ... / by and under the supervision of E. Robinson and R.H. Pidgeon, civil engineers. ",
+            "example": "http://maps.nypl.org/warper/layers/867.3523",
+            "code": "maps.nypl.org/warper/layers/867"
+        }
+    },
+    {
+        "model": "gazetteer.origin",
+        "pk": 2,
+        "fields": {
+            "name": "Perris Map New York, 1854",
+            "description": "Maps of the city of New York / surveyed under directions of insurance companies of said city. ",
+            "example": "http://maps.nypl.org/warper/layers/861.buildings.76989",
+            "code": "maps.nypl.org/warper/layers/861"
+        }
+    },
+    {
+        "model": "gazetteer.origin",
+        "pk": 3,
+        "fields": {
+            "name": "Queens Atlas 1909",
+            "description": "Atlas of the city of New York, borough of Queens, Long Island City, Newtown, Flushing, Jamaica, Far Rockaway, from actual surveys and official plans / by George W. and Walter S. Bromley.",
+            "example": "http://maps.nypl.org/warper/layers/870.15055",
+            "code": "maps.nypl.org/warper/layers/870"
+        }
+    },
+    {
+        "model": "gazetteer.origin",
+        "pk": 4,
+        "fields": {
+            "name": "NYC Buildings 2010",
+            "description": "Buildings from nyc.gov bytes of the big apple",
+            "example": "http://www.nyc.gov/html/dcp/html/bytes/applbyte.shtml.631695",
+            "code": "applbyte"
+        }
+    },
+    {
+        "model": "gazetteer.origin",
+        "pk": 5,
+        "fields": {
+            "name": "NYC Historical Counties",
+            "description": "NYC Historical Counties",
+            "example": "http://publications.newberry.org/ahcbp/downloads/united_states.html.counties.nys_nca2.1",
+            "code": "newberry.org/ahcbp/downloads/united_states.html.counties"
+        }
+    },
+    {
+        "model": "gazetteer.origin",
+        "pk": 6,
+        "fields": {
+            "name": "NYC Historical States",
+            "description": "NYC Historical States",
+            "example": "http://publications.newberry.org/ahcbp/downloads/united_states.html.states.de_state.1",
+            "code": "newberry.org/ahcbp/downloads/united_states.html.states"
+        }
+    },
+    {
+        "model": "gazetteer.origin",
+        "pk": 7,
+        "fields": {
+            "name": "NYC Landmarks Districts",
+            "description": "NYC Landmarks Districts",
+            "example": "https://data.cityofnewyork.us/Cultural-Affairs/Historic-district-maps/d4dh-78mx#LPChistoricDistricts/LP-1051",
+            "code": "district-maps"
+        }
+    },
+    {
+        "model": "gazetteer.origin",
+        "pk": 8,
+        "fields": {
+            "name": "NYC Landmarks Points",
+            "description": "NYC Landmarks Points",
+            "example": "http://www.nyc.gov/html/datamine/html/data/terms.html?dataSetJs=geo.js&theIndex=89.1011110001.4526",
+            "code": "nyc.gov/html/datamine"
+        }
+    },
+    {
+        "model": "gazetteer.origin",
+        "pk": 10,
+        "fields": {
+            "name": "NRHP Historical Points",
+            "description": "NRHP Historical Points",
+            "example": "http://nrhp.focus.nps.gov/natreg/docs/Download.html.81000408",
+            "code": "nrhp.focus.nps.gov/natreg"
+        }
+    },
+    {
+        "model": "gazetteer.origin",
+        "pk": 11,
+        "fields": {
+            "name": "NYC Tax Blocks",
+            "description": "NYC Tax Blocks",
+            "example": "https://data.cityofnewyork.us/Property/Department-of-Finance-Digital-Tax-Map/smk3-tmxj#block/48861/31072",
+            "code": "cityofnewyork*block"
+        }
+    },
+    {
+        "model": "gazetteer.origin",
+        "pk": 12,
+        "fields": {
+            "name": "NYC Tax Lots",
+            "description": "NYC Tax Lots",
+            "example": "https://data.cityofnewyork.us/Property/Department-of-Finance-Digital-Tax-Map/smk3-tmxj#lot/3041110053",
+            "code": "cityofnewyork*lot"
+        }
+    },
+    {
+        "model": "gazetteer.origin",
+        "pk": 13,
+        "fields": {
+            "name": "NYC Townships 1990",
+            "description": "NYC Townships 1990",
+            "example": "http://www.census.gov/geo/www/cob/cs1990.html.36047005.1032",
+            "code": "census.gov/geo/www/cob/cs1990"
+        }
+    },
+    {
+        "model": "gazetteer.origin",
+        "pk": 14,
+        "fields": {
+            "name": "NYC Townships 2000",
+            "description": "NYC Townships 2000",
+            "example": "http://www.census.gov/geo/www/cob/cs2000.html.60323.1031",
+            "code": "census.gov/geo/www/cob/cs2000"
+        }
+    },
+    {
+        "model": "gazetteer.origin",
+        "pk": 15,
+        "fields": {
+            "name": "NYCTownships2010",
+            "description": "NYCTownships2010",
+            "example": "http: //www2.census.gov/geo/tiger/GENZ2010/gz_2010_36_060_00_500k.0600000US3608160323.190",
+            "code": "census.gov/geo/tiger/*gz_2010_36_060_00_500k"
+        }
+    }
+]

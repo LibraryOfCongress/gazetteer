@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block page_title %} Search {% endblock %}
+
+{% block extra_head %}
+    <script src="/static/js/search.js"></script>
+    <link rel="stylesheet" href="/static/css/index.css" />
+    
+{% endblock %}
+
+{% block body_class %} index {% endblock %}
+
+{% block content %}
+
+<div class="overlay">
+    <div class="lightBoxBlock">
+        <div class="lightBox">
+            <div class="lightBoxContent">
+                </div><a href="" class="closeLightBox"></a></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="contentWrapper">
+
+<div id="searchWrapper">
+    <form action="" method="get" class="searchForm" id="searchForm"> 
+        <input type="text" placeholder="Search digital gazetteer" id="searchField" name="field" class="search" />
+        <input type="submit" name="searchButton" value="Search" id="searchButton"> <br />
+        <input type="text" placeholder="start year, eg. 1900" id="startDate" /> <span class="toYear">TO</span> <input type="text" id="endDate" placeholder="end year, eg. 2010" /><br />
+        Feature Code: <input type="text" id="featureCodeFilter" size="4" />
+        With Geo: <input type="radio" checked="checked" id="with_geo_radio" name="geo" value="with_geo" />
+        Without Geo: <input type="radio" name="geo" id="no_geo_radio" value="no_geo" />
+        
+        <!-- <button id="updateSearch" title="Update search for current map view-port">Update Search</button> -->
+
+        <input type="hidden" value="1" id="page_no" name="page_no" />
+    </form>
+</div>
+    <div class="mapListSection" style="float:left;">
+<!--     <p class="resultsList" id="totalResults">Total Results: <span id="noOfResults"> </span></p>
+
+<p class="resultsList" id="showingResults">Showing Page: <span id="currPageNo">1</span> <span id="of">of</span> <span id="totalPages"> 10</span></p>
+        
+        <ul class="firstLast"> 
+            <li class="first">First </li> 
+            <li class="previous"> Previous</li> 
+            <li class="next"> Next </li> 
+            <li class="last"> Last</li>
+        </ul>-->
+         
+        <h6>Results for <span id="searchTerm"></span> &nbsp; <a href="" id="jsonLink">GeoJSON</a></h6> 
+
+        <table id="mapList">
+            <thead>
+                <tr>
+                    <th id="nameList">Name</th>
+                    <th id="typeList">Type</th>
+                    <th id="timeframeList">Time-frame</th>
+                    <th id="originList">Origin</th>
+                    <!--
+                    <td id="countyList"></td>
+                    <td id="stateList"></td>
+                    -->
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+
+        </table>    
+
+    <div id="resultsBlock">                
+        <p class="resultsList" id="totalResults"><strong>Total Results: <span id="noOfResults"> </span></strong></p>
+
+        <p class="resultsList" id="showingResults"><strong>Page: <span id="currPageNo">1</span> <span id="of">of</span> <span id="totalPages"> 10</span></strong></p>
+
+        <ul class="firstLast"> 
+            <li class="first">First </li> 
+            <li class="previous"> Previous</li> 
+            <li class="next"> Next </li> 
+            <li class="last"> Last</li>
+        </ul>
+
+<div class="clear"></div>
+    </div> <!-- close results block -->
+        
+    </div>
+</div> <!-- close contentWrapper -->
+
+<div id="mapContainer">
+    <div class="map" id="map">
+
+    </div>
+</div>
+
+<div style="clear:both;"></div>
+{% endblock %}
+
+{% block extra_footer %}
+<span class="totalRecords">Total records: {{total_count}}</span>
+{% endblock %}
+

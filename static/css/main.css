@@ -1,0 +1,1497 @@
+/*please remove view place detail links unnescessary for preventing page from going back to home - temp fix*/
+/* remove references to #searchToggle */
+
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	
+	box-sizing: border-box; 
+}
+
+@font-face {
+	font-family: 'icomoon';
+	src:url('../font/icomoon.eot');
+	src:url('../font/icomoon.eot?#iefix') format('embedded-opentype'),
+		url('../font/icomoon.woff') format('woff'),
+		url('../font/icomoon.ttf') format('truetype'),
+		url('../font/icomoon.svg#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+    font-family: 'LatoRegular';
+    src: url('../font/Lato/Lato-Reg-webfont.eot');
+    src: url('../font/Lato/Lato-Reg-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../font/Lato/Lato-Reg-webfont.woff') format('woff'),
+         url('../font/Lato/Lato-Reg-webfont.ttf') format('truetype'),
+         url('../font/Lato/Lato-Reg-webfont.svg#LatoRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'LatoBold';
+    src: url('../font/Lato/Lato-Bol-webfont.eot');
+    src: url('../font/Lato/Lato-Bol-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../font/Lato/Lato-Bol-webfont.woff') format('woff'),
+         url('../font/Lato/Lato-Bol-webfont.ttf') format('truetype'),
+         url('../font/Lato/Lato-Bol-webfont.svg#LatoBold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'LatoItalic';
+    src: url('../font/Lato/Lato-RegIta-webfont.eot');
+    src: url('../font/Lato/Lato-RegIta-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../font/Lato/Lato-RegIta-webfont.woff') format('woff'),
+         url('../font/Lato/Lato-RegIta-webfont.ttf') format('truetype'),
+         url('../font/Lato/Lato-RegIta-webfont.svg#LatoItalic') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+html, body  { 
+	height: 100%;
+	width: 100%;
+}
+
+body {
+	background-color: #fff;
+	color: #5682a5;
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+body, input {
+	font-family: 'LatoRegular', sans-serif;	
+}
+
+/* GLOBAL STYLES */
+
+.clear { 
+	clear: both;
+} 
+
+a, .blue {
+	color: #5781b1;
+}
+
+a {
+  text-decoration: none;
+}
+
+a:hover, a:focus {
+}
+
+strong, .bold {
+	font-family: 'LatoBold', sans-serif;
+}
+
+em {
+	font-style: italic;
+}
+
+h6 {
+	font-size: 110%;
+}
+
+h5 {
+	font-size: 120%;
+}
+
+h4, .h4Font {
+	font-size: 130%;
+}
+
+h3 {
+	font-size: 140%;
+}
+
+h2 {
+	font-size: 150%;
+}
+
+h1 {
+	font-size: 160%;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+input[type="submit"] {
+	cursor: pointer;
+}
+
+textarea {
+	vertical-align: top;
+}
+
+.center {
+	text-align: center;
+}
+
+.floatLeft {
+	float: left;
+}
+
+.floatRight {
+	float: right;
+}
+
+.smallFont {
+	font-size: 90%;
+}
+
+.smallerFont {
+	font-size: 85%;
+}
+
+.smallestFont {
+	font-size: 80%;
+}
+
+.largeFont {
+	font-size: 110%;
+}
+
+.inlineBlock {
+	display: inline-block;
+}
+
+.block {
+	display: block;
+}
+
+.marginBottom {
+	margin-bottom: 10px;
+}
+
+.paddingTopBottom {
+	padding: 10px 0;
+}
+
+.uppercase {
+	text-transform: uppercase;
+}
+
+.fontIcons {
+	font-family: 'icomoon';
+	display: inline-block;
+	cursor: pointer;
+}
+
+/* END GLOBAL STYLES */
+
+
+/* COLUMNS */
+
+.col20 {
+	width: 20%;
+}
+
+.col25 {
+	width: 25%;
+}
+
+.col30 {
+	width: 30%;
+}
+
+.col33 {
+	width:33.33%;
+}
+
+.col35 {
+	width: 35%;
+}
+
+.col40 {
+	width: 40%;
+}
+
+.col50 {
+	width: 50%;
+	/* padding: 10px; */
+}
+
+.col60 {
+    width: 60%;
+}
+
+.col65 {
+	width:65%;
+}
+
+.col100 {
+	width: 100%;
+}
+
+.col20, .col25, .col30, .col35, .col40, .col50, .col60, .col65 {
+	float: left;
+}
+
+/* END COLUMNS */
+
+
+#loadingPage {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: #fff;
+    opacity: 0.8;
+    z-index: 30000;
+}
+
+.appLoadingImg {
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    top: 46%;
+}
+
+#header, #searchToggle {
+/*	z-index: 20000;*/
+}
+
+#searchToggleBlock {
+	/*z-index: 10000;*/ /* collate position fixed for top div and this. and z-index  */
+}
+
+.tooltip {
+    z-index: 25000;
+}
+
+.tabNavigationBlock {
+/*    z-index: 10000;*/
+}
+
+#map {
+    z-index: 3000; /* FIXME: check z-indexes  */
+}
+
+.placeDetailTabs .tabs {
+/*    z-index: 3000;*/
+}
+
+#siteHeader .fontIcons {
+	font-size: 110%;
+	padding: 7px 0 5px 10px;
+	position: relative;
+}
+
+#loginBlock a {
+    color: #fff;
+}
+
+.menuMain ul, .navList p, .buttonAdd, #searchToggle, .headingSite, #featureTypeBlock {
+    background: #5381A6;
+}
+
+#mapContent {
+	padding: 36px 14px 150px 14px; /* 3rd value changes with footer height */
+	float: right;
+}
+
+#map {
+	position: fixed;
+	left: 10px;
+	right: 50%;
+	top: 75px;
+	bottom: 10px;
+    /*z-index: 3000; *//* FIXME: check z-indexes  */
+}
+
+.mainContent {
+    margin-top: 100px;  /*remove if js is handling later*/
+}
+
+input[type="text"], input[type="password"], input[type="submit"], .button, #placeDetailEachBlock select {
+	border: 1px solid #9cb6d4;
+	padding: 4px;
+}
+
+.searchApp, #placeDetailEachBlock input[type="text"] {
+	height: 28px;
+}
+
+.searchApp::-moz-placeholder {
+	color: #7bbde5;
+	font-size: 90%;
+	text-transform: uppercase;
+	font-family: 'LatoBold', serif;
+} 
+
+.searchApp::-webkit-input-placeholder {
+	color: #7bbde5;
+	font-size: 90%;
+	text-transform: uppercase;
+	font-family: 'LatoBold', serif;
+}
+
+.searchApp:-ms-input-placeholder {
+	color: #7bbde5;
+	font-size: 90%;
+	text-transform: uppercase;
+	font-family: 'LatoBold', serif;
+}
+
+.searchApp:placeholder {
+	color: #7bbde5;
+	font-size: 90%;
+	text-transform: uppercase;
+	font-family: 'LatoBold', serif;
+}
+
+#showFeatureCodes {
+	border-right: 2px solid #9cb6d4;
+}
+
+#showFeatureCodes, #showOrigins {
+    padding: 8px 2px;
+}
+
+#featureCodesRegion, #originsRegion {
+    position: absolute;
+    top: 80px;
+    left: 80px;
+    background: #fff;
+    color: #5682a5; /* karen to consolidate later */
+    text-transform: capitalize;
+    text-align: left;
+}
+
+#featureCodesRegion, .origins {
+    font-size: 85%;
+    box-shadow: 0px 2px 3px 2px rgba(0,0,0,0.2);
+}
+
+.featureCodes {
+    padding: 6px;
+}
+
+/*
+#originsRegion {
+    position: absolute;
+    top: 80px;
+    left: 120px;
+    background: #fff;
+}
+*/
+
+.origins {
+    padding: 4px 8px 6px;
+}
+
+.checkedOriginsNumber {
+
+}
+
+.rightArrow {
+    position: relative;
+    top: -1px;
+}
+
+.x {
+    color: #e60c0c;
+    font-size: 90%;
+}
+
+.modalContent {
+    padding: 10px 16px;
+    color: #fff;
+}
+
+.modalContent a {
+    color: #fff;
+}
+
+.modalContent a:hover {
+    border-bottom: 1px solid #fff;
+}
+
+.message {
+    background: #7b0000;
+    padding: 4px 6px;
+	font-family: 'LatoBold', sans-serif;
+}
+
+.message:empty {
+    display: none;
+}
+
+.searchInput, #dateInputBlock input {
+	color: #7da0c8; /* why no work  */
+	text-align: center;
+}
+
+#searchLink {
+	float: left;
+}
+
+#loginBlock {
+    position: fixed;
+    top: 4px;
+    right: 10px;
+    font-size: 80%;
+    /*
+	position: relative;
+	float: right;
+	font-size: 80%;
+    */
+}
+
+#logoutBtn {
+    cursor: pointer;
+}
+
+.logoutBtns {
+    margin-top: 16px;
+}
+
+#dateInputBlock {
+	padding: 6px 16px;
+}
+
+#dateInputBlock input {
+    width: 44px;
+    height: 22px;
+    font-size: 80%;
+}
+
+#formFeature p {
+	padding: 0 0 6px 0;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+input[type="submit"], .button {
+	cursor: pointer;
+	color: #5381A6;
+	font-family: 'LatoBold', sans-serif;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+    background: #fff;
+	/* background: #7da0c8; */
+	font-size: 80%;
+	text-align: center;
+	/* min-width: 100px; 
+	display: inline-block;*/
+}
+
+.tabButton {
+    background: #7DA3C9;
+    color: #fff;
+	border: 1px solid #5381A6;
+	text-align: left;
+}
+
+#tabNavigation .tabButton {
+	text-align: center;
+}
+
+.activeNav, .active {
+    background: #5381A6;
+}
+
+.buttonAdd {
+	font-size: 80%;
+	text-transform: capitalize;
+	/* background: #888; */
+	/* float: right; */
+	margin: 3px 1px 0 0;	
+    background: #fff;
+    color: #5381A6;
+	padding: 3px 4px;
+	cursor: pointer;
+	min-width: 70px;
+}
+
+.buttonAddIcon {
+    color: #5381A6;
+    float: right;
+    padding: 0 0 0 4px;
+}
+
+.labelAltNames {
+	min-width: 64px;
+	display: inline-block;
+}
+
+.saveButtons {
+	padding: 0 0 0 3px;
+}
+
+#loginBlock .tooltip {
+	background: rgb(255,255,255);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(51%,rgba(225,225,225,1)), color-stop(100%,rgba(246,246,246,1)));
+    background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(225,225,225,1) 51%,rgba(246,246,246,1) 100%);
+    background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(225,225,225,1) 51%,rgba(246,246,246,1) 100%);
+}
+
+ #loginBlock .tooltip:after {
+    border-color: transparent #f5f5f5 #f5f5f5 transparent;
+}
+
+
+/*
+.formModal .button {
+	padding: 4px 6px;
+	color: #666;
+    border: none;
+}
+*/
+
+/* #searchSubmit .button:last-of-type {
+	margin-right: 0;
+}
+ */
+.padding010 {
+	padding: 0 10px;
+}
+
+.padding10 {
+	padding: 10px;
+}
+
+.padding4 {
+	padding: 4px;
+}
+
+#searchToggle {
+	padding: 2px 10px;
+	/* text-align: right; */
+	/* background: #7da0c8; */
+	color: #fff;
+	position: fixed;
+	top: 0;
+	right: 0;
+	left: 50%;
+}
+
+.helpText {
+	font-size: 180%;
+	line-height: 1;
+	font-family: 'Open Sans Condensed', sans-serif;
+	padding: 0 0 0 20px;
+	display: inline-block;
+}
+
+#siteHeader {
+	color: #fff;
+	padding: 5px 10px 4px 10px;
+	font-family: 'LatoBold', sans-serif;
+	text-align: center;
+	line-height: 1;
+	height: 32px;
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+    font-size: 90%;
+    text-transform: uppercase;
+/*    z-index: 3100;*/
+
+}
+
+#searchBlock {
+	clear: both;
+/*	height: 100px;
+    height: 80px;*/
+}
+
+#searchToggleBlock, #siteHeader, .modalContent {
+    background: #5381A6;
+    /*
+	background: rgb(35,36,104);
+    background: -webkit-linear-gradient(top, rgba(35,36,104,1) 1%,rgba(51,84,150,1) 100%);
+    background: linear-gradient(to bottom, rgba(35,36,104,1) 1%,rgba(51,84,150,1) 100%);
+	*/
+}
+
+.boundingBox {
+    padding: 8px 0 0 0;
+}
+
+.boundingBox label {
+    color: #fff;
+    font-size: 80%;
+    vertical-align: text-top;
+}
+
+#searchToggleBlock  .selectedTab {
+	background: #232468;
+}
+
+.selectedSearchPlace {
+    background: #5682A5;
+    color: #fff;
+}
+
+.selectedSearchPlace a {
+    color: #fff;
+}
+
+.searchTab {
+	text-align: center;
+	/* opacity: 0.7; */
+	font-size: 120%;
+}
+
+#searchToggleBlock {
+	/* display: none; */
+	padding: 8px 10px;
+/*	position: fixed;
+	right: 0px;
+	top: 32px;
+	left: 50%;*/
+    border-top: 1px solid #9cb6d4;
+	/*z-index: 10000;*/ /* collate position fixed for top div and this. and z-index  */
+}
+
+.searchButtonsBlock {
+    display: inline-block;
+    border: 5px double #9cb6d4;
+    background: #fff;
+    line-height: 1;        
+}
+
+#applySearch {
+    font-size: 100%;
+    border: none;
+    position: relative;
+}
+
+#applySearch:after {
+    content: "";
+    width: 1px;
+    background: #9cb6d4;
+    position: absolute;
+    right: 0;
+    top: 4px;
+    bottom: 4px;
+}
+
+#loadingSearch {
+    width: 73px;
+    /*padding: 4px 0 0 0;
+     vertical-align: middle; */
+}
+
+.switch {
+    width: 70px;
+    padding-right: 0 20px 0 0;
+    position: relative;
+    font-size: 80%;
+    /* border: 1px solid #9cb6d4; 
+    position: relative;
+    left: -3px;
+*/
+    display: inline-block;
+    vertical-align: top;
+    text-transform: uppercase;
+	font-family: 'LatoBold', sans-serif;
+}
+
+.switch input {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    opacity: 0;
+    z-index: 100;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+
+.adminDisplay {
+	font-size: 95%;
+	font-family: 'LatoItalic', sans-serif;
+}
+
+.switch label {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: #fff;
+	padding: 6px 0 0 0;
+    color: #5682a5; /*consolidate later karen*/
+
+    /*
+    box-shadow: 
+        0 3px 5px rgba(0,0,0,0.25),
+        inset 0 1px 0 rgba(255,255,255,0.3),
+        inset 0 -5px 5px rgba(100,100,100,0.1),
+        inset 0 5px 5px rgba(255,255,255,0.3);
+    */
+}
+
+/*.switch label:after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: -8%; 
+    right: -8%; 
+    bottom: -8%; 
+    left: -8%;
+    border-radius: inherit;
+    background: #ddd;
+    background: linear-gradient(#ccc, #fff);
+    box-shadow: 
+        inset 0 2px 1px rgba(0,0,0,0.15),
+        0 2px 5px rgba(200,200,200,0.1);
+}
+*/
+
+.switch label:before {
+    content: "";
+    position: absolute;
+    right: 1px;
+    top: 20%;
+    border-radius: inherit;
+    /*background: #969696;
+    background: radial-gradient(40% 35%, #ccc, #969696 60%);
+    width: 10%;
+    height: 90%; 
+
+    box-shadow:
+        inset 0 2px 4px 1px rgba(0,0,0,0.3),
+        0 1px 0 rgba(255,255,255,1),
+        inset 0 1px 0 white;*/
+}
+
+input:checked ~ label { /* Button */
+/*    background: #e5e5e5; /* Fallback */
+   /* background: linear-gradient(#dedede, #fdfdfd);*/
+box-shadow: inset 0px 0px 4px 1px rgba(89, 123, 166, 0.2);
+border: 1px solid rgba(89, 123, 166, 0.3);
+height: 24px;
+position: relative;
+left: -1px;
+}
+ 
+.switch input:checked ~ label:before { /* LED */
+	content: "*";
+	color: #e60c0c;
+	font-family: 'icomoon';
+	font-weight: normal;
+	font-size: 80%;
+	line-height: 1.3;
+/*   background: #25d025;
+    background: radial-gradient(40% 35%, #5aef5a, #25d025 60%);
+    box-shadow:
+        inset 0 3px 5px 1px rgba(0,0,0,0.1),
+        0 1px 0 rgba(255,255,255,0.4),
+        0 0 10px 2px rgba(0, 210, 0, 0.5);*/
+
+
+}
+
+#featureTypeBlock {
+	/* padding: 10px; */	
+}
+
+#featureLink {
+	display: block;
+	color: #fff;
+	text-transform: uppercase;
+	padding: 3px 5px;
+	position: relative;
+	text-align: center;
+	font-family: 'LatoBold', sans-serif;
+}
+
+.selectSort:after, #featureLink:after, .placeListLink:after {
+	content: "\021";
+	font-family: 'icomoon';
+}
+
+.placeListLink:after {
+	position: absolute;
+	right: 4px;
+	font-size: 80%;
+}
+
+#featureLink:after {
+	position: absolute;
+	right: 8px;
+	font-size: 90%;
+}
+
+#featureTypes {
+	display: none;
+	/* background: #7da0c8; */
+	color: #fff;
+	padding: 6px;
+}
+
+#boundingBoxOption {
+	/* padding: 16px 10px 14px 10px; */
+	font-size: 70%;
+	color: #fff;
+	text-transform: uppercase;
+}
+
+#boundingBoxOption label {
+	vertical-align: text-bottom;
+}
+
+#searchSubmit {
+	/* padding: 10px 0; 
+	text-align: center;*/
+}
+
+#searchSubmit a {
+	color: #fff;
+}
+
+/* RESULTS */
+
+#breadcrumb {
+	display: none;
+}
+
+.contentMain {
+	position: relative;
+	padding: 10px 0 30px 0;
+	min-height: 390px; /* hack for sticky footer  */
+}
+
+.resultsSpan {
+	background: #aabfFd;
+	padding: 1px 4px;
+	border-radius: 2px;
+	text-transform: uppercase;
+} /* sanj can we do ellipsis here? not sure if it will work for long results  */
+
+.resultsHeading {
+	padding: 8px 0 20px 0;
+}
+
+.geoJsonIcon {
+	padding: 0 0 0 10px;
+	position: relative;
+}
+
+.searchResultsList .fontIcons {
+	/*color: #fff;
+	padding-right: 8px;*/
+}
+
+.searchResultsList li, .similarPlaces {
+	padding: 8px 4px;
+	border-bottom: 1px solid #ddd;
+}
+
+.searchResultsList li:last-of-type {
+    border-bottom: none;
+}
+
+.searchResultsList li:first-of-type {
+    padding-top: 4px;
+}
+.revert {
+    /*border-bottom: 1px solid;*/
+}
+
+.propertyforRelation {
+	text-transform: capitalize;
+    font-size: 90%;
+    padding: 0 4px 0 0;
+}
+
+.tab_container a.revert {
+	color: #5381A6;
+    display: inline-block;
+    font-size: 90%;
+}
+
+
+.tooltip {
+	font-size: 60%;
+	font-family: Helvetica, sans-serif;
+	background: #061c3e;
+ 	padding: 4px 6px 3px;
+	box-shadow: 1px 2px 6px rgba(0,0,0,0.2);
+	color: #eee;
+	text-transform: uppercase;
+	position: absolute;
+	bottom:-26px;
+	left: -3px;
+	/* display: none; */
+	white-space: nowrap;
+    display:none;
+    /*
+	opacity: 0;
+	-webkit-transition: all 0.2s ease-in;
+	transition: all 0.2s ease-in;
+    */
+/*    z-index: 25000;*/
+}
+
+
+#loginBlock .tooltip {   
+    font-size: 70%;
+    color: #444;
+}
+
+#loginBlock .tooltip:last-of-type {
+	left: -12px;
+}
+
+.fullscreenLink .tooltip {
+	right: -57px;
+	left: auto;
+}
+
+.tooltip:after {
+
+content: ' ';
+position: absolute;
+width: 0;
+height: 0;
+left: 0;
+right: 0;
+margin: 0 auto;
+top: -10px;
+border: 5px solid;
+border-color: transparent #061c3e #061c3e transparent;
+}
+
+#loginBlock .tooltip {
+	font-size: 70%;
+}
+
+.geoJsonIcon .tooltip {
+	left: -26px;
+}
+
+.actionIcons .fontIcons {
+	position: relative;
+}
+
+.actionIcons .fontIcons .tooltip {
+	left: -40px;
+}
+
+#loginBlock .fontIcons:hover .tooltip, .geoJsonIcon:hover .tooltip, .fullscreenLink:hover .tooltip, .actionIcons .fontIcons:hover .tooltip {
+	display: block;
+	/* opacity: 1; */
+    /* overflow: auto; */
+	/* -webkit-transition: all 1s ease-in; */
+}
+
+/*
+.tabNavigationBlock {
+    padding: 0 0 0 0;
+}
+*/
+
+.tabNavigationBlock {
+/*    position: fixed;
+    top: 82px;
+    left: 50%;
+    right: 0;*/
+
+    width: 50%;
+    float: right;
+
+/*    z-index: 10000;*/
+}
+
+.placeDetailTabs .tabs {
+/*    position: relative;
+    z-index: -1;*/
+}
+
+
+.resultsActions {
+	padding: 0 0 0 24px;
+	font-style: italic;
+}
+
+.zoomToLayer {
+    cursor: pointer;
+}
+
+#pagList {
+	font-family: 'LatoBold', sans-serif;
+}
+
+#pagList span {
+	display: inline-block;
+	cursor: pointer;
+}
+
+.pagSpan {
+	padding: 10px 5px;
+}
+
+#pagList .fontIcons:first-child {
+	margin: 0 0 0 6px;
+}
+
+.pagination {
+    background: #5381A6;
+    display: inline-block;
+    padding: 4px;
+}
+
+.paginationView {
+    text-align: center;
+    padding: 12px 0 0 0;
+}
+
+.pageNumber {
+    color: #8ba6c1;
+	font-family: 'LatoBold', sans-serif;
+}
+
+.pagination span {
+	display: inline-block;
+	padding: 0 5px;
+	cursor: pointer;
+}
+
+.pagination span:hover, .pagination .paginationSelected {
+	color: #fff;
+}
+
+.pagViews {
+	/*position: fixed;
+	top: 120px;
+	right: 10px;
+	 display: none; */
+	/* z-index: -1; */
+	/* top: 80px; */
+}
+
+.pagNav {
+	font-size: 130%;
+	line-height: 0.6;
+    color: #fff;
+}
+.resultsNosPages {
+	/* padding: 6px 0 0 0; */
+    color: #fff;
+}
+
+.placeListBlock a {
+	font-size: 90%;
+	display: block;
+	padding: 2px 0;
+}
+
+.sortTitle {
+	padding: 0 10px 0 0;
+}
+
+.searchResultsTable {
+	font-size: 85%;
+}
+
+.searchResultsTable thead {
+	text-transform: uppercase;
+	font-family: 'LatoBold', sans-serif;
+}
+
+.searchResultsTable tbody tr:hover, .iconsDisplayed {
+	text-shadow: 1px 0px 0px #406079;
+}
+
+.searchResultsTable tbody tr {
+    cursor: pointer;
+}
+
+.searchResultsTable td {
+	padding: 4px;
+}
+
+.tdName {
+	width: 40%;
+}
+
+.tdTimeframe {
+	width: 16%;
+}
+
+.tdType {
+	width: 16%;
+}
+
+.tdOrigin {
+	width: 16%;
+
+}
+
+.tdIcons {
+	width: 12%;
+
+}
+
+
+/* END RESULTS */
+
+/* PLACE DETAIL */
+
+#placeDetail {
+	position: relative;
+	/* display: none; */
+}
+
+/*#resultsBlock {
+	margin-right: 200px;
+}*/
+
+.placeDetailBlock {
+	right: 100px;
+	/* border: 1px solid #5781b1; */
+	margin: 20px 0 0 0;
+
+}
+
+#placeDetailEachBlock {
+	float: left;
+}
+
+#placeDetailEachBlock input[type="text"], #placeDetailEachBlock select, #placeDetailEachBlock .select2-container {
+	margin: 0 0 10px 0;
+}
+
+#placeDetailEachBlock .select2-container {
+	min-width: 282px;
+}
+
+.placeDetailEdit {
+    display: none;
+}
+
+.timeframeParentBlock label {
+	min-width: 110px;
+	display: inline-block;
+	font-size: 90%;
+}
+
+#placeDetailEachBlock input[type="text"], .timeframeParentBlock select {
+	min-width: 170px;
+}
+
+.placeDetailViews {
+	/* display: none; */
+	float: right;
+	font-size: 90%;
+}
+
+.placeDetailViews .button {
+	min-width: 120px;
+    text-align: center;
+}
+
+.placeDetailHeading, .placeDetailResult {
+	display: inline-block;
+}
+
+.placeDetailHeading {
+	text-transform: uppercase;
+}
+
+.selectPlace {
+    cursor:pointer;
+}
+
+.editable {
+    display: none;
+}
+
+.editIcon, .confirmEdit, .cancelEdit, .editAlternateName, .deleteAlternateName, .saveAlternateName, .cancel {
+    cursor: pointer;
+}
+
+#permaLinks {
+	display: none;
+}
+
+#permalinkForm {
+	padding: 0 100px 0 0;
+}
+
+#permalinkForm input {
+	width: 100%;
+}
+
+.altnameEditable {
+    display:none;
+}
+
+.adminBoundariesList:empty:after, .alternateNamesList:empty:after, .existingRelationsWrapper:after {
+	font-family: 'LatoBold', sans-serif;
+    display: block;
+    padding: 10px;
+}
+
+.adminBoundariesList:empty:after {
+    content: "No admin boundaries found.";
+}
+
+.alternateNamesList:empty:after {
+    content: "No alternate names found.";
+}
+
+.existingRelationsWrapper:empty:after {
+    content: "No relations found.";
+}
+/* END PLACE DETAIL */
+
+
+/* PLACE LIST MENU */
+/* CLICK MENU JQUERY */
+
+.menuMain {
+	color:#fff;
+	position:relative;
+	/* float: left; */
+	/* padding: 0 4px; */
+}
+
+.menuMain a {
+	color: #fff;
+}
+
+.navList {
+	cursor:pointer;
+	position: relative;
+}
+
+.navList p {
+	text-transform:uppercase;
+	/* padding:4px 6px; */
+	/* border-radius: 6px; */
+	width:170px;
+	text-align: left;
+	/* height: 50px; */
+}
+
+.menuMain h2 a:hover {
+	color:#ccc;
+}
+
+.menuMain ul {
+	display:none;
+	position:absolute;
+	top:25px;
+	z-index:2000;
+	box-shadow:2px 2px 12px rgba(102, 102, 102, 0.4);
+	font-size:90%;
+}
+
+.menuMain ul li {
+	width: 170px;/* not necessary  */
+	padding:8px 4px;
+	border-bottom: 1px solid rgba(255,255,255,0.5);
+	cursor: pointer;
+}
+
+
+/* END PLACE LIST MENU */
+
+/* TABBED CONTENT */
+
+.reverseOrderedList {
+	padding-left: 10px;
+	list-style: decimal;
+}
+
+.reverseOrderedList li {
+	padding: 4px;
+}
+
+.selectSort/*,  span.customSelect*/ {
+	background-color: #aabfFd;
+	padding:5px 8px;
+	font-size: 90%;
+	margin: 6px 0;
+	border-radius: 3px;
+	border: none;
+	/* min-width: 110px; */
+	width: 90px !important;
+	height: 30px !important;
+}
+
+span.customSelect {
+	height: 30px !important;
+}
+
+.customSelectInner {
+	width: 60px !important;
+}
+
+/* .selectSort:after {
+	content: "\23";
+	background:url('../..../img/customSelect-arrow.gif') no-repeat center right;
+	font-family: 'icomoon';
+}
+ */
+.similarBlock .fontIcons {
+/*	padding: 0 6px 0 0;
+	font-size: 90%;*/
+}
+
+.similarBlock .selectSort, #searchSimilar input {
+	min-width: 160px;
+}
+
+.similarBlock .selectSort {
+	width: 130px !important;
+	height: 30px !important;
+}
+
+.similarBlock span.customSelect {
+	height: 30px !important;
+}
+
+.similarBlock .customSelectInner {
+	width: 130px !important;
+}
+
+.similarBlock .selectSort
+
+/* END TABBED CONTENT */
+
+/* TABS */
+
+.placeDetailTabs {
+	border: 1px solid #999;
+}
+
+ul.tabs {
+	list-style: none;
+}
+
+ul.tabs li {
+	/* border: 1px solid #444; */ 
+	border-right: none;
+	border-left:none;  
+    /* border-right: 1px solid rgba(255,255,255,0.5); */ /*add fallback later and remove for second and fourth guy*/
+	margin-bottom: -1px; /*--Pull the list item down 1px--*/
+	overflow: hidden;
+/*	position: relative;*/
+}
+
+ul.tabs li:first-of-type {
+	border-top: none;
+}
+
+ul.tabs li.active:last-of-type {
+	border-bottom: none;
+}
+
+ul.tabs li a {
+	text-decoration: none;
+	color: #fff;
+	display: block;
+	padding: 0 20px;
+	outline: none;
+}
+
+ul.tabs li a:hover {
+	/* background: #ccc; */
+}
+
+/*
+html ul.tabs li.active, html ul.tabs li.active a:hover  { --Makes sure that the active tab does not listen to the hover properties--
+	background: #fff;
+	border-right: 1px solid #fff;
+}
+*/
+/*
+html ul.tabs li.active a {
+	color: #444;
+}
+*/
+.tab_container {
+/* 	border-top: 1px solid #999;
+border-right: 1px solid #999;
+border-bottom: 1px solid #999;
+ */	overflow: hidden;
+/*	clear: both; */
+	background: #5381A6;
+	padding: 0px 14px;
+    color: #fff;
+    min-height: 119px; /* FIXME: do the height-sizing in JS */
+	/* width:50%; */ /*SET YOUR TAB CONTENT WIDTH HERE*/
+	/*display: table-cell;*/
+	/* min-height:300px;  *//* HAVE GIVEN THIS SO IT'S NOT SHORTER THAN THE TABS, TABS DIV IS SET 1 PIXEL MORE */
+}
+
+.tab_container a {
+    color: #fff;
+}
+
+.tab_content {
+	padding: 0 10px;
+/* 	padding: 20px;
+font-size: 1.2em;
+ */}
+
+
+/* END TABS */
+
+
+#legend {
+	border: 1px solid #999; /* change later  */
+	padding: 10px;
+}
+
+#legend p {
+	padding-bottom: 6px;
+}
+
+#legend input {
+	vertical-align: top;
+}
+
+
+/* END CUSTOM SELECT */
+
+#footer {
+	padding: 8px 0 2px 0;
+	font-size: 85%;
+	border-top: 2px solid #5781b1;
+    background: #fff;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+   
+}
+
+#footer p {
+	text-align: center;
+}
+
+.footerLogoWrap {
+    vertical-align: top;
+    padding: 0 10px;
+/*	width: 33.33%;
+	display: inline-block;*/
+}
+
+
+/* MEDIA QUERIES */
+
+/*@media only screen and (max-width: 980px) {
+}*/
+
+/* END MEDIA QUERIES */

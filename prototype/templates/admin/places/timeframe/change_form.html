@@ -1,0 +1,33 @@
+{% extends 'admin/change_form.html' %}
+{% block extrahead %}
+    {{ block.super }}
+    <script type="text/javascript" src="/static/js/jquery.js"></script>
+    
+    <script type="text/javascript">
+        TIMEFRAME_ID = {{ object_id }}
+    </script>
+    <script type="text/javascript" src="/static/js/time_frame_admin.js"></script>
+    <link rel="stylesheet" href="/static/css/feature_admin.css" />
+{% endblock %}
+
+{% block after_related_objects %}
+    <div id="recordFeatures" class="module">
+        <h2>List of Features:</h2>
+        <table id="mapList" class="customTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>URI</th>
+                    <th>Type</th>
+                    <th>County</th>
+                    <th>State</th>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+
+        </table>
+
+    </div>
+{% endblock %}

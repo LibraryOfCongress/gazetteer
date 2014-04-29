@@ -1,0 +1,164 @@
+.removeAltName {
+    display:none;
+    cursor:pointer;
+}
+
+#revisions li {
+    margin-bottom: 8px;
+}
+
+#contentWrapper {
+    width: 100%;
+    height: 100%;
+}
+
+.topPane {
+    height: 40%;
+    width: 100%;
+}
+
+.topLeftPane, .topRightPane {
+    float: left;
+}
+
+.topRightPane {
+    width: 60%;
+    height: 100%;
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+}
+
+
+.topLeftPane {
+    width: 35%;
+}
+
+.bottomPane {
+    border-top: 1px dotted #666;
+    clear: both;
+    width: 100%;
+    padding: 10px 0 0 0;
+}
+
+.tabButtons, .tabPanel {
+    float: left;
+}
+
+.tabButtons {
+    width: 15%;
+    margin-top: 10px;
+    padding-right: 12px;
+}
+
+.tabPanel {
+    width: 80%;
+    border-left: 1px dotted #666;
+    min-height: 100px;
+}
+
+.selectedTab {
+    font-weight: bold;
+}
+
+.tab_content {
+    display: none;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 12px;
+}
+
+/*.commitMessage {
+    position: fixed;
+    bottom: 40px;
+    left: 0px;
+    padding: 3px 10px;
+}*/
+
+#editPlace {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    padding: 3px 20px;
+}
+
+#comment {
+    width: 90%;
+    height: 120px;
+}
+
+#showSimilar {
+   text-transform: uppercase; 
+}
+
+#alternateNamesWrapper {
+    width: 100%;
+}
+
+#alternateNamesTable {
+    width: 100%;
+}
+
+#alternateNamesTable thead {
+    font-weight: bold;
+    border-bottom: 1px solid #999;
+    padding: 6px;
+    width: 100%;
+}
+
+#alternateNamesTable td {
+    border-collapse: collapse;
+    border: 1px solid #999;
+}
+
+#alternateNamesTable .col1 {
+    width: 30%;
+}
+
+#alternateNamesTable tbody .col1 {
+    font-style: italic;
+}
+
+#alternateNamesTable .col2 {
+    width: 70%;
+}
+
+input[type=text]:disabled {
+    background:white;
+    border: 0;
+    box-shadow: none;
+    color: #000;
+}
+
+select:disabled {
+    color: #000;
+    background: 0;
+    border: 0;
+    box-shadow: none;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    appearance:none;
+}
+
+#showSimilar, #showHistory, #showAlternateNames {
+    display: inline-block;
+    padding: 14px 0 0 0;
+    border-bottom: 1px solid #999;
+    margin-bottom: 6px;
+}
+
+
+#currentVersion {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+#relations  .admin_names {
+    font-size: smaller;
+    color: gray;
+}
+
+

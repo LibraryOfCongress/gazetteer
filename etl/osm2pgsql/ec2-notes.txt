@@ -1,0 +1,48 @@
+# This set of commands builds and dumps a set of osm2pgsql tables
+# for the entire planet.osm database using the gazetteer place.style.
+#
+# The code is meant to run on a EC2 m2.4xlarge instance with 64 GB of RAM and a
+# sizeable instance store on /mnt.
+#
+# TODO: an SSH keypair for the `gazetteer` user on Topomancy so that the ubuntu
+# user on EC2 can (a) download the gazetteer code from git@topomancy and (b) so
+# that the ubuntu user can upload the .sql.bz2 once it's done.
+
+
+# Install PostgreSQL/PostGIS *and* the prereqs for building osm2pgsql
+#
+sudo apt-get update
+sudo apt-get --yes install git-core libgeos-dev libxml2-dev libpq-dev libbz2-dev \
+    protobuf-c-compiler libprotobuf-c0-dev build-essential devscripts debhelper \
+    libgeos++-dev postgresql-9.1-postgis automake autoconf libtool libproj-dev \
+    postgresql-contrib
+
+# Create a PostgreSQL user for `ubuntu`
+#
+sudo su -c 'createuser -s ubuntu' postgres
+
+# Fetch schuyler's branch of osm2pgsql and build it This actually builds two
+#   packages: osm2pgsql and openstreetmap-postgis-db-setup, which creates a
+#   PostGIS database.
+#
+cd /mnt
+git clone https://github.com/schuyler/osm2pgsql.git
+cd osm2pgsql/
+debuild
+
+# Non-interactively install the built .debs for osm2pgsql and the `gis`
+#   database used by osm2pgsql.
+#
+# The DEBIAN_FRONTEND shenanigans is to get the database setup package to
+#   install without asking stupid questions, and the double 'dpkg --install'
+#   lets us apt-get install missing dependencies.
+#
+sudo su -c 'DEBIAN_FRONTEND=noninteractive dpkg --install ../*.deb'
+sudo apt-get --yes --fix-broken install # this step should be unnecessary
+
+# Tune PostgreSQL and the Linux kernel to use lots of RAM
+#
+sudo bash -c 'cat postgresql.conf >>/etc/postgresql/9.1/main/postgresql.conf'
+sudo bash -c 'cat sysctl.conf >>/etc/sysctl.d/30-postgresql-shm.conf'
+sudo sysctl -w kernel.shmmax=9000000000
+sudo sysctl -w kernel.shmall=9000000000

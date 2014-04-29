@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block page_title %} Edit: {{ place.name }} {% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="/static/select2/select2.css" />
+    <script src="/static/select2/select2.js"></script>
+    <script type="text/javascript">
+        {% autoescape off %} 
+        var place_geojson = {{ place_geojson }} ;
+        {% endautoescape %} 
+    </script>
+    <script src="/static/js/edit_place.js?2"></script>
+{% endblock %}
+
+
+
+{% block content %}
+<div id="contentWrapper">
+<h4>Edit {{ place.name }}</h4>
+<form id="placeForm">
+    <ul>
+        <li><span class="infoLabel">ID:</span> {{ place.id }}</li>
+        <li><label class="infoLabel" for="placeName">Name:</label> <input id="placeName" value="{{ place.name }}" type="text" /> </li>
+        <li>
+            <label class="infoLabel" for="featureCode">Feature Code:</label>
+            <input type="hidden" class="select2autocomplete" style="width:400px;height:20px;" id="featureCode" value="{{ place.feature_code }}" />  
+        
+        </li>
+        <li><input type="submit" value="Save" /><span id="saveNotification"></span></li>
+    </ul>
+
+</form>
+
+<br />
+</div>
+
+<div class="map" id="map">
+
+</div>
+
+<div style="clear:both;"></div>
+{% endblock %}
+

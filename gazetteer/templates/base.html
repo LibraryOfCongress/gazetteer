@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="{{ GAZETTEER.favicon }}" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}js/libs/leaflet/leaflet.css" />
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="{{ STATIC_URL }}leaflet/leaflet.ie.css" />
+    <![endif]-->
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/reset.css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/gazetteer.css" />
+
+    <script src="{{ STATIC_URL }}js/libs/jquery-1.8.2.min.js"></script>
+    
+    <script src="{{ STATIC_URL }}js/libs/leaflet/leaflet.js"></script>
+    <script src="{{ STATIC_URL }}js/gazetteer.js"></script>
+
+    <title>Gazetteer: {% block page_title %} {% endblock %} </title>    
+            <script type="text/javascript">
+            $G.centerLat = '{{GAZETTEER.center_lat}}' ;
+            $G.centerLon = '{{GAZETTEER.center_lon}}';
+            $G.defaultZoom = '{{GAZETTEER.default_zoom}}' ;
+        </script>
+    {% block extra_head %}
+
+    {% endblock %}
+
+</head>
+<body class="{% block body_class %} {% endblock %}">
+
+    {% block header %}
+        <div id="header">
+            <a href="/"><img class="logo" src="{{ GAZETTEER.logo }}" /></a>
+            <div class="headerRight">
+                <h1>
+                    <a href="/">
+                        Digital Gazetteer Demo
+                    </a>
+                </h1>
+<!--                <span class="attribution">by <a href="http://topomancy.com">Topomancy LLC</a></span>-->
+                <div class="user">
+                    {% if user.is_authenticated %}
+                    Hi {{ user.username }} <a href="/accounts/logout">Logout</a>
+                    {% else %}
+                    <a href="/accounts/login/{% block login_next %}{% endblock %}">Login</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endblock %}
+
+    {% block content %}
+
+    {% endblock %}
+
+    {% block footer %}
+        <div id="footer">
+            {% block extra_footer %} {% endblock %}<span class="copyright">&copy;  <a href="http://topomancy.com">Topomancy LLC</a></span> 
+            <div class="footerText">{{ GAZETTEER.footer_text }}</div>
+        </div>
+    {% endblock %}
+
+</body>
+
+</html>

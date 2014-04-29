@@ -1,0 +1,82 @@
+[
+    {
+        "model": "gazetteer.origin",
+        "pk": 21,
+        "fields": {
+            "name": "OpenStreetMap",
+            "description": "OpenStreetMap",
+            "example": "osm.org/browse/node/575120501",
+            "code": "osm.org"
+        }
+    },
+    {
+        "model": "gazetteer.origin",
+        "pk": 22,
+        "fields": {
+            "name": "Geonames",
+            "description": "Geonames",
+            "example": "geonames.org/3715522",
+            "code": "geonames"
+        }
+    },
+    {
+        "model": "gazetteer.origin",
+        "pk": 23,
+        "fields": {
+            "name": "Tiger Line",
+            "description": "Tiger Line Counties and States",
+            "example": "http://www2.census.gov/geo/tiger/TIGER2012/COUNTY/tl_2012_us_county.zip#48061",
+            "code": "geo/tiger"
+        }
+    },
+   {
+        "model": "gazetteer.origin",
+        "pk": 24,
+        "fields": {
+            "name": "Natural Earth",
+            "description": "Natural Earth Admin levels 0 & 1",
+            "example": "http://www.naturalearthdata.com/downloads/10m-cultural-vectors/10m-admin-1-states-provinces/#3433",
+            "code": "naturalearthdata"
+        }
+    },
+    {
+        "model": "gazetteer.origin",
+        "pk": 25,
+        "fields": {
+            "name": "HMDB",
+            "description": "Historical Marker Database",
+            "example": "http://www.hmdb.org/marker.asp?marker=37624#32902",
+            "code": "hmdb"
+        }
+    },
+    {
+        "model": "gazetteer.origin",
+        "pk": 26,
+        "fields": {
+            "name": "NHGIS",
+            "description": "Historical Marker GIS States & Counties",
+            "example": "http://nhgis.org//county/840",
+            "code": "nhgis"
+        }
+    },
+    {
+        "model": "gazetteer.origin",
+        "pk": 27,
+        "fields": {
+            "name": "NRHP",
+            "description": "NRHP",
+            "example": "http://nrhp.focus.nps.gov/?referenceNumber:2001200",
+            "code": "nrhp"
+        }
+    },
+    {
+        "model": "gazetteer.origin",
+        "pk": 28,
+        "fields": {
+            "name": "Library of Congress Authority Record",
+            "description": "Library of Congress Authority Record",
+            "example": "http://id.loc.gov/authorities/names/n83030207",
+            "code": "loc.gov"
+        }
+    }
+]

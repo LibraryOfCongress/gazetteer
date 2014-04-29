@@ -1,0 +1,22 @@
+{
+    "query": {
+        "filtered": {
+            "query": {
+                "match": { "name": "Philadelphia" }
+            },
+            "filter": {
+                "term": { "feature_code": "PPL" }
+            }
+        }
+    },
+    "fields": ["name", "feature_code", "uris", "centroid", "alternate"],
+    "sort": [
+        {
+            "_geo_distance": {
+                "order": "asc", 
+                "centroid": [ -75, 40 ], 
+                "unit": "km"
+            }
+        }
+    ]
+}

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ site_title }}</title>
+
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Anaheim' rel='stylesheet' type='text/css'>
+        <!--<link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700' rel='stylesheet' type='text/css'>--> <!-- karen collate later, use what you need, etc etc  -->
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/reset.css" type="text/css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/main.css" type="text/css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}css/lightbox.css" type="text/css" /> 
+        <link rel="stylesheet" href="{{ STATIC_URL }}js/libs/select2/select2.css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}js/libs/nouislider/nouislider.fox.css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}js/libs/leaflet/leaflet.css" />
+        <link rel="stylesheet" href="{{ STATIC_URL }}js/libs/leaflet/leaflet.draw.css" />
+        <script>
+            window.GAZETTEER_APP_BASE = '{{ app_base }}'; //FIXME is there a better way to do this? (referenced in app.js)
+        </script>
+    </head>
+    <body>
+
+        <div id="loadingPage">
+            <div>
+                <img src="{{ STATIC_URL }}images/ajax-loader.gif" class="appLoadingImg" />
+            </div>
+        </div>
+
+        <div id="overlay">
+            <div class="lightBoxBlock">
+                <div class="lightBox">
+                    <div class="closeLightBox button">X</div>
+                    <div id="lightBoxContent">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="wrapper">
+            <div id="siteHeader">
+                <h1 class="">{{ site_title }}</h1>
+                <div id="loginBlock">
+                    <span class="loginButtons">
+                        <a href="" title="Login" id=LoginBtn"><span class="fontIcons" id="loginBtn">" <!-- <span class="tooltip">Login</span> --></span></a>
+                        <!-- <span class="fontIcons">#<span class="tooltip">Sign-Up</span></span> -->
+                    </span>
+                    <span class="loggedInBlock" style="display:none;">
+                        <span class="loggedInMsg"></span> /
+                        <span class="logoutBtn" id="logoutBtn">Logout<span class="tooltip">Logout</span></span>
+                    </span>
+   
+                    <a href="#" id="helpBtn" title="Help"><span class="fontIcons">(<!-- <span class="tooltip">Help</span> --></span></a>
+                </div>
+                <div class="clear"></div>
+
+
+                <div id="searchToggleBlock">
+
+                   <div id="searchBlock">
+                        <form id="searchForm" action="" method="GET">
+                            <input type="hidden" id="page" value="1" />
+                            <div class="col50 padding4">
+                                <input type="text" id="q" placeholder="ENTER TEXT SEARCH" class="col100 center searchApp">
+                            </div> <!-- end col50 -->
+
+                            <div class="col25 padding4">
+                                <!-- <div id="featureTypeBlock"> -->
+                                <!--
+                                    <select id="feature_type">
+                                        <option value="">Type</option>
+                                        <option value="BLDG">Buildings</option>
+                                        <option value="HSTS">Historical sites</option>
+                                        <option value="PARK">Park</option>
+                                        <option value="FARM">Farm</option>
+                                    </select>
+                                -->
+                                    <div class="button col50" id="showFeatureCodes">
+                                        Type
+                                        <span class="rightArrow">&#9654;</span>
+                                        <span class="checkedFcodesNumber"></span>
+                                    </div>
+                                    <div class="button col50" id="showOrigins">
+                                        Source
+                                        <span class="rightArrow">&#9654;</span>
+                                        <span class="checkedOriginsNumber"></span>
+                                    </div>
+                                    <!-- <input type="text" id="feature_type" placeholder="TYPE" /> -->
+                                    <!-- <a href="" id="featureLink">Type</a> -->
+                                <!-- </div> --><!-- end feature type block  -->
+                            </div> <!-- end col 50  -->      
+                            <div id="dateInputBlock" class="col25">
+                                <div class="noUiSlider"></div>
+                                <input type="text" id="start_date" placeholder="START YEAR" class="dateInput floatLeft">
+                                <input type="text" id="end_date" placeholder="END YEAR" class="dateInput floatRight">
+                                <div class="clear"></div>    
+                            </div> <!-- end dateInputBlock  -->
+                            <div class="col20 padding4">
+                                <!-- <div class="fullscreenLink fontIcons" style="color: #fff; padding: 2px 4px;">%<span class="tooltip">Search within map bounding box</span></div> -->
+                            </div>
+                            <!--<div class="clear"></div>-->
+
+
+                            
+                            <div id="originsRegion"></div>
+                            <div id="featureCodesRegion"></div>
+                            <!-- 
+                            <div class="col40 padding4">
+                                <select id="source">
+                                    <option value="">Source</option>
+                                    <option value="maps.nypl.org">maps.nypl.org</option>
+                                    <option value="osm.org">openstreetmap.org</option>
+                                    <option value="geonames.org">geonames.org</option>
+                                </select>
+                            </div> -->
+
+                            <div id="searchSubmit" class="floatLeft">
+                                <div class="searchButtonsBlock">
+                                    <div class="button floatLeft" id="applySearch">Search</div>
+                                    <div class="floatLeft" id="loadingSearch" style="display:none;">
+                                        <img src="{{ STATIC_URL }}images/loading-search-gazetteer.gif" />
+                                    </div>
+                                    <!--
+                                    <span class="boundingBox"> 
+                                        <label for="searchInBBox">in map: </label><input type="checkbox" id="searchInBBox" />
+                                    </span>
+                                    -->
+                                    <div class="switch floatLeft">
+                                        <input type="checkbox" id="searchInBBox" />
+                                        <label>In Map</label>
+                                    </div>
+				    <div class="clear"></div>
+                                </div>
+                            </div>
+
+                        </form>                    
+                    </div> <!-- end search block  -->
+                    <div class="clear"></div>
+                </div>
+
+
+                <div class="tabNavigationBlock" id="tabNavigationRegion">
+                    <div id="tabNavigation">
+                        <ul>
+                            <li data-name="results" class="button tabButton col25 showResults" style="display:none;">Results</li>
+                            <li data-name="place" class="button tabButton col25 showPlace" style="display:none;">Place</li>
+                            <li data-name="selected" class="button tabButton col25 showSelected" style="display:none;">
+                                Selected
+                                <span id="selectedPlacesNumber">0</span>
+                            </li>
+                            <li class="button tabButton col25 addPlace" style="display:none;">Add Place</li>
+                            <!-- <li class="button tabButton col25">Viewed</li>
+                            <li class="button tabButton col25">Selected</li> -->
+                        </ul>
+                        <div class="clear"></div>
+                    </div>
+                </div> <!-- end tabNavigationRegion -->
+                
+                <div class="clear"></div>
+
+            </div>
+
+
+
+            <div id="leftBlock" class="col50">
+                <!--
+                <div id="siteHeader">
+                    <h1 class="headingSite header">{{ site_title }}</h1>
+                </div>
+                -->
+                <div id="mapBlock">
+                    <div id="map"></div>
+                </div>
+            </div>
+            <div class="col50" id="mapContent">
+
+                <!--
+                <div id="searchToggle">
+                </div>--> <!-- end search toggle  -->
+            
+                <div class="clear"></div>
+
+
+
+                <!--
+                <div id="searchBlock">
+                    <form id="searchForm" action="" method="GET">
+                        <input id="q" /><br />
+                        <input id="start_date" /> to <input id="end_date" />
+                        <input type="submit" />
+                    </form>
+                </div>
+                -->
+                <div class="mainContent col100">    
+                    <!-- <div id="breadcrumb"></div> <br /> -->
+
+                    <div id="mainResultsContent" class="mainContentTab" style="display:none;">
+                    </div>
+                    <div id="placeDetailContent" class="mainContentTab" style="display:none;">
+                    </div>
+                    <div id="selectedPlacesContent" class="mainContentTab" style="display:none;">
+                    </div>
+                    <!-- <div id="mainContentBlock">
+                    </div> -->
+                </div>
+            </div>
+
+            <div id="footer">
+                {{ footer|safe }}    
+            </div> <!-- end footer  -->
+        </div>
+       
+        {% if debug %} 
+        <script data-main="{{ STATIC_URL }}js/main" src="{{ STATIC_URL }}js/libs/require.js"></script>
+        {% else %}
+        <script data-main="{{ STATIC_URL }}js/build/main" src="{{ STATIC_URL }}js/libs/require.js"></script>
+        {% endif %}
+    </body>
+</html>
+
+

@@ -1,0 +1,54 @@
+
+# Stop PostgreSQL, move the database into the instance store, and restart it
+#
+sudo /etc/init.d/postgresql stop
+sudo cp -a /var/lib/postgresql /mnt
+sudo rm -r /var/lib/postgresql
+sudo ln -s /mnt/postgresql /var/lib
+sudo /etc/init.d/postgresql start
+
+# Get the latest gazetteer conflation code
+#
+# git clone git@topomancy.com:/srv/git/gazetteer
+# cd gazetteer/conflate/osm2pgsql/
+
+# Download planet-latest.osm.pbf
+#
+cd /mnt
+sudo chmod 777 .
+wget -c http://planet.openstreetmap.org/pbf/planet-latest.osm.pbf
+
+# Run the database import
+#
+time osm2pgsql --latlong --multi-geometry --cache 32000 \
+    --input-reader pbf --create --unlogged \
+    --hstore-column "name:" --extra-attributes \
+    --style ~/gazetteer/conflate/osm2pgsql/place.style \
+    planet-latest.osm.pbf
+#
+#--hstore-all --hstore-match-only --extra-attributes \
+
+# Osm2pgsql took 9213s overall
+#
+# real    153m35.754s
+# user    138m6.930s
+# sys     1m30.122s
+
+# Dump the newly built database
+#
+time pg_dump -t planet_osm_point -t planet_osm_line -t planet_osm_polygon \
+        --blobs --no-privileges gis \
+        | bzip2 > osm_dump.sql.bz2 
+
+# real    28m9.841s
+# user    27m56.817s
+# sys     0m28.198s
+
+# $ ls -lh 
+# -rw-rw-r-- 1 ubuntu   ubuntu   3.1G Aug 31 04:32 osm_dump.sql.bz2
+# -rw-rw-r-- 1 ubuntu   ubuntu    17G Aug 27 23:33 planet-latest.osm.pbf
+#
+# $ sudo du -hs postgresql
+# 9.7G    postgresql
+
+echo "done" | mail -s "osm2pgsql" schuyler@topomancy.com

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="contentWrapper" class="accounts">
+    <form action="" method="POST">
+    {% csrf_token %}
+    <table>
+    {{ form.as_table }}
+    </table>
+    <input type="submit" value="Login" /> <br />
+    <a href="{% url 'django.contrib.auth.views.password_reset' %}" class="registerLink">Forgot your Password?</a>
+
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+
+tim@topomancy:~/gaz/gazetteer/conflate/parsers$ virtualenv .
+(parsers)tim@topomancy:~/gaz/gazetteer/conflate/parsers$ pip import demjson
+(parsers)tim@topomancy:~/gaz/gazetteer/conflate/parsers$ pip import shapely
+
+**Import geonames**
+
+tim@topomancy:~/gaz/gazetteer/conflate/parsers$ python parse_geonames.py /home/tim/gaz/geonames/allCountries.txt /home/tim/gaz/geonames/alternateNames.txt | psql conflation
+
+** Import Flickr alpha shapes (continents, countries, neighbourhoods, counties, regions, localities) **
+
+(parsers)tim@topomancy:~/gaz/gazetteer/conflate/parsers$ python parse_flickr.py /home/tim/gaz/flickr/flickr_shapes_continents.geojson | psql conflation
+
+(parsers)tim@topomancy:~/gaz/gazetteer/conflate/parsers$ python parse_flickr.py /home/tim/gaz/flickr/flickr_shapes_regions.geojson | psql conflation
+
+(parsers)tim@topomancy:~/gaz/gazetteer/conflate/parsers$ python parse_flickr.py /home/tim/gaz/flickr/flickr_shapes_neighbourhoods.geojson | psql conflation
+
+(parsers)tim@topomancy:~/gaz/gazetteer/conflate/parsers$ python parse_flickr.py /home/tim/gaz/flickr/flickr_shapes_counties.geojson | psql conflation
+
+(parsers)tim@topomancy:~/gaz/gazetteer/conflate/parsers$ python parse_flickr.py /home/tim/gaz/flickr/flickr_shapes_countries.geojson | psql conflation
+
+(parsers)tim@topomancy:~/gaz/gazetteer/conflate/parsers$ python parse_flickr.py /home/tim/gaz/flickr/flickr_shapes_localities.geojson | psql conflation
+
+
+** check it all worked ok, woot :) **
+
+
+(parsers)tim@topomancy:~/gaz/gazetteer/conflate/parsers$ psql -d conflation 
+psql (9.1.4)
+Type "help" for help.
+onflation=#  select * from gazetteer where source = 'G' limit 1;
+conflation=# select * from gazetteer where source = 'F' limit 1;
+conflation=# \q

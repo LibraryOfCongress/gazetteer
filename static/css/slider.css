@@ -1,0 +1,106 @@
+/**
+ * default development theme for jQRangeSlider
+ * Using fam fam icon set from Mark James, http://www.famfamfam.com/lab/icons/silk/ (Creative Commons Attribution 2.5 License)
+ */
+
+#sliderBlock {
+	width: 200px;
+	float: left;
+}
+
+#slider {
+/* 	top: 30px;
+right: 0%;
+ */}/* please remove later added not to break layout  */
+
+.ui-rangeSlider{
+/* 	height:30px; */
+}
+
+.ui-rangeSlider .ui-rangeSlider-innerBar{
+	height:30px;
+	margin:3px 6px;
+	background:lightblue; /* add hex later  */
+}
+
+.ui-rangeSlider .ui-rangeSlider-handle{
+	width:6px;
+	height:30px;
+	background:#AAA;
+	background:rgba(100,100,100, 0.3);
+	cursor:col-resize;
+}
+
+.ui-rangeSlider .ui-rangeSlider-bar{
+	margin: 1px 0;
+	background:#CCC;
+	background:rgba(100,100,150, 0.2);
+	height:30px;
+	cursor:move;
+	cursor:grab;
+	cursor: -moz-grab;
+}
+
+.ui-rangeSlider .ui-rangeSlider-bar.ui-draggable-dragging{
+	cursor:	-moz-grabbing;
+	cursor:grabbing;
+}
+
+.ui-rangeSlider-arrow{
+	height:16px;
+	margin:10px 0;
+	width:16px;
+	background-repeat:no-repeat;
+	display: none;
+}
+
+.ui-rangeSlider-arrow.ui-rangeSlider-leftArrow{
+	background-image: url('../../static/img/resultset_previous.png');
+	background-position:center left;
+}
+
+.ui-rangeSlider-arrow.ui-rangeSlider-rightArrow{
+	background-image: url('../../static/img/resultset_next.png');
+	background-position:center right;
+}
+
+.ui-rangeSlider-arrow-inner{
+	display: none;
+}
+
+.ui-rangeSlider-container{
+	height:30px;
+}
+
+.ui-rangeSlider-withArrows .ui-rangeSlider-container{
+	margin:0 11px;
+}
+
+.ui-rangeSlider-noArrow .ui-rangeSlider-container{
+	margin:0;
+}
+
+.ui-rangeSlider-label{
+	margin:0 2px 2px;
+	background-image:url('../../static/img/label.png');
+	background-position:bottom center;
+	background-repeat:no-repeat;
+  white-space: nowrap;
+  bottom:-12px;
+  padding:3px 6px 7px;
+  cursor:col-resize;
+}
+
+.ui-rangeSlider-label-inner{
+	display:none;
+}
+
+/*
+ * Edit slider
+ */
+
+input.ui-editRangeSlider-inputValue{
+	width:3em;
+	vertical-align: middle;
+	text-align:center;
+}

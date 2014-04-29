@@ -1,0 +1,14 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ title }} | {% trans 'Gazetteer site admin' %}{% endblock %}
+
+{% block extrahead %}
+    <link rel="stylesheet" type="text/css" href="/static/css/admin_override.css" />
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">{% trans 'Gazetteer administration' %}</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

@@ -1,0 +1,80 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "fixture_name": "place1",
+                "place_id": "1111",
+                "name": "Vonasek Dam North West"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -111.09375,
+                    42.5390625
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "fixture_name": "place2",
+                "place_id": "2222",
+                "name": "Vorhees City South West"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -114.78515625,
+                    35.595703125
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "fixture_name": "place3",
+                "place_id": "3333",
+                "name": "Wabash Post Office (historical) North East"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -93.8671875,
+                    42.978515625
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "fixture_name": "place4",
+                "place_id": "4444",
+                "name": "Wabash Municipal Park South East"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -88.06640625,
+                    33.486328125
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "fixture_name": "place5",
+                "place_id": "5555",
+                "name": "Wabash Municipal Park somewhere"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    -88.06640611, 
+                    33.486328111
+                ]
+            }
+        }
+    ]
+}

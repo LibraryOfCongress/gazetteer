@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+    <head>
+        <script type="text/javascript" src="/static/js/jquery.js"></script>
+    </head>
+    <body>
+        <h2>Similar features for {{ feature.preferred_name }}:</h2>
+        
+        <table id="similarTable">
+            <thead>
+                <tr>
+                    <td>
+                        Name
+                    </td>
+                    <td>
+                        Feature Type
+                    </td>
+                    <td>
+                        Similarity
+                    </td>
+                    <td>
+                        Distance
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+            {% for s in similar_features %}
+                <tr>
+                    <td>
+                       <a href="/admin/pleaces/feature/{{ s.id }}" title="View / Edit in Admin"> {{ s.preferred_name }} </a>
+                    </td>
+                    <td>
+                       {{ s.feature_type.name }}
+                    </td>
+                    <td>
+                       {{ s.similarity }}
+                    </td>
+                    <td>
+                       {{ s.distance }}
+                    </td>    
+                <tr>
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </body>
+</html>

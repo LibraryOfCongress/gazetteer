@@ -1,0 +1,54 @@
+{% extends 'admin/change_form.html' %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <script type="text/javascript" src="/static/js/jquery.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.autocomplete.min.js"></script>
+    <!-- jquery autocomplete from: https://github.com/agarzola/jQueryAutocompletePlugin -->
+    <script type="text/javascript" src="/static/js/feature_admin.js"></script>
+    <link rel="stylesheet" href="/static/css/feature_admin.css" />
+    <link rel="stylesheet" href="/static/css/jquery.autocomplete.css" />
+    <link rel="stylesheet" href="/static/css/iconic.css" />
+    <script type="text/javascript">
+        FEATURE_ID = {{ object_id }}
+    </script>
+{% endblock %}
+
+{% block after_related_objects %}
+    <div id="similarFeatures" class="module">
+        <h2>Similar Features</h2>
+        <table id="similarTable" class="customTable">
+            <thead>
+                <tr>
+                    <th>
+                        Relation
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Feature Type
+                    </th>
+                    <th>
+                        Similarity
+                    </th>
+                    <th>
+                        Distance (m)
+                    </th>
+                    <th>
+                        Time Frame
+                    </th>
+                    <th>
+                        Is Primary?
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+
+        </table>
+
+    </div>
+{% endblock %}

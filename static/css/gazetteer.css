@@ -1,0 +1,424 @@
+
+* {
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;	
+	box-sizing:border-box; 
+}
+
+
+html, body  { 
+	height:100%;
+	width:100%;
+}
+
+body {
+	font-family: 'Segoe UI', 'Helvetica Neue Light', 'HelveticaNeue-Light', 'Helvetica Neue', 'Lucida Grande', Ubuntu, 'Trebuchet MS', sans-serif; 
+	color:#555;
+	font-size:16px;
+	line-height:1.4;
+	background:#fff;
+}
+
+body.index {
+    overflow: hidden;
+}
+
+/* GLOBAL STYLES */
+
+
+.clear { 
+	clear:both;
+} 
+
+a {
+  text-decoration:none;
+}
+
+a:hover, a:focus {
+}
+
+h6 {
+	font-size:110%;
+}
+
+h5 {
+	font-size:130%;
+}
+
+h4 {
+	font-size:150%;
+}
+
+h3 {
+	font-size:170%;
+}
+
+h2 {
+	font-size:180%;
+}
+
+h1 {
+	font-size:200%;
+}
+
+strong {
+	font-weight: bold;
+}
+
+em {
+	font-style: italic;
+}
+
+.smallerFont {
+	font-size: 80%;
+}
+
+img {
+	max-width:100%;
+}
+
+input[type="submit"], button, .button {
+    cursor:pointer;
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 3px 6px;
+    background: #7da0c8;
+    font-size: 90%;
+}
+
+input[type="submit"]:hover, button:hover, .button:hover {
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2), inset 2px 2px 2px rgba(255,255,255,0.5);
+}
+
+textarea {
+	vertical-align:top;
+}
+
+/* END GLOBAL STYLES */
+
+#header {
+    z-index: 3000;
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    height: 48px;
+    padding: 4px 20px;
+    padding-bottom: 8px;
+    background: #fff;
+}
+
+.logo {
+    float: left;
+}
+
+.headerRight {
+    float: right;
+    text-align: right;
+}
+
+#header h1 {
+    font-size: 14px;
+    font-variant: small-caps;
+    text-transform: lowercase;
+    line-height: 1;
+}
+
+.user {
+    font-size: 12px;
+}
+
+.attribution {
+    font-size: 13px;
+    padding-left: 2px;
+}
+
+#footer {
+    background: #7da0c8;
+    z-index: 10;
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    font-size: 80%;
+}
+
+#footer, #footer a {
+    color: #fff;
+}
+
+.footerText {
+    font-size: 10px;
+    clear: both;
+/*    width: 60%;*/
+    border-top: 1px #666 solid;
+    margin-left: 15px;
+}
+
+#contentWrapper {
+
+    margin-top: 60px;
+    padding-left: 16px;
+}
+
+#contentWrapper h6 {
+    font-weight: bold;
+    padding: 0 0 10px 0;
+}
+
+
+
+#mapList, #placeDetails {
+    font-size: 90%;
+}
+
+#placeDetails li {
+    margin-bottom: 6px;
+    min-height: 22px;
+}
+
+#mapList a:hover, #jsonLink:hover, #showSimilar:hover, .similarPlace a:hover, .linkColor:hover, #showAlternateNames:hover {
+    color: #CD5C5C;
+}
+
+
+#mapList thead {
+    display: block;
+    width: 100%;
+    font-weight: bold;
+}
+
+#mapList thead tr {
+    width: 100%;
+    display: block;
+}
+
+#mapList {
+    width: 100%;
+    font-size: 11px; 
+}
+
+#mapList thead th {
+    text-align: left;
+    padding: 3px;
+    display: block;
+    float: left;
+}
+
+#nameList {
+    width: 25%;
+}
+
+#typeList {
+    width: 25%;
+}
+
+#timeframeList {
+    width: 25%;
+}
+
+#originList {
+    width: 25%
+}
+
+#mapList .col1 {
+    width: 25%;
+}
+
+#mapList .col2 {
+    width: 25%;
+}
+
+#mapList .col3 {
+    width: 25%;
+}
+
+#mapList .col4 {
+    width: 25%;
+}
+
+#mapList tbody {
+    display: block;
+    height: 300px;
+    width: 100%;
+    overflow-y: scroll;    
+}
+
+#mapList tbody tr td {
+    border: 1px solid transparent;
+}
+
+#mapList tbody tr:hover td {
+    border: 1px solid #ccc;
+}
+
+#mapList .admin_names {
+    font-size: smaller;
+    color: gray;
+}
+
+.mapListSection h4 {
+    margin: 12px 0;
+}
+
+.mapListSection {
+    width: 100%;
+}
+
+#jsonLink {
+    font-size: 12px;
+    font-style: italic;
+}
+
+#searchField {
+    width: 70%;
+    height: 30px;
+    border-radius: 12px;
+    padding-left: 8px;
+    padding-right: 8px;
+    margin-bottom: 4px;
+}
+
+#searchButton {
+    float: right;
+    width: 28%;
+}
+
+#searchTerm {
+    color: #CD5C5C;
+}
+
+#similarPlacesWrapper {
+    font-size: 90%;
+}
+
+.resultsList {
+/*    font-style: italic;*/
+    font-size: 90%;
+}
+
+#totalResults {
+    float: left;
+}
+
+#showingResults {
+    float: left;
+    padding-left: 20px;
+}
+
+
+#noOfResults, #currPageNo, #totalPages {
+    font-style: normal;
+}
+
+input[type="text"], input[type="password"] {
+    padding: 2px 6px;
+    border-radius: 4px;
+    box-shadow: inset 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.leaflet-popup-content li {
+    padding-left: 8px;
+}
+
+.highlighted {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.infoLabel {
+    font-weight: bold;
+}
+
+.detailList {
+    margin-left: 15px;
+    word-wrap: break-word;
+}
+
+.altLang {
+    font-style: italic;
+}
+
+.collapseChild {
+    cursor: pointer;
+}
+
+#revisions {
+    font-size: 12px;
+}
+
+
+.totalRecords {
+    margin-left: 15px;
+    float: left;
+    font-weight: bold;
+}
+
+.copyright {
+    margin-right: 15px;
+    float: right;
+}
+
+
+.firstLast
+{font-size:10px;
+padding-bottom:4px;
+padding-top:4px;
+padding-left: 20px;
+padding-right: 4px;
+cursor:pointer;
+/*clear:both;*/
+list-style:none;
+position: relative;
+float: right;
+}
+
+.first, .last, .next, .previous
+{border:1px solid #e5e5e5;
+padding:2px 4px;
+color:#666;
+-moz-box-shadow:2px 3px 4px #c6c0c0;
+-webkit-box-shadow:2px 3px 4px #c6c0c0;
+box-shadow:2px 3px 4px #c6c0c0;
+font-weight:bold;
+text-align:center;}
+
+.firstLast li
+{display:inline;
+font-size:10px;}
+
+
+.next, .previous
+{font-weight: bold;
+font-size: 10px;
+color: #666;}
+
+/*.next:hover, .previous:hover
+{color:#036;}*/
+
+.clear
+{clear:both;}
+
+.toggleNext {
+    cursor: pointer;
+}
+
+.first:hover, .last:hover, .next:hover, .previous:hover {
+    box-shadow:2px 3px 4px 2px #c6c0c0;
+}
+
+/*
+    Styles specific to user accounts pages, if gets too long, move to separate file.
+*/
+#contentWrapper.accounts
+{width: 300px;
+margin-left: auto;
+margin-right: auto;
+text-align: center;
+margin-top: 200px;}
+
+
+
+
+

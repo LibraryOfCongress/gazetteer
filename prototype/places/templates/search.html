@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block page_title %} Search {% endblock %}
+
+{% block extra_head %}
+<script type="text/javascript" src="/static/js/gazetteer.js"></script>
+{% endblock %}
+
+
+
+
+
+<!--<div class="wrapper">-->
+
+
+{% block site_header_extra %}    
+<form action="" method="get" class="searchForm" id="searchForm">
+    <input type="text" placeholder="Search digital gazetteer" id="searchField" name="field" class="search" />
+    <input type="submit" name="searchButton" value="Search" id="searchButton">
+    <a href="" id="jsonLink">Get Feed</a>
+    <button id="updateSearch" title="Update search for current map view-port">Update Search</button>
+    <input type="hidden" value="1" id="page_no" name="page_no" />
+</form>
+{% endblock %}
+
+
+
+{% block content %}
+<div class="nav">
+    <ul>
+    <li><a href="/">Search</a></li>
+    <li><a href="/admin/places/feature">Features</a></li>
+    <li><a href="/admin/places/featuretype">Feature Types</a></li>
+    <li><a href="/admin/places/authorityrecord">Authority Records</a></li>
+    <li><a href="/admin/places/timeframe">Time Frames</a></li>
+    </ul>
+</div>
+
+<div class="mapListSection module">
+    <p class="resultsList" id="totalResults">Total Results: <span id="noOfResults">21 </span></p><p class="resultsList" id="showingResults">Showing Page: <span id="currPageNo">1</span> <span id="of">of</span> <span id="totalPages"> 10</span></p>
+    
+    <ul class="firstLast"> 
+        <li class="first">First </li> 
+        <li class="previous"> Previous</li> 
+        <li class="next"> Next </li> 
+        <li class="last"> Last</li>
+    </ul>
+     
+<!--<div class="firstLast">
+        <div class="first">First </div>
+        <div class="previous"> Previous &nbsp; &nbsp; &nbsp;</div>
+        <div class="next"> Next </div>
+        <div class="last"> Last</div>
+    </div>-->
+    
+    <div class="clear"></div>
+    
+    <h2>Results for <span id="searchTerm"></span></h2> 
+    <table id="mapList">
+        <thead>
+            <tr>
+                <td id="nameList">Name</td>
+                <td id="typeList">Type</td>
+                <td id="countyList">County</td>
+                <td id="stateList">State</td>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+
+    </table>
+
+<!--
+    <ul class="mapList" id="mapList">
+
+<li>Water Well Imagery</li>
+<li>Chicago in the 20s</li>
+<li>Maps go here</li>
+<li>Maps go here</li>
+<li>Maps go here</li>
+<li>Maps go here</li>
+<li>Maps go here</li>
+<li>Maps go here</li>
+<li>Maps go here</li>
+<li>Maps go here</li>
+
+    </ul>
+-->
+<!--
+    <ol class="paginate paginateSelected">
+ 	    <li><a href="">&laquo;</a></li>
+        <li><a href="">1</a></li>
+        <li><a href="">2</a></li>
+        <li><a href="">3</a></li>
+        <li><a href="">4</a></li>
+        <li><a href="">5</a></li>
+        <li><a href="">6</a></li>
+        <li><a href="">7</a></li>
+        <li><a href="">8</a></li>
+        <li><a href="">9</a></li>
+        <li><a href="">10</a></li>
+    	<li><a href="">&raquo;</a></li>
+    </ol>-->
+    
+
+</div>
+
+<div class="map" id="map">
+
+</div>
+{% endblock content %}
+
+<!--</div>-->
+
+

@@ -1,0 +1,2 @@
+lc=# update gazetteer g set fcode = x.fcode from geoname_osm_best b, osm_xwalk x where url='http://www.geonames.org/'||b.geonameid and g.fcode is null and similarity = 1 and x.feature_class=b.feature_class and x.feature_type=b.feature_type and x.fcode <> '' and x.fcode is not null;
+UPDATE 1841

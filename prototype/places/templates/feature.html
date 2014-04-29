@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block page_title %}
+    Feature: {{ feature.preferred_name }}
+{% endblock %}
+
+{% block extra_head %}
+<style type="text/css">
+#map {
+    float: left;
+    width: 600px;
+    height: 400px;
+}
+
+#featureDetails {
+    float: left;
+}
+</style>
+<script>
+FEATURE_GEOJSON = {{ geojson|safe }};
+FEATURE_ID = {{ feature.id }};
+</script>
+<script src="/static/js/feature_detail.js"></script>
+<script src="/static/js/feature_admin.js"></script>
+{% endblock %}
+
+{% block content %}
+    <h2> {{ feature.preferred_name }} </h2>
+
+    <div id="featureDetails">
+        Authority Record: {{ feature.authority_record }} <br />
+        URI: <a href="{{ feature.url }}">{{ feature.url }}</a> <br />
+        Feature Type: {{ feature.feature_type }} <br />
+        State: {{ feature.admin1 }}<br />
+        County: {{ feature.admin2 }}<br />
+        Is Primary: {% if feature.is_primary %} Yes {% else %} No {% endif %} <br />
+        Time Frame: {{ feature.time_frame }}
+    </div>
+
+    <div id="map">
+
+    </div>
+    <div style="clear:both;"></div>
+   <div id="similarFeatures" class="module">
+        <h2>Similar Features</h2>
+        <table id="similarTable" class="customTable">
+            <thead>
+                <tr>
+                    <th>
+                        Relation
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Feature Type
+                    </th>
+                    <th>
+                        Similarity
+                    </th>
+                    <th>
+                        Distance (m)
+                    </th>
+                    <th>
+                        Time Frame
+                    </th>
+                    <th>
+                        Is Primary?
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+{% endblock %}

@@ -1,0 +1,132 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "state1",
+                "name": "west",
+                "alternate_names": "Western",
+                "centroid": [
+                    -110.970486,
+                    37.250223
+                ]
+            },
+            "geometry": {
+                "type": "MultiPolygon",
+                "coordinates": [
+                    [
+                        [
+                            [
+                                -118.996875,
+                                45.522949
+                            ],
+                            [
+                                -103.05,
+                                45.744434
+                            ],
+                            [
+                                -103.197656,
+                                28.690137
+                            ],
+                            [
+                                -118.775391,
+                                28.911621
+                            ],
+                            [
+                                -118.996875,
+                                45.522949
+                            ]
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "state3",
+                "name": "south_east",
+                "alternate_names": "South Eastern",
+                "centroid": [
+                    -93.588497,
+                    33.215147
+                ]
+            },
+            "geometry": {
+                "type": "MultiPolygon",
+                "coordinates": [
+                    [
+                        [
+                            [
+                                -83.938359,
+                                28.156113
+                            ],
+                            [
+                                -103.197656,
+                                28.690137
+                            ],
+                            [
+                                -103.115914,
+                                38.131402
+                            ],
+                            [
+                                -84.341769,
+                                37.968148
+                            ],
+                            [
+                                -83.938359,
+                                28.156113
+                            ]
+                        ]
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "id": "state2",
+                "name": "north_east",
+                "alternate_names": "North Eastern",
+                "centroid": [
+                    -93.546978,
+                    42.094929
+                ]
+            },
+            "geometry": {
+                "type": "MultiPolygon",
+                "coordinates": [
+                    [
+                        [
+                            [
+                                -84.423472,
+                                46.546976
+                            ],
+                            [
+                                -84.341769,
+                                37.968148
+                            ],
+                            [
+                                -103.115938,
+                                38.128573
+                            ],
+                            [
+                                -103.05,
+                                45.744434
+                            ],
+                            [
+                                -103.05,
+                                45.744434
+                            ],
+                            [
+                                -84.423472,
+                                46.546976
+                            ]
+                        ]
+                    ]
+                ]
+            }
+        }
+    ]
+}

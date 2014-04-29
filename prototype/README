@@ -1,0 +1,13 @@
+Create the database:
+    createdb gazetteer
+    bzcat digital-gazetteer.sql.bz2 | psql gazetteer
+
+    If not importing existing data, you need to setup pg_trgm for Trigram Search:
+        psql <db_name>
+        create extension pg_trgm;
+        CREATE INDEX places_feature_preferred_name_trgm_idx ON places_feature USING gin (preferred_name gin_trgm_ops);
+
+
+Copy local_settings.py.sample to local_settings.py and edit database configuration values.
+
+

@@ -1,0 +1,150 @@
+{
+    "mappings": {
+        "place": {
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "centroid": {
+                    "type": "geo_point"
+                }, 
+                "feature_code": {
+                    "index": "not_analyzed", 
+                    "store": "yes",
+                    "type": "string"
+                }, 
+                "geometry": {
+                    "index": "no", 
+                    "type": "object"
+                }, 
+                "is_primary": {
+                    "type": "boolean"
+                }, 
+                "is_composite": {
+                    "type": "boolean"
+                },
+                "source": {
+                    "date_detection" : false,
+                    "index": "no", 
+                    "type": "object"
+                }, 
+                "updated": {
+                    "type": "date"
+                },
+                "population": {
+                    "type": "long"
+                },
+                "area": {
+                    "type": "float"
+                },
+                "importance": {
+                    "type": "float"
+                },
+                "uris": {
+                    "type": "string",
+                    "index": "not_analyzed", 
+                    "store": "yes",
+                    "index_name": "uri"
+                },
+                "alternate": {
+                    "type": "nested",
+                    "properties": {
+                        "lang": {
+                            "type": "string", 
+                            "index": "not_analyzed", 
+                            "store": "yes"
+                        },
+                        "type": {
+                            "type": "string", 
+                            "index": "not_analyzed", 
+                            "store": "yes"
+                        },
+                        "name": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "relationships": {
+                    "type": "nested",
+                    "index_name": "relationship",
+                    "properties": {
+                        "id": {
+                            "type": "string",
+                            "index": "not_analyzed", 
+                            "store": "yes"
+                        },
+                        "type": {
+                            "type": "string",
+                            "index": "not_analyzed", 
+                            "store": "yes"
+                        }
+                    }
+                },
+                "timeframe": {
+                    "type": "object",
+                    "properties": {
+                        "start": { "type": "date" },
+                        "end": { "type": "date" },
+                        "start_range": { "type": "long" },
+                        "end_range": { "type": "long" }
+                    }
+                },
+                "admin": {
+                    "type": "nested",
+                    "properties": {
+                        "id": {
+                            "type": "string",
+                            "index": "not_analyzed", 
+                            "store": "yes"
+                        },
+                        "feature_code": {
+                            "type": "string",
+                            "index": "not_analyzed", 
+                            "store": "yes"
+                        },
+                        "name": {
+                            "type": "string",
+                            "index": "not_analyzed", 
+                            "store": "yes"
+                        },
+                        "alternate_names": {
+                            "type": "string",
+                            "index": "not_analyzed",
+                            "store": "yes"
+                        }
+                    }
+                },
+                "address":{
+                    "type": "object",
+                    "properties": {
+                        "number": {
+                            "type": "string", 
+                            "index": "not_analyzed", 
+                            "store": "no"
+                        },
+                        "street": {
+                            "type": "string", 
+                            "index": "analyzed", 
+                            "store": "yes"
+                        },
+                        "city" :{
+                            "type": "string", 
+                            "index": "not_analyzed", 
+                            "store": "yes"
+                        },
+                        "state":{
+                            "type": "string", 
+                            "index": "not_analyzed", 
+                            "store": "yes"
+                        },
+                        "postcode": {
+                            "type": "string", 
+                            "index": "not_analyzed", 
+                            "store": "no"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

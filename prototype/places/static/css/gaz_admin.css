@@ -1,0 +1,29 @@
+.nav
+{width:98%;
+margin-bottom:2%;
+margin:0 auto;}
+
+.nav ul
+{padding-top: 4px;
+padding-bottom: 4px;
+padding-left:1%;
+background-image:url(http://gazetteer.in/admin/media/img/admin/default-bg.gif);
+background-color:#7CA0C7;} 
+
+.nav ul li
+{padding-right: 60px;
+list-style:none;
+display:inline;
+color:#FFF;
+font-weight:bold;
+cursor:pointer;}
+
+.nav ul li a
+{text-decoration:none;
+color:#FFF;}
+
+.nav ul li a:hover
+{color:#036 !important;
+text-decoration: none !important;}
+
+

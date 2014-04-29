@@ -1,0 +1,973 @@
+copy geoname from '/mnt/geonames/US.txt' with null as '';
+ls
+\q
+copy concordance from '/home/sderle/concordance/concordances.csv';
+copy concordance from '/home/ubuntu/concordance/concordances.csv';
+copy concordance from '/home/ubuntu/concordance/concordances.csv' with null as '';
+\d
+create index concordance_geoname_idx on concordance(geoname);
+create index concordance_geonames_idx on concordance(geonames);
+\d
+\d geoname
+create index geoname_geonameid_index on geoname(geonameid);
+alter table geoname add column pt geometry;
+update geoname set geometry = setsrid(st_point(longitude, latitude), 4326);
+update geoname set pt = setsrid(st_point(longitude, latitude), 4326);
+alter table concordance add column pt geometry;
+update concordance set pt = setsrid(st_point(lon, lat), 4326);
+\d
+\d woe
+select * from woe limit 5;
+select * from woe where iso <> '"NA"' limit 5;
+update woe set iso=replace(iso, '"',''), name=replace(name,'"','');
+delete from woe where iso<>'US';
+select type, count(*) from woe group by type;
+\d woe
+\d concordance
+\d geoplanet
+\d geoname
+create view geonameplanet as select c.woeid, c.name as woe_name, c.geonames as geonameid, g.name as geoname_name, st_distance_spheroid(c.pt, g.pt, 'SPHEROID["GRS_1980",6378137,298.257222101]') as distance from concordance c, geonames g where geonameid=geonames;
+create view geonameplanet as select c.woeid, c.name as woe_name, c.geonames as geonameid, g.name as geoname_name, st_distance_spheroid(c.pt, g.pt, 'SPHEROID["GRS_1980",6378137,298.257222101]') as distance from concordance c, geoname g where geonameid=geonames;
+copy geonameplanet to '/tmp/geonameplanet.tt';
+copy (select * from geonameplanet) to '/tmp/geonameplanet.txt';
+\d woe
+select count(*) from woe;
+\d
+select * from geonameplanet where woe_name <> geoname_name;
+select woe_name, geoname_name, distance from geonameplanet where woe_name <> geoname_name;
+\d
+ select woe_name, geoname_name, distance from geonameplanet where woe_name <> replace(geoname_name,;;
+\c
+;);
+ select woe_name, geoname_name, distance from geonameplanet where woe_name <> replace(geoname_name, ' (historical)', '');
+ select woe_name, geoname_name, distance from geonameplanet where lowercase(woe_name) <> lowercase(replace(geoname_name, ' (historical)', ''));
+ select woe_name, geoname_name, distance from geonameplanet where lower(woe_name) <> lower(replace(geoname_name, ' (historical)', ''));
+ select woe_name, geoname_name, distance from geonameplanet where lower(woe_name) <> lower(replace(geoname_name, ' (historical)', '')) order by distance desc;
+\q
+copy osm from '/mnt/osm/osm_us_places.csv' with null as '';
+delete from osm;
+\q
+copy osm from '/mnt/osm/osm_us_places.csv' with null as '';
+less +/1252360 /mnt/osm/osm_us_places.csv;
+\q
+copy osm from '/mnt/osm/osm_us_places.csv' with null as '';
+\q
+\dv
+\d geonameplanet
+create view osmplanet as select c.woeid, c.name as woe_name, c.osm as osmid, o.name as osm_name, st_distance_spheroid(c.pt, o.pt, 'SPHEROID("GRS_1980",6378137,298.257222101)'::spheroid) AS distance from concordance c, osm o, where o.osmid=c.osm;
+create view osmplanet as select c.woeid, c.name as woe_name, c.osm as osmid, o.name as osm_name, st_distance_spheroid(c.pt, o.pt, 'SPHEROID("GRS_1980",6378137,298.257222101)'::spheroid) AS distance from concordance c, osm o where o.osmid=c.osm;
+copy (select * from osmplanet) to '/tmp/osmplanet.txt';
+ select woe_name, osm_name, distance from geonameplanet where lower(woe_name) <> lower(osm_name) order by distance desc;
+ select woe_name, osm_name, distance from osmplanet where lower(woe_name) <> lower(osm_name) order by distance desc;
+select count(*) from osm where name like '%;%';
+select count(*) from osm;
+\q
+\d osm
+select count(*) from (select distinct feature_class from osm);
+select count(*) from (select distinct feature_class from osm) as foo;
+select count(*) from (select distinct feature_class, feature_type from osm) as foo;
+\d
+\d osm_us
+delete from osm;
+insert into osm select * from osm_us;
+drop table osm_us;
+\d osm;
+create unique index osm_osmid_idx on osm(osmid);
+select osmid, osmtype from osm group by osmid, osmtype having count(*) > 1;
+select osmid, osmtype, count(*) from osm group by osmid, osmtype having count(*) > 1;
+create index osm_osmid_idx on osm(osmid);
+select * from osm where osmid in (select  osmid from osm group by osmid, osmtype having count(*) > 1);
+create table osm_us as select distinct * from osm;
+delete from osm;
+insert into osm select * from osm_us;
+alter table osm set primary key to osmd;
+\h alter table
+create unique index osm_osmid_idx on osm(osmid);
+drop index osm_osmid_idx;
+create unique index osm_osmid_idx on osm(osmid);
+select * from osm where osmid in (select  osmid from osm group by osmid, osmtype having count(*) > 1);
+select  osmid from osm group by osmid, osmtype having count(*) > 1;
+select  osmid from osm group by osmid having count(*) > 1;
+select * from osm where osmid=29743263;
+create unique index osm_osmid_idx on osm(osmid, osmtype);
+create index osm_pt_idx using gist on osm(pt);
+create index osm_pt_idx on osm using gist (pt);
+create index geoname_pt_idx on geoname using gist (pt);
+select a.osmid, a.name, b.osmid, b.name, similarity(a.name, b.name) from osm a, osm b where a.pt && st_buffer(b.pt,5/111.1) and a.osm <> b.osmid;
+\q
+select a.osmid, a.name, b.osmid, b.name, similarity(a.name, b.name) from osm a, osm b where a.pt && st_buffer(b.pt,5/111.1) and a.osm <> b.osmid limit 15;
+select a.osmid, a.name, b.osmid, b.name, similarity(a.name, b.name) from osm a, osm b where a.pt && st_buffer(b.pt,5/111.1) and a.osmid <> b.osmid limit 15;
+select a.osmid, a.name, b.osmid, b.name, similarity(a.name, b.name) from osm a, osm b where a.pt && st_buffer(b.pt,5/111.1) and a.osmid <> b.osmid and b.osmid=356566473;
+\d osm
+select a.osmid, a.name, a.feature_class, a.feature_type, similarity(a.name, b.name), st_distance_sphere(a.pt,b.pt) from osm a, osm b where a.pt && st_buffer(b.pt,5/111.1) and a.osmid <> b.osmid and b.osmid=356566473;
+select a.osmid, a.name, a.feature_class, a.feature_type, similarity(a.name, b.name), st_distance_sphere(a.pt,b.pt) from osm a, osm b where a.pt && st_buffer(b.pt,5/111.1) and a.osmid <> b.osmid and b.osmid=356514935;
+select b.osmid, b.name, a.osmid, a.name, a.feature_class, a.feature_type, similarity(a.name, b.name), st_distance_sphere(a.pt,b.pt) from osm a, osm b where a.pt && st_buffer(b.pt,5/111.1) and a.osmid <> b.osmid and b.osmid=356514935;
+select a.osmtype, a.osmid, a.name, a.feature_class, a.feature_type, similarity(a.name, b.name), st_distance_sphere(a.pt,b.pt) from osm a, osm b where a.pt && st_buffer(b.pt,5/111.1) and a.osmid <> b.osmid and b.osmid=356514935;
+alter table geoname add column pt geometry;
+update geoname set pt=st_point(longitude, latitide);
+update geoname set pt=st_point(longitude, latitude);
+\d geoname
+create index geoname_pt_idx on geoname using gist (pt);
+select geonameid, name, fcode from geoname where pt && st_buffer(st_point(-78.6019576,38.9645538),5/111.1);
+select geonameid, name, fcode, st_distance_sphere(pt,st_point(-78.6019576,38.9645538))  from geoname where pt && st_buffer(st_point(-78.6019576,38.9645538),5/111.1);
+select osmid from osm order by random() limit 1;
+\q
+\e
+-- select b.osmtype, b.osmid, c.osmtype, c.osmid, similarity(c.name, b.name) as similarity, st_distance_sphere(c.pt, b.pt) as dist  from osm b, osm c where c.osmid=(select a.osmid from osm a where a.pt && st_buffer(b.pt,5/111.1) and a.osmid <> b.osmid order by similarity(a.name,b.name) desc limit 1);select b.geonameid, c.geonameid, similarity(c.name, b.name) as similarity, st_distance_sphere(c.pt, b.pt) as dist    from geoname b, geoname c     where c.geonameid=(select a.geonameid from geoname a                     where a.pt && st_buffer(b.pt,5/111.1) and a.geonameid <> b.geonameid                     order by similarity(a.name,b.name) desc limit 1) limit 1000;
+\e
+select b.geonameid, b.name, b.fclass, c.geonameid, c.name, c.fclass, similarity(c.name, b.name) as similarity, st_distance_sphere(c.pt, b.pt) as dist    from geoname b, geoname c     where c.geonameid=(select a.geonameid from geoname a                     where a.pt && st_buffer(b.pt,5/111.1) and a.geonameid <> b.geonameid                     order by similarity(a.name,b.name) desc limit 1) limit 1000;
+select b.geonameid, b.name, b.fclass, c.geonameid, c.name, c.fclass, similarity(c.name, b.name) as similarity, st_distance_sphere(c.pt, b.pt) as dist    from geoname b, geoname c     where c.geonameid=(select a.geonameid from geoname a                     where a.pt && st_buffer(b.pt,5/111.1) and a.geonameid <> b.geonameid                     order by similarity(a.name,b.name) desc limit 1) limit 1000;
+\e
+create table geoname_match asselect b.geonameid, c.geonameid as matchid, similarity(c.name, b.name) as similarity, st_distance_sphere(c.pt, b.pt) as dist    from geoname b, geoname c     where c.geonameid=(select a.geonameid from geoname a                     where a.pt && st_buffer(b.pt,5/111.1) and a.geonameid <> b.geonameid                     order by similarity(a.name,b.name) desc limit 1) limit 1000;
+create table geoname_match asselect b.geonameid, c.geonameid as matchid, similarity(c.name, b.name) as similarity, st_distance_sphere(c.pt, b.pt) as dist    from geoname b, geoname c     where c.geonameid=(select a.geonameid from geoname a                     where a.pt && st_buffer(b.pt,5/111.1) and a.geonameid <> b.geonameid                     order by similarity(a.name,b.name) desc limit 1);
+ drop table geoname_matchl;
+ drop table geoname_match;
+create table geoname_match asselect b.geonameid, c.geonameid as matchid, similarity(c.name, b.name) as similarity, st_distance_sphere(c.pt, b.pt) as dist    from geoname b, geoname c     where c.geonameid=(select a.geonameid from geoname a                     where a.pt && st_buffer(b.pt,5/111.1) and a.geonameid <> b.geonameid                     order by similarity(a.name,b.name) desc limit 1);
+ drop table geoname_match;
+\q
+create table geoname_match asselect b.geonameid, c.geonameid as matchid, similarity(c.name, b.name) as similarity, st_distance_sphere(c.pt, b.pt) as dist    from geoname b, geoname c     where c.geonameid=(select a.geonameid from geoname a                     where a.pt && st_buffer(b.pt,5/111.1) and a.geonameid <> b.geonameid                     order by similarity(a.name,b.name) desc limit 1);
+^A^@^A^CCancel request sent;
+select count(*) from geoname_match;
+select count(*) from geoname;
+\q
+create table osm_buildings as select * from osm limit 0;
+copy osm_buildings from '/mnt/osm/osm_us_buildings.csv';
+alter table osm_buildings;
+alter table osm_buildings drop column geometer;
+alter table osm_buildings drop column geometry;
+alter table osm_buildings drop column pt;
+copy osm_buildings from '/mnt/osm/osm_us_buildings.csv';
+copy osm_buildings from '/mnt/osm/osm_us_buildings.csv' with null as '';
+copy osm_buildings from '/mnt/osm/osm_us_buildings.csv' with null as '';
+ select a.geonameid, a.name as geoname, fcode, osmid, osmtype, b.name as osmname, b.feature_class, b.feature_type, similarity(a.name, b.name) as similarity, st_distance_sphere(a.pt, b.pt) as dist from geoname a, osm b, geoname_match c where c.geonameid=a.geonameid and b.pt && setsrid(st_buffer(a.pt,c.dist/111111.1), 4326) and similarity(a.name,b.name) <= c.similarity and st_distance_sphere(a.pt, b.pt) <= c.dist limit 15;
+ select a.geonameid, a.name as geoname, fcode, osmid, osmtype, b.name as osmname, b.feature_class, b.feature_type, similarity(a.name, b.name) as similarity, st_distance_sphere(a.pt, b.pt) as dist from geoname a, osm b, geoname_match c where c.geonameid=a.geonameid and b.pt && setsrid(st_buffer(a.pt,c.dist/111111.1), 4326) and similarity(a.name,b.name) <= c.similarity and st_distance_sphere(a.pt, b.pt) <= c.dist where similarity > 0.5 limit 50;
+ select a.geonameid, a.name as geoname, fcode, osmid, osmtype, b.name as osmname, b.feature_class, b.feature_type, similarity(a.name, b.name) as similarity, st_distance_sphere(a.pt, b.pt) as dist from geoname a, osm b, geoname_match c where c.geonameid=a.geonameid and b.pt && setsrid(st_buffer(a.pt,c.dist/111111.1), 4326) and similarity(a.name,b.name) <= c.similarity and st_distance_sphere(a.pt, b.pt) <= c.dist and similarity > 0.5 limit 50;
+\q
+select * from geoname_osm_match limit 1000;
+create index  geoname_osm_match_geonameid_idx on geoname_osm_match(geonameid);
+select * from geoname_osm_match a where a.osmid=(select osmid from geoname_osm_match b where a.geonameid = b.geonameid order by similarity desc limit 1);
+select * from geoname_osm_match a where a.osmid=(select osmid from geoname_osm_match b where a.geonameid = b.geonameid order by similarity desc limit 1) limit 50;
+create table geoname_select * from geoname_osm_match a where a.osmid=(select osmid from geoname_osm_match b where a.geonameid = b.geonameid order by similarity desc limit 1) limit 50 \e
+create table geoname_osm_best asselect * from geoname_osm_match a where a.osmid=(selectosmid from geoname_osm_match b where a.geonameid = b.geonameid order bysimilarity desc limit 1);
+create table geoname_osm_best asselect * from geoname_osm_match a where a.osmid=(selectosmid from geoname_osm_match b where a.geonameid = b.geonameid order bysimilarity desc limit 1);
+select count(*) from geoname_osm_match;
+drop table geoname_osm_best;
+select count(*) from (select distinct geonameid from geoname_osm_best);
+select count(*) from (select distinct geonameid from geoname_osm_best) as foo;l
+select count(*) from (select distinct geonameid from geoname_osm_best) as foo;
+;
+select count(*) from (select distinct geonameid from geoname_osm_match) as foo;
+create table geoname_osm_best asselect * from geoname_osm_match a where a.osmid=(selectosmid from geoname_osm_match b where a.geonameid = b.geonameid order bysimilarity desc limit 1) \e
+create table geoname_osm_best asselect distinct * from geoname_osm_match a where a.osmid=(selectosmid from geoname_osm_match b where a.geonameid = b.geonameid order bysimilarity desc limit 1) ;
+select count(*) from (select distinct geonameid from geoname_osm_match) as foo;
+select count(*) from geoname_osm_best;
+\q
+\q
+copy (select osmtype,osmid,fcode from geoname_osm_best where similarity > 0.85) to '/tmp/osm_fcode.csv';
+drop table osm_us;
+\d
+drop table osm_buildings;
+drop table osm_buildings2;
+\d
+\d geoname_osm_match
+select count(*) from geoname_osm_match;
+select count(*) from geoname_osm_best;
+create index geoname_osm_best_osm_idx on geoname_osm_best (osmid, osmtype);
+create table osm_unused as select o.* from osm o left join geoname_osm_best b on (o.osmid=b.osmid and o.osmtype=b.osmtype) where b.osmid is null;
+select count(*) from osm_unused;
+select * from osm_unused;
+select * from osm_unused limit 5;
+select feature_type, feature_class, count(*) from osm_unused group by feature_type, feature_class order by count(*) desc;
+select feature_class, feature_type, count(*) from osm_unused group by feature_type, feature_class order by count(*) desc;
+select sum(count) from (select feature_class, feature_type, count(*) from osm_unused group by feature_type, feature_class order by count(*) desc) as foo where count >5 ;
+select sum(count) from (select feature_class, feature_type, count(*) from osm_unused group by feature_type, feature_class order by count(*) desc) as foo where count <=5 ;
+select count(*) from (select feature_class, feature_type, count(*) from osm_unused group by feature_type, feature_class order by count(*) desc) as foo where count <=5 ;
+select count(*) from (select feature_class, feature_type, count(*) from osm_unused group by feature_type, feature_class order by count(*) desc) as foo where count >= 5;
+select count(*) from (select feature_class, feature_type, count(*) from osm_unused group by feature_type, feature_class order by count(*) desc) as foo where count > 5;
+\d geoname_osm_best
+create table osm_fcode_base as select feature_class, feature_type, fcode, count(*) from geoname_osm_best group by  feature_class, feature_type, fcode;
+create index osm_fcode_base_idx on osm_fcode_base (feature_class, feature_type); 
+select * from osm_fcode_base order by feature_class, feature_type, count desc;
+delete from osm_fcode_base where count < 5;
+select * from osm_fcode_base order by feature_class, feature_type, count desc;
+delete from osm_fcode_base where fcode=' ';
+delete from osm_fcode_base where fcode='';
+delete from osm_fcode_base where fcode is null;
+select * from osm_fcode_base order by feature_class, feature_type, count desc;
+create table osm_fcode as select a.* from osm_fcode a where count=(select max(count) from osm_fcode b where a.feature_class=b.feature_class and a.feature_type=b.feature_type);
+create table osm_fcode as select a.* from osm_fcode_base a where count=(select max(count) from osm_fcode_base b where a.feature_class=b.feature_class and a.feature_type=b.feature_type);
+select count(*) from osm_fcode;
+select * from osm_fcode;
+create index osm_fcode_class_type_idx on osm_fcode (feature_class, feature_type0;);
+create index osm_fcode_class_type_idx on osm_fcode (feature_class, feature_type);
+select count(*) from osm_unused;
+select count(*) from osm_unused ou left join osm_fcode fc on (ou.feature_class=fc.feature_class and ou.feature_type=fc.feature_type) where fc.feature_class is null;
+select ou.feature_class, ou.feature_type, count(*) from osm_unused ou left join osm_fcode fc on (ou.feature_class=fc.feature_class and ou.feature_type=fc.feature_type) where fc.feature_class is null group by ou.feature_class, ou.feature_type order by count(*) desc;
+insert into osm_fcode select ou.feature_class, ou.feature_type, null, count(*) from osm_unused ou left join osm_fcode fc on (ou.feature_class=fc.feature_class and ou.feature_type=fc.feature_type) where fc.feature_class is null group by ou.feature_class, ou.feature_type;
+update osm_fcode set count=(select count(*) from osm_unused ou where ou.feature_type=feature_type and ou.feature_code=feature_code);
+update osm_fcode set count=(select count(*) from osm_unused ou where ou.feature_type=feature_type and ou.feature_class=feature_class);
+delete from osm_fcode where count < 5;
+select * from osm_fcode;
+update osm_fcode fc set count=(select count(*) from osm_unused ou where ou.feature_type=fc.feature_type and ou.feature_class=fc.feature_class);
+\d osm_unused
+create index osm_unused_fc_idx on osm_unused (feature_class, feature_type);
+update osm_fcode fc set count=(select count(*) from osm_unused ou where ou.feature_type=fc.feature_type and ou.feature_class=fc.feature_class);
+delete from osm_fcode where count < 5;
+select count(*) from osm_fcode;
+select * from osm_fcode order by count desc;
+select * from osm_fcode order by feature_class, count;
+select * from osm_fcode order by feature_class, count desc;
+copy (select * from osm_fcode order by feature_class, count desc) to '/tmp/osm_geoname_crosswalk.txt';
+copy (select * from osm_fcode order by feature_class, count desc) to '/tmp/osm_geoname_crosswalk.csv';
+\q
+create table osm_xwalk as select * from osm_fcode limit 0;
+copy osm_xwalk from '/mnt/concord/osm_geoname_crosswalk.csv';
+delete from osm_xwalk;
+copy osm_xwalk from '/mnt/concord/osm_geoname_crosswalk.csv' null as '';
+delete from osm_xwalk where fcode is null;
+\d geoname
+select fcode, count(*) from geoname where fcode like 'ADM%' group by fcode;
+select admin1, count(*) from geoname group by admin1;
+select admin2, count(*) from geoname group by admin2;
+select * from geoname where name='Philadelphia' and admin1='PA';
+select count(*) from osm_unused u, osm_xwalk x where u.feature_class=x.feature_class and u.feature_type=x.feature_type;
+select * from geoname where name like 'Montgomery%' and admin1='PA';
+delete from osm_xwalk where fcode is null;
+\q
+select max(length(fcode)) from geoname;
+\q
+\d geoname
+\q
+insert into gazetteer select uuid_generate_v5(uuid_ns_url(),"http://www.geonames.org/"||geonameid),name,fcode,country,substr(admin1,0,2),lat,long) from geoname;
+insert into gazetteer select uuid_generate_v5(uuid_ns_url(),"http://www.geonames.org/"||geonameid),name,fcode,country,substr(admin1,0,2),lat,long from geoname;
+ls
+\d
+\r
+\d so_pts
+copy geoname from '/mnt/geonames/US.txt' with null as '';
+ls
+\q
+copy concordance from '/home/sderle/concordance/concordances.csv';
+copy concordance from '/home/ubuntu/concordance/concordances.csv';
+copy concordance from '/home/ubuntu/concordance/concordances.csv' with null as '';
+\d
+create index concordance_geoname_idx on concordance(geoname);
+create index concordance_geonames_idx on concordance(geonames);
+\d
+\d geoname
+create index geoname_geonameid_index on geoname(geonameid);
+alter table geoname add column pt geometry;
+update geoname set geometry = setsrid(st_point(longitude, latitude), 4326);
+update geoname set pt = setsrid(st_point(longitude, latitude), 4326);
+alter table concordance add column pt geometry;
+update concordance set pt = setsrid(st_point(lon, lat), 4326);
+\d
+\d woe
+select * from woe limit 5;
+select * from woe where iso <> '"NA"' limit 5;
+update woe set iso=replace(iso, '"',''), name=replace(name,'"','');
+delete from woe where iso<>'US';
+select type, count(*) from woe group by type;
+\d woe
+\d concordance
+\d geoplanet
+\d geoname
+create view geonameplanet as select c.woeid, c.name as woe_name, c.geonames as geonameid, g.name as geoname_name, st_distance_spheroid(c.pt, g.pt, 'SPHEROID["GRS_1980",6378137,298.257222101]') as distance from concordance c, geonames g where geonameid=geonames;
+create view geonameplanet as select c.woeid, c.name as woe_name, c.geonames as geonameid, g.name as geoname_name, st_distance_spheroid(c.pt, g.pt, 'SPHEROID["GRS_1980",6378137,298.257222101]') as distance from concordance c, geoname g where geonameid=geonames;
+copy geonameplanet to '/tmp/geonameplanet.tt';
+copy (select * from geonameplanet) to '/tmp/geonameplanet.txt';
+\d woe
+select count(*) from woe;
+\d
+select * from geonameplanet where woe_name <> geoname_name;
+select woe_name, geoname_name, distance from geonameplanet where woe_name <> geoname_name;
+\d
+ select woe_name, geoname_name, distance from geonameplanet where woe_name <> replace(geoname_name,;;
+\c
+;);
+ select woe_name, geoname_name, distance from geonameplanet where woe_name <> replace(geoname_name, ' (historical)', '');
+ select woe_name, geoname_name, distance from geonameplanet where lowercase(woe_name) <> lowercase(replace(geoname_name, ' (historical)', ''));
+ select woe_name, geoname_name, distance from geonameplanet where lower(woe_name) <> lower(replace(geoname_name, ' (historical)', ''));
+ select woe_name, geoname_name, distance from geonameplanet where lower(woe_name) <> lower(replace(geoname_name, ' (historical)', '')) order by distance desc;
+\q
+copy osm from '/mnt/osm/osm_us_places.csv' with null as '';
+delete from osm;
+\q
+copy osm from '/mnt/osm/osm_us_places.csv' with null as '';
+less +/1252360 /mnt/osm/osm_us_places.csv;
+\q
+copy osm from '/mnt/osm/osm_us_places.csv' with null as '';
+\q
+\dv
+\d geonameplanet
+create view osmplanet as select c.woeid, c.name as woe_name, c.osm as osmid, o.name as osm_name, st_distance_spheroid(c.pt, o.pt, 'SPHEROID("GRS_1980",6378137,298.257222101)'::spheroid) AS distance from concordance c, osm o, where o.osmid=c.osm;
+create view osmplanet as select c.woeid, c.name as woe_name, c.osm as osmid, o.name as osm_name, st_distance_spheroid(c.pt, o.pt, 'SPHEROID("GRS_1980",6378137,298.257222101)'::spheroid) AS distance from concordance c, osm o where o.osmid=c.osm;
+copy (select * from osmplanet) to '/tmp/osmplanet.txt';
+ select woe_name, osm_name, distance from geonameplanet where lower(woe_name) <> lower(osm_name) order by distance desc;
+ select woe_name, osm_name, distance from osmplanet where lower(woe_name) <> lower(osm_name) order by distance desc;
+select count(*) from osm where name like '%;%';
+select count(*) from osm;
+\q
+\d
+select count(*) from woe;
+\d woe
+select count(*) from geoname;
+select count(*) from osm;
+select count(*) from concordance;
+select count(*) from concordance where osm is not null;
+select count(*) from concordance where geonames is not null;
+\d
+create table osm_xwalk as select * from osm_fcode limit 0;
+copy osm_xwalk from '/mnt/concord/osm_geoname_crosswalk.csv';
+delete from osm_xwalk;
+copy osm_xwalk from '/mnt/concord/osm_geoname_crosswalk.csv' null as '';
+delete from osm_xwalk where fcode is null;
+\d geoname
+select fcode, count(*) from geoname where fcode like 'ADM%' group by fcode;
+select admin1, count(*) from geoname group by admin1;
+select admin2, count(*) from geoname group by admin2;
+select * from geoname where name='Philadelphia' and admin1='PA';
+select count(*) from osm_unused u, osm_xwalk x where u.feature_class=x.feature_class and u.feature_type=x.feature_type;
+select * from geoname where name like 'Montgomery%' and admin1='PA';
+delete from osm_xwalk where fcode is null;
+\q
+select max(length(fcode)) from geoname;
+\q
+\d geoname
+\q
+insert into gazetteer select uuid_generate_v5(uuid_ns_url(),"http://www.geonames.org/"||geonameid),name,fcode,country,substr(admin1,0,2),lat,long) from geoname;
+insert into gazetteer select uuid_generate_v5(uuid_ns_url(),"http://www.geonames.org/"||geonameid),name,fcode,country,substr(admin1,0,2),lat,long from geoname;
+insert into gazetteer select 'http://www.geonames.org/'||geonameid,name,fcode,country,substr(admin1,0,2),lat,long from geoname;
+\d geoname
+insert into gazetteer select 'http://www.geonames.org/'||geonameid,name,fcode,country,substr(admin1,0,2),latitude,longitude from geoname;
+\d osm_unused
+insert into gazetteer select 'http://www.openstreetmap.org/browse/'||osmtype||'/'||osmid, name, fcode, 'US', null, lat, lon from osm_unused ou, osm_xwalk x where ou.feature_class=x.feature_class and ou.feature_type=x.feature_type and fcode is not null and fcode <> '';
+select count(*) from gazetteer where fcode is null;
+select count(*) from gazetteer where fcode = '';
+update gazetteer set fcode=x.fcode from geoname_osm_best b, osm_xwalk x where url='http://www.geonames.org/'||b.geonameid and x.feature_class=b.feature_class and x.feature_type=b.feature_type and x.fcode is null and x.fcode <> '' and similarity = 1;
+select * from geoname_osm_best b, osm_xwalk x where url='http://www.geonames.org/'||b.geonameid and x.feature_class=b.feature_class and x.feature_type=b.feature_type and x.fcode is null and x.fcode <> '' and similarity = 1;
+select * from gazetteer g, geoname_osm_best b, osm_xwalk x where url='http://www.geonames.org/'||b.geonameid and x.feature_class=b.feature_class and x.feature_type=b.feature_type and x.fcode is null and x.fcode <> '' and similarity = 1;
+select * from gazetteer where url like 'http://www.geonames.org/%' limit 5;
+select * from gazetteer g, geoname_osm_best b where url='http://www.geonames.org/'||b.geonameid;
+select * from gazetteer g, geoname_osm_best b where url='http://www.geonames.org/'||b.geonameid limit 10;
+select * from gazetteer g, geoname_osm_best b where url='http://www.geonames.org/'||b.geonameid and g.fcode is null limit 10;
+select * from gazetteer g, geoname_osm_best b where url='http://www.geonames.org/'||b.geonameid and g.fcode is null and similarity = 1limit 10;
+select * from gazetteer g, geoname_osm_best b, osm_xwalk x where url='http://www.geonames.org/'||b.geonameid and g.fcode is null and similarity = 1 and x.feature_class=b.feature_class and x.feature_type=b.feature_type limit 10;
+update gazetteer g set fcode = x.focde from geoname_osm_best b, osm_xwalk x where url='http://www.geonames.org/'||b.geonameid and g.fcode is null and similarity = 1 and x.feature_class=b.feature_class and x.feature_type=b.feature_type and x.fcode <> '' and x.fcode is not null;
+update gazetteer g set fcode = x.fcode from geoname_osm_best b, osm_xwalk x where url='http://www.geonames.org/'||b.geonameid and g.fcode is null and similarity = 1 and x.feature_class=b.feature_class and x.feature_type=b.feature_type and x.fcode <> '' and x.fcode is not null;
+select * from osm_xwalk where feature_type='zoo';
+update osm_walk set fcode='ZOO' where feature_type='zoo';
+update osm_xwalk set fcode='ZOO' where feature_type='zoo';
+create index gazetteer_fcode_idx on gazetteer(fcode);
+update gazetteer set fcode='ZOO' from osm where fcode='PRK' and url='http://www.openstreetmap.org/browse/'||osmtype||'/'||osmid and feature_type='zoo';
+update gazetteer set fcode='ZOO' from geoname_osm_best where fcode='PRK' and url='http://www.geonames.org/'||geonameid and feature_type='zoo';
+update gazetteer set fcode='ZOO' from geoname_osm_best where gazetteer.fcode='PRK' and url='http://www.geonames.org/'||geonameid and feature_type='zoo' and geoname_osm_best.fcode is null;
+update gazetteer set fcode='ZOO' from geoname_osm_best where gazetteer.fcode='PRK' and url='http://www.geonames.org/'||geonameid and feature_type='zoo' and geoname_osm_best.fcode = '';
+select substr('ABCDEF',0,2);
+select substr('ABCDEF',1,2);
+update gazetteer set admin1=substr(admin1,1,2) from geoname where url='http://www.geonames.org/'||geonameid;
+update gazetteer set admin1=substr(geoname.admin1,1,2) from geoname where url='http://www.geonames.org/'||geonameid;
+explain update gazetteer set admin1=substr(geoname.admin1,1,2) from geoname where url='http://www.geonames.org/'||geonameid;
+explain update gazetteer set admin1=substr(geoname.admin1,1,2) from geoname where substr(url,length('http://www.geonames.org/'))=geonameid;
+explain update gazetteer set admin1=substr(geoname.admin1,1,2) from geoname where substr(url,length('http://www.geonames.org/'))::integer=geonameid;
+update gazetteer set admin1=substr(geoname.admin1,1,2) from geoname where url='http://www.geonames.org/'||geonameid;
+explain update gazetteer set admin1=substr(geoname.admin1,1,2) from geoname where url='http://www.geonames.org/'||geonameid;
+select distinct admin1 from gazetteer;
+select count(*) from gazetteer where admin1 is null;
+select count(*) from gazetteer where admin1 = '';
+select count(*) from gazetteer where admin1 = '00';
+create index gazetteer_admin1_idx on gazetteer(admin1);
+\q
+select count(*) from (select distinct name from nrhp);
+select count(*) from (select distinct name from nrhp) as f;
+select count(*) from nrhp;
+select count(*) from (select distinct the_geom from nrhp) as f;
+select count(*) from (select distinct name||the_geom from nrhp) as f;
+select count(*) from (select distinct name||astext(the_geom) from nrhp) as f;
+\d gaz
+\d gazetteer
+alter table gazetteer add column the_geom geometry;
+update gazetteer set the_geom=st_point(lon, lat);
+     create index gazetteer_the_geom_gist on gazetteer using gist (the_geom);
+\d
+\d nrhp
+\q
+select url, gid, similarity, dist from (                                                                                                                                               select g.url, n.gid, similarity(g.name, n.name), st_distance_sphere(g.the_geom, n.the_geom) as dist,        rank() over (partition by n.gid order by similarity(g.name, n.name)/st_distance_sphere(g.the_geom, n.the_geom))        from gazetteer g, nrhp n        where n.the_geom && st_expand(g.the_geom, 0.1)        and n.name % g.name;    ) as foo     where rank < 4     limit 10; 
+select url, gid, similarity, dist from (    select g.url, n.gid, similarity(g.name, n.name), st_distance_sphere(g.the_geom, n.the_geom) as dist,        rank() over (partition by n.gid order by similarity(g.name, n.name)/st_distance_sphere(g.the_geom, n.the_geom))        from gazetteer g, nrhp n        where n.the_geom && st_expand(g.the_geom, 0.1)        and n.name % g.name                                                                                                                                                            ) as foo     where rank < 4     limit 10; 
+select srid(the_Geom) from gazetteer limit 1;
+update nrhp set the_geom=setsrid(the_geom, -1);
+alter table nrhp drop constraint enforce_srid_the_geom;
+update nrhp set the_geom=setsrid(the_geom, -1);
+select url, gid, similarity, dist from (    select g.url, n.gid, similarity(g.name, n.name), st_distance_sphere(g.the_geom, n.the_geom) as dist,        rank() over (partition by n.gid order by similarity(g.name, n.name)/st_distance_sphere(g.the_geom, n.the_geom))        from gazetteer g, nrhp n        where n.the_geom && st_expand(g.the_geom, 0.1)        and n.name % g.name                                                                                                                                                            ) as foo     where rank < 4     limit 10; 
+select url, gid, similarity, dist from (    select g.url, n.gid, similarity(g.name, n.name), st_distance_sphere(g.the_geom, n.the_geom) as dist,        rank() over (partition by n.gid order by similarity(g.name, n.name)/st_distance_sphere(g.the_geom, n.the_geom) desc)                                                               from gazetteer g, nrhp n        where n.the_geom && st_expand(g.the_geom, 0.1)        and n.name % g.name        limit 1000    ) as foo    where rank < 4    limit 10;
+explain select url, gid, similarity, dist from (    select g.url, n.gid, similarity(g.name, n.name), st_distance_sphere(g.the_geom, n.the_geom) as dist,        rank() over (partition by n.gid order by similarity(g.name, n.name)/st_distance_sphere(g.the_geom, n.the_geom) desc)                                                               from gazetteer g, nrhp n        where n.the_geom && st_expand(g.the_geom, 0.1)        and n.name % g.name        limit 1000    ) as foo    where rank < 4    limit 10;
+explain     select g.url, n.gid, similarity(g.name, n.name), st_distance_sphere(g.the_geom, n.the_geom) as dist,        rank() over (partition by n.gid order by similarity(g.name, n.name)/st_distance_sphere(g.the_geom, n.the_geom) desc)        from gazetteer g, nrhp n        where g.the_geom && st_expand(n.the_geom, 0.1)                                                                                                                                     and n.name % g.name;
+select url, gid, similarity, dist from (    select g.url, n.gid, similarity(g.name, n.name), st_distance_sphere(g.the_geom, n.the_geom) as dist,        rank() over (partition by n.gid order by similarity(g.name, n.name) desc)                                                                                                          from gazetteer g, nrhp n        where g.the_geom && st_expand(n.the_geom, 0.1)        and n.name % g.name        limit 1000    ) as foo     where rank < 4     limit 10; 
+explain select url, gid, similarity, dist from (    select g.url, n.gid, similarity(g.name, n.name), st_distance_sphere(g.the_geom, n.the_geom) as dist,        rank() over (partition by n.gid order by similarity(g.name, n.name) desc)                                                                                                          from gazetteer g, nrhp n        where g.the_geom && st_expand(n.the_geom, 0.1)        and n.name % g.name        limit 1000    ) as foo     where rank < 4     limit 10; 
+select g.url, n.gid, similarity(g.name, n.name), st_distance_sphere(g.the_geom, n.the_geom) as dist,        from gazetteer g, nrhp n                                                                                                                                                           where g.the_geom && st_expand(n.the_geom, 0.1)        and n.name % g.name;
+explain select g.url, n.gid, similarity(g.name, n.name), st_distance_sphere(g.the_geom, n.the_geom) as dist                                                                                        from gazetteer g, nrhp n        where g.the_geom && st_expand(n.the_geom, 0.1)        and n.name % g.name;
+select g.url, n.gid, similarity(g.name, n.name), st_distance_sphere(g.the_geom, n.the_geom) as dist                                                                                        from gazetteer g, nrhp n        where g.the_geom && st_expand(n.the_geom, 0.1)        and n.name % g.name limit 1000;
+select set_limit(0.6);
+select set_limit(0.5);
+select g.url, n.gid, similarity(g.name, n.name), st_distance_sphere(g.the_geom, n.the_geom) as dist                                                                                        from gazetteer g, nrhp n        where g.the_geom && st_expand(n.the_geom, 0.1)        and n.name % g.name limit 1000;
+select set_limit(0.75);
+select set_limit(0.65);
+create table gaz_nrhp_match as select g.url, n.gid, similarity(g.name, n.name), st_distance_sphere(g.the_geom, n.the_geom) as dist                                                                                        from gazetteer g, nrhp n        where g.the_geom && st_expand(n.the_geom, 0.1)        and n.name % g.name;
+create table gaz_nrhp_best as select *, rank() over (partition by gid order by similarity/dist desc) from gaz_nrhp_match where rank() == 1;
+create table gaz_nrhp_best as select *, rank() over (partition by gid order by similarity/dist desc) from gaz_nrhp_match having rank = 1;
+create table gaz_nrhp_best as select url, gid, similarity, dist from (select *, rank() over (partition by gid order by similarity/dist desc) from gaz_nrhp_match) as f where rank = 1;
+select count(*) from gaz_nrhp_nest;
+select count(*) from gaz_nrhp_best;
+select count(*) from nrhp;
+\d nrhp
+select * from gaz_nrhp_best;
+select gid, similarity, dist::integer, similarity/dist from gaz_nrhp_best;
+select gid, (similarity*100)::integer, dist::integer, similarity/dist*1000 from gaz_nrhp_best;
+delete from gaz_nrhp_best where similarity/dist*1000 < .5;
+\d gazetteer
+\d nrhp
+select name, (x(the_geom)*1000000)::int, (y(the_geom)*1000000)::int) from nrhp;
+select name, (x(the_geom)*1000000)::int, (y(the_geom)*1000000)::int from nrhp;
+alter table nrhp add column hash varchar;
+select name || ':' || (x(the_geom)*1000000)::int || ':' || (y(the_geom)*1000000)::int from nrhp;
+update nrhp set name=replace(name, '&apos;', E'\'');
+select name || ':' || (x(the_geom)*1000000)::int || ':' || (y(the_geom)*1000000)::int from nrhp;
+update nrhp set hash = md5(name || ':' || (x(the_geom)*1000000)::int || ':' || (y(the_geom)*1000000)::int);
+\d gazetteer
+explain insert into gazetteer select 'http://nrhp.focus.nps.gov/md5/'||hash, name, 'HSTS', 'US', null, y(the_geom), x(the_geom), the_geom from nrhp left join gaz_nrhp_best on (nrhp.gid=gaz_nrhp_best.gid) where gaz_nrhp_best.gid is null;
+insert into gazetteer select 'http://nrhp.focus.nps.gov/md5/'||hash, name, 'HSTS', 'US', null, y(the_geom), x(the_geom), the_geom from nrhp left join gaz_nrhp_best on (nrhp.gid=gaz_nrhp_best.gid) where gaz_nrhp_best.gid is null;
+insert into gazetteer select distinct 'http://nrhp.focus.nps.gov/md5/'||hash, name, 'HSTS', 'US', null, y(the_geom), x(the_geom), the_geom from nrhp left join gaz_nrhp_best on (nrhp.gid=gaz_nrhp_best.gid) where gaz_nrhp_best.gid is null;
+create index gnb_gid_idx on gaz_nrhp_best (gid);
+insert into gazetteer select 'http://nrhp.focus.nps.gov/md5/'||hash, name, 'HSTS', 'US', null, y(the_geom), x(the_geom), the_geom from nrhp left join gaz_nrhp_best on (nrhp.gid=gaz_nrhp_best.gid) where gaz_nrhp_best.gid is null;
+explain insert into gazetteer select 'http://nrhp.focus.nps.gov/md5/'||hash, name, 'HSTS', 'US', null, y(the_geom), x(the_geom), the_geom from nrhp left join gaz_nrhp_best on (nrhp.gid=gaz_nrhp_best.gid) where gaz_nrhp_best.gid is null;
+insert into gazetteer select distinct 'http://nrhp.focus.nps.gov/md5/'||hash, name, 'HSTS', 'US', null, y(the_geom), x(the_geom), the_geom from nrhp left join gaz_nrhp_best on (nrhp.gid=gaz_nrhp_best.gid) where gaz_nrhp_best.gid is null;
+\d mhdb
+\d hmdb
+\d
+\q
+create table gaz_nrhp_match as select g.url, n.gid, similarity(g.name, n.name), st_distance_sphere(g.the_geom, n.the_geom) as dist                                                                                        from gazetteer g, nrhp n        where g.the_geom && st_expand(n.the_geom, 0.1)        and n.name % g.name \e
+create table gaz_hmdb_match as select g.url, n.gid, similarity(g.name, n.name), st_distance_sphere(g.the_geom, n.the_geom) as dist                                                                                        from gazetteer g, hmdb n        where g.the_geom && st_expand(n.the_geom, 0.1)        and n.name % g.name ;
+create table gaz_nrhp_best as select url, gid, similarity, dist from (select *, rank() over (partition by gid order by similarity/dist desc) from gaz_nrhp_match) as f where rank = 1 \e
+create table gaz_hmdb_best as select url, gid, similarity, dist from (select *, rank() over (partition by gid order by similarity/dist desc) from gaz_hmdb_match) as f where rank = 1 ;
+\e
+create table gaz_hmdb_best as select url, gid, similarity, dist from (select *, rank() over (partition by gid order by similarity/(dist+1) desc) from gaz_hmdb_match) as f where rank = 1;
+select count(*) from gaz_hmdb_best;
+delete from gaz_hmdb_best where similarity/dist*1000 < .5;
+delete from gaz_hmdb_best where similarity/(dist+1)*1000 < .5;
+\d hmdb
+select link1_href from hmdb;
+insert into gazetteer select distinct 'http://nrhp.focus.nps.gov/md5/'||hash, name, 'HSTS', 'US', null, y(the_geom), x(the_geom), the_geom from nrhp left join gaz_nrhp_best on (nrhp.gid=gaz_nrhp_best.gid) where gaz_nrhp_best.gid is null \e
+insert into gazetteer select distinct link1_href, name, 'HSTS', 'US', null, y(the_geom), x(the_geom), the_geom from hmdb left join gaz_hmdb_best on (hmdb.gid=gaz_hmdb_best.gid) where gaz_hmdb_best.gid is null ;
+\d
+\d tiger_state
+update gazetteer set admin1 = stusps10 where admin1 is null and gazetteer.the_geom && tiger_state.the_geom and st_intersects(gazetteer.the_geom,  tiger_state.the_geom);
+update gazetteer set admin1 = stusps10 from tiger_state where admin1 is null and gazetteer.the_geom && tiger_state.the_geom and st_intersects(gazetteer.the_geom,  tiger_state.the_geom);
+select srid(the_geom), count(*) from gazetteer group by srid(the_Geom);
+update gazetteer set admin1 = stusps10 from tiger_state where admin1 is null and gazetteer.the_geom && tiger_state.the_geom and st_intersects(setsrid(gazetteer.the_geom,4326),  tiger_state.the_geom);
+\d gazetteer
+copy (select url, name, fcode, country, admin1, lat, lon from gazetteer) to '/tmp/gazetteer_20110825.txt';
+alter table gazetteer add column admin2 varchar;
+\d tiger_county
+update gazetteer set admin2=name10 from tiger_county where gazetteer.the_geom && tiger_county.the_geom and st_intersects(gazetteer.the_geom, tiger_county.the_geom);
+select count(*) from gazetteer where admin2 is null;
+select * from gazetteer where admin2 is null;
+update gazetteer set admin2=name10 from tiger_county where gazetteer.admin2 is null and st_buffer(gazetteer.the_geom, 0.05) && tiger_county.the_geom and st_intersects(st_buffer(gazetteer.the_geom, 0.05), tiger_county.the_geom);
+update gazetteer set admin2=name10 from tiger_county where gazetteer.admin2 is null and st_buffer(gazetteer.the_geom, 0.1) && tiger_county.the_geom and st_intersects(st_buffer(gazetteer.the_geom, 0.1), tiger_county.the_geom);
+update gazetteer set admin2=name10 from tiger_county where gazetteer.admin2 is null and st_buffer(gazetteer.the_geom, 0.25) && tiger_county.the_geom and st_intersects(st_buffer(gazetteer.the_geom, 0.25), tiger_county.the_geom);
+select * from gazetteer where admin2 is null;
+select max(length(name10)) from tiger_county;
+\q
+create table auth_records (subj varchar, pred varchar, obj varchar);
+copy auth_records from '/mnt/id.loc.gov/skos/combined.nt';
+create temporary table ardist as select distinct * from auth_records;
+delete from auth_records;
+drop table auth_records;
+create table auth_records (subj varchar, pred varchar, obj varchar);
+insert into auth_records select * from ardist;
+copy auth_records from '/mnt/id.loc.gov/skos/combined-coords.nt';
+create temporary table ardist as select distinct * from auth_records;
+drop table ardist;
+create temporary table ardist as select distinct * from auth_records;
+drop table auth_records;
+create table auth_records (subj varchar, pred varchar, obj varchar);
+insert into auth_records select * from ardist;
+create index auth_records_pred_idx on auth_records(pred);
+create index auth_records_subj_idx on auth_records(subj);
+select pred, count(*) from auth_records group by pred order by count(*);
+create table auth_places (uri varchar, name varchar, pt geometry)';';
+create table auth_places (uri varchar, name varchar, pt geometry);
+insert into auth_places select subj, null, obj from auth_records where predd='http://entropyfree.com/rdf/2011/08/wkt';
+insert into auth_places select subj, null, obj from auth_records where pred='http://entropyfree.com/rdf/2011/08/wkt';
+insert into auth_places select subj, null, obj::geometry from auth_records where pred='http://entropyfree.com/rdf/2011/08/wkt';
+update auth_places set uri = subj from auth_records where uri like '_:%' and obj=uri and pred in ('<http://www.loc.gov/mads/rdf/v1#hasSource>','<http://purl.org/dc/terms/source>'); 
+update auth_places set name = obj from auth_records where subj=uri and pred in ('<http://www.loc.gov/mads/rdf/v1#authoritativeLabel>','<http://www.w3.org/2004/02/skos/core#prefLabel>') and name is null;
+select count(*) where name is nulll;
+select count(*) where name is null;
+select count(*) from auth_places where name is null;
+select * from auth_places;
+alter table auth_places add column admin1 char(2);
+create index auth_places_pt_gist on auth_places using gist (pt);
+\d us_County
+\d tiger_county
+create table us_auth_places as select uri, name, statefp10 as admin1, name10 as \e
+create table us_auth_places as select uri, name, statefp10 as admin1, name10 as admin2, pt    from auth_places, tiger_county where the_geom && pt and st_intersects(the_geom, pt);
+select count(*) from us_places;
+select count(*) from us_auth_places;
+\d tiger_state
+create index tiger_state_statefp10_idx on tiger_state(statefp10);
+update us_auth_places set admin1=stusps10 from tiger_state where admin1=statefp10;
+select * from us_auth_places;
+update us_auth_places set name = regexp_replace('"(.*?))"@EN', '\\1', name)\e
+update us_auth_places set name = regexp_replace('"(.*?)"@EN', '\\1', name);
+\e
+update us_auth_places set name = regexp_replace('"(.*?)"@EN', E'\\1', name);
+\e
+update us_auth_places set name = regexp_replace('"(.*?)"@EN', E'\1', name);
+select * from us_auth_places;
+update auth_places set name = obj from auth_records where subj=uri and pred in ('<http://www.loc.gov/mads/rdf/v1#authoritativeLabel>','<http://www.w3.org/2004/02/skos/core#prefLabel>') and name is null;
+update auth_places set name = obj from auth_records where subj=uri and pred in ('<http://www.loc.gov/mads/rdf/v1#authoritativeLabel>','<http://www.w3.org/2004/02/skos/core#prefLabel>') and name is null;\e
+update us_auth_places set name = obj from auth_records where subj=uri and pred in ('<http://www.loc.gov/mads/rdf/v1#authoritativeLabel>','<http://www.w3.org/2004/02/skos/core#prefLabel>');
+select name, regexp_replace('"(.*?)"@EN', E'\1', name) from us_auth_places;
+select name, regexp_replace(name, '"(.*?)"@EN', E'\1') from us_auth_places;
+select name, regexp_replace(name, '"(.*?)"@EN', E'\\1') from us_auth_places;
+select name, regexp_replace(name, '(?i:"(.*?)"@EN\.?)', E'\\1') from us_auth_places;
+select name, regexp_replace(name, '(?i:"(.*?)"@EN\\.?)', E'\\1') from us_auth_places;
+select name, regexp_replace(name, E'(?i:"(.*?)"@EN\\.?)', E'\\1') from us_auth_places;
+select name, regexp_replace(name, E'"(.*?)"@EN\\.?)', E'\\1', 'i') from us_auth_places;
+select name, regexp_replace(name, E'"(.*?)"@EN\\.?', E'\\1', 'i') from us_auth_places;
+select name, regexp_replace(name, E'"(.*?)"@EN\\.', E'\\1', 'i') from us_auth_places;
+select name, regexp_replace(name, E'"(.*?)"@EN\\.*', E'\\1', 'i') from us_auth_places;
+update us_auth_places set name= regexp_replace(name, E'"(.*?)"@EN\\.*', E'\\1', 'i');
+update us_auth_places set name = regexp_replace(name, '\\.$', '');
+update us_auth_places set name = regexp_replace(name, E'\\.$', '');
+select name from us_auth_places;
+create temporary table us_auth_places_dist as select distinct * from us_auth_places;
+drop table us_auth_places;
+create table us_auth_places as select * from us_auth_places_dist;
+select name from us_auth_places;
+select * from us_auth_places where name like 'Contoo%';
+update us_auth_places set uri = regexp_replace(uri,E'/authorities/(sh\d+)#concept', E'/authorities/subjects/\\1');
+select * from us_auth_places where name like 'Contoo%';
+update us_auth_places set uri = regexp_replace(uri,E'/authorities/(sh[0-9]+)#concept', E'/authorities/subjects/\\1');
+select * from us_auth_places where name like 'Contoo%';
+drop table us_auth_places_dist;
+create temporary table us_auth_places_dist as select distinct * from us_auth_places;
+drop table us_auth_places_dist;
+create table us_auth_places as select * from us_auth_places_dist;
+create temporary table us_auth_places_dist as select distinct * from us_auth_places;
+drop table us_auth_places;
+create table us_auth_places as select * from us_auth_places_dist;
+select uri, name, admin1, admin2, y(pt), x(pt) from us_auth_places_dist;
+select uri, name, admin1, admin2, y(pt), x(pt) from us_auth_places;
+select count(*) from us_auth_places;
+update us_auth_places set uri=substr(uri,1,length(uri)-2);
+select * from us_auth_places;
+drop table us_auth_places;
+create table us_auth_places as select * from us_auth_places_dist;
+update us_auth_places set uri=substr(uri,2,length(uri)-1);
+select * from us_auth_places;
+update us_auth_places set uri=substr(uri,1,length(uri)-1);
+select * from us_auth_places;
+alter table us_auth_places add column basename varchar;
+update us_auth_places set basename=regexp_replace(name,' \(.*\)','');
+update us_auth_places set basename=regexp_replace(name,E' \(.*\)','');
+select * from us_auth_places;
+update us_auth_places set basename=regexp_replace(name,E' \\(.*\\)','');
+select * from us_auth_places;
+select count(*) from (select uri, count(*) from us_auth_places having count(*)>1) as foo;
+select count(*) from (select uri, count(*) from us_auth_places group by uri having count(*)>1) as foo;
+drop table us_auth_places_dist;
+create table us_auth_places_dist as select distinct uri, null::varchar as name, null::char(2) as admin1, null::varchar as admin2, null::geometry as pt from us_auth_places;
+update us_auth_places_dist set name=u.name, admin1=u.admin1, admin2=u.admin2, pt=u.pt from us_auth_places u where uri=u.uri;
+update us_auth_places_dist d set name=u.name, admin1=u.admin1, admin2=u.admin2, pt=u.pt from us_auth_places u where d.uri=u.uri;
+drop table us_auth_places;
+create table us_auth_places as select * from us_auth_places_dist;
+alter table us_auth_places add column basename varchar;
+update us_auth_places set basename=regexp_replace(name,E' \\(.*\\)','');
+select * from us_auth_places;
+\d gaz_auth_best
+\d
+\d gaz_auth_match
+create table gaz_auth_best \e
+create table gaz_auth_best  as    select gaz_uri, auth_uri, similarity, distance::integer as distance, score from (        select *, 2000*similarity/distance as score, rank() over (partition by gaz_uri order by similarity/distance desc)            from gaz_auth_match) as foo        where rank = 1;
+create table gaz_auth_best  as    select gaz_uri, auth_uri, similarity, distance::integer as distance, score from (        select *, 2000*similarity/distance as score, rank() over (partition by gaz_uri order by similarity/distance desc)            from gaz_auth_match) as foo        where rank = 1 \e
+create table gaz_auth_best  as    select gaz_uri, auth_uri, similarity, distance::integer as distance, score from (        select *, 2000*similarity/(distance+1) as score, rank() over (partition by gaz_uri order by similarity/(distance+1) desc)            from gaz_auth_match) as foo        where rank = 1 ;
+select count(*) from gaZ_auth_nest;
+select count(*) from gaZ_auth_best;
+select * from gaz_auth_best;
+select g.name, a.name, similarity, distance, score from gaz_auth_best b, gazetteer g, us_auth_places a where g.url=gaz_uri and a.uri=auth_uri limit 5;
+select g.name, a.name, similarity, distance, score from gaz_auth_best b, gazetteer g, us_auth_places a where g.url=gaz_uri and a.uri=auth_uri limit 15;
+select g.name, a.name, similarity, distance, score from gaz_auth_best b, gazetteer g, us_auth_places a where g.url=gaz_uri and a.uri=auth_uri and score > 1;
+select g.name, a.name, similarity, distance, score from gaz_auth_best b, gazetteer g, us_auth_places a where g.url=gaz_uri and a.uri=auth_uri and score > 1 limit 15;
+select g.name, a.name, similarity, distance, score from gaz_auth_best b, gazetteer g, us_auth_places a where g.url=gaz_uri and a.uri=auth_uri and score > 10 limit 15;
+select g.name, a.name, similarity, distance, score from gaz_auth_best b, gazetteer g, us_auth_places a where g.url=gaz_uri and a.uri=auth_uri and similarity > 0.6 limit 15;
+select g.name, a.name, similarity, distance, score from gaz_auth_best b, gazetteer g, us_auth_places a where g.url=gaz_uri and a.uri=auth_uri and similarity > 0.85 limit 15;
+select g.name, a.name, similarity, distance, score from gaz_auth_best b, gazetteer g, us_auth_places a where g.url=gaz_uri and a.uri=auth_uri and similarity > 0.85 limit 50;
+explain select g.name, a.name, similarity, distance, score from gaz_auth_best b, gazetteer g, us_auth_places a where g.url=gaz_uri and a.uri=auth_uri and similarity > 0.85;
+\d gazetteer
+create index us_auth_places_uri on us_auth_places (uri);
+explain select g.name, a.name, similarity, distance, score from gaz_auth_best b, gazetteer g, us_auth_places a where g.url=gaz_uri and a.uri=auth_uri and similarity > 0.85;
+delete from gaz_auth_best where similarity < 0.8;
+select count(*) from gaz_auth_best;
+select count(*) from us_auth_places;
+\q
+\d nhgis_state
+create table nhgis_state_combined as select statenam as name, min(year) as start_date, max(year) as end_date, the_geom from nhgis_state group by statenam, the_geom;
+select count(*) from nhgis_state_combined;
+select name, start_date, end_date from nhgis_state_combined;
+\q
+\d nhgis_county
+select distinct state from nhgis_county;
+\d nhgis_county
+\d tiger_state
+create table nhgis_county_combined as select nhgisnam as name, statenam as state, min(year) as start_date, max(year) as end_date, the_geom from nhgis_county group by nhgisnam, statenam, the_geom;
+select count(*) from nhgis_county_combined;
+\d gazetteer
+select distinct statenam from nhgis_county;
+\d nhgis_county
+select nhgisst, nhgiscty, icpsrst, icprsty from nhgis_county;
+select nhgisst, nhgiscty, icpsrst, icprscty from nhgis_county;
+select nhgisst, nhgiscty, icpsrst, icpsrcty from nhgis_county;
+select count(*) from us_auth_records;
+select count(*) from us_auth_places;
+select count(*) from gaz_auth_best;
+alter table nhgis_state_combined add column uri varchar;
+update nhgis_state_combined set uri = 'http://nhgis.org/state/'||nhgisst||'/'||start_date;
+update nhgis_state_combined set uri = 'http://nhgis.org/state/'||nhgisst||'/'||start_date from nhgis_state where name=statenam;
+alter table nhgis_county_combined add column uri varchar;
+update nhgis_county_combined c set uri = 'http://nhgis.org/county/'||nhgisst||'/'||nhgiscty||'/'||start_date from nhgis_county n where c.name=nhgisnam and c.state=statenam;
+\d nhgis_county_combined
+select uri, name, state, start_date, end_date from public.nhgis_county_combined;
+select uri, name, state, start_date, end_date from public.nhgis_county_combined order by uri;
+\d tiger_state
+update nhgis_county_combined set state=usps10 from tiger_state where name=name10;
+update nhgis_county_combined set state=stusps10 from tiger_state where name=name10;
+select distinct state from nhgis_county_combined;
+update nhgis_county_combined set state=statenam from nhgis_county where uri like 'http://nhgis.org/county/'||nhgisst||'/'||nhgiscty||'/%';
+update nhgis_county_combined set state=statenam from nhgis_county where uri like 'http://nhgis.org/county/'||nhgisst||'/'||nhgiscty||'/%' and length(state)=2;
+update nhgis_county_combined set state=statenam from nhgis_county where uri like 'http://nhgis.org/county/'||nhgisst||'/'||nhgiscty||'/%' and length(nhgis_county_combined.state)=2;
+update nhgis_county_combined set state=stusps10 from tiger_state where state=name10;
+select distinct state from nhgis_county_combined;
+update nhgis_county_combined n set state=stusps10 from tiger_state s where st_centroid(n.the_geom) && s.the_geom and st_intersects(st_centroid(n.the_geom), s.the_geom) and length(n.state) > 2;
+update nhgis_county_combined n set state=stusps10 from tiger_state s where st_centroid(n.the_geom) && s.the_geom and st_intersects(setsrid(st_centroid(n.the_geom),4326), s.the_geom) and length(n.state) > 2;
+\d gazetteer
+alter table nhgis_state_combined add column state char(2);
+update nhgis_state_combined set state=stusps10 from tiger_state where name=name10;
+insert into gazetteer select uri, name, 'ADM1', 'US', state, y(st_centroid(the_geom)), x(st_centroid(the_Geom)), the_geom, null from nhgis_state_combined;
+alter table gazetteer add column start_year integer;
+alter table gazetteer add column end_year integer;
+delete from gazetteer where uri like 'http://nhgis%';
+delete from gazetteer where url like 'http://nhgis%';
+insert into gazetteer select uri, name, 'ADM1', 'US', state, y(st_centroid(the_geom)), x(st_centroid(the_Geom)), the_geom, null, start_date, end_date from nhgis_state_combined;
+insert into gazetteer select uri, name, 'ADM2', 'US', state, y(st_centroid(the_geom)), x(st_centroid(the_Geom)), the_geom, null, start_date, end_date from nhgis_county_combined;
+\d gazetteer
+copy (select url, name, fcode, country, admin1, admin2, start_year, end_year, astext(the_geom) from gazetteer) to '/tmp/gazetteer_final.txt';
+alter table gazetteer drop column start_year;
+alter table gazetteer drop column end_year;
+copy (select url, name, fcode, country, admin1, admin2, astext(the_geom) from gazetteer) to '/tmp/gazetteer_final.txt' with null as '';
+copy (select url, name, fcode, country, admin1, admin2, lat, lon from gazetteer where url not like 'http://nhgis%') to '/tmp/gazetteer_201108029.txt' with null as '';
+\q
+\d
+copy (select auth_uri, gaz_uri from gaz_auth_best) to '/tmp/authority_records.txt';
+\q
+create table timeframes (name varchar, start_date date, end_Date date, start_granularity varchar, end_granularity varchar);
+\d nhgis_county_combined
+insert into timeframes select distinct * from (select start_date||' - '||end_date, start_date||'/01/01', end_date||'/01/01', 'decade','decade' from nhgis_state_combined union select start_date||' - '||end_date, start_date||'/01/01', end_date||'/01/01', 'decade','decade' from nhgis_county_combined) as fii;
+insert into timeframes select distinct * from (select start_date||' - '||end_date, start_date||'/01/01', end_date||'/01/01', 'decade','decade' from nhgis_state_combined union select start_date||' - '||end_date, start_date||'/01/01', end_date||'/01/01', 'decade','decade' from nhgis_county_combined) as fii \e
+insert into timeframes select distinct * from (select start_date||' -'||end_date, to_date(start_date, 'YYYY'), to_date(end_date, 'YYYY'), 'decade','decade' fromnhgis_state_combined union select start_date||' - '||end_date,to_date(start_date, 'YYYY'), to_date(end_date, 'YYYY'), 'decade','decade' fromnhgis_county_combined) as fii ;
+insert into timeframes select distinct * from (select start_date||' -'||end_date, to_date(start_date, 'YYYY'), to_date(end_date, 'YYYY'), 'decade','decade' fromnhgis_state_combined union select start_date||' - '||end_date,to_date(start_date, 'YYYY'), to_date(end_date, 'YYYY'), 'decade','decade' fromnhgis_county_combined) as fii \e
+insert into timeframes select distinct * from (select start_date||' -'||end_date, to_date(start_date::text, 'YYYY'), to_date(end_date::text, 'YYYY'), 'decade','decade' fromnhgis_state_combined union select start_date||' - '||end_date,to_date(start_date::text, 'YYYY'), to_date(end_date::text, 'YYYY'), 'decade','decade' fromnhgis_county_combined) as fii ;
+copy timeframes to '/tmp/timeframes.txt';
+delete from gazetteer where name is null or name = '';
+copy (select url, name, fcode, country, admin1, admin2, lat, lon from gazetteer where url not like 'http://nhgis%') to '/tmp/gazetteer_201108029.txt' with null as '';
+\q
+\d gazetteer
+select url, name, fcode from gazetteer where fcode='ADM!';
+select url, name, fcode from gazetteer where fcode='ADM1';
+select * from us_auth_places where name='Texas';
+select * from us_auth_places where basename='Texas';
+\d
+select * from auth_records where obj like 'Texas%';
+\d auth_records
+select count(*) from auth_records;
+select * from auth_records where obj like '"Texas%';
+create table marc_areas as select * from auth_records limit 0;
+copy marc_areas from '/mnt/id.loc.gov/geographic_areas.tsv';
+copy marc_areas from '/mnt/id.loc.gov/geographic_areas.tsv';
+select * from marc_areas where name='Texas';
+select * from marc_areas where obj='Texas';
+create index marc_areas_obj on marc_areas(obj);
+select subj, url, name from gazetteer g, marc_areas m where name=obj and fcode='ADM1';
+select substr(subj,2,length(subj)-2), url, name from gazetteer g, marc_areas m where name=obj and fcode='ADM1';
+select substr(subj,2,length(subj)-2), url, name from gazetteer g, marc_areas m where name=obj and fcode='ADM1' and subj not like '_:%';
+select substr(subj,2,length(subj)-2), url, name from gazetteer g, marc_areas m where name=obj and fcode='ADM1' and subj not like '_:%' and pred = '<http://www.loc.gov/mads/rdf/v1#authoritativeLabel>';
+create table gaz_marc_states as select distinct substr(subj,2,length(subj)-2), url, name from gazetteer g, marc_areas m where name=obj and fcode='ADM1' and subj not like '_:%' and pred = '<http://www.loc.gov/mads/rdf/v1#authoritativeLabel>';
+\d us_auth_places
+select count(*) from (select distinct name from gaz_marc_states) as fool;
+select count(*) from (select distinct name from gazetter where fcode='ADM1') as fool;
+select count(*) from (select distinct name from gazetteer where fcode='ADM1') as fool;
+select count(*) from (select distinct name from gazetteer where fcode='ADM1' and admin1 <> '') as fool;
+select found.name from (select distinct name from gaz_marc_states) as found left join (select distinct name from gazetteer where fcode='ADM1' and admin1 <> '') as state on (found.name=state.name) where state.name is null;
+select distinct name from gazetteer where fcode='ADM1' and admin1 <> '' order by name;
+select distinct name from gaz_marc_states order by name;
+select found.name from (select distinct name from gaz_marc_states) as found left join (select distinct name from gazetteer where fcode='ADM1' and admin1 <> '') as state on (found.name=state.name);
+select state.name from  (select distinct name from gazetteer where fcode='ADM1' and admin1 <> '') as state left join (select distinct name from gaz_marc_states) as found  on (found.name=state.name) where found.name is  nul;
+select state.name from  (select distinct name from gazetteer where fcode='ADM1' and admin1 <> '') as state left join (select distinct name from gaz_marc_states) as found  on (found.name=state.name) where found.name is  null;
+select * from marc_areas where name like '%Florida%';
+select * from marc_areas where obj like '%Florida%';
+select * from marc_areas where obj like '%D.C.%';
+insert into marc_areas values ('<http://id.loc.gov/vocabulary/geographicAreas/n-us-dc>', '<http://www.loc.gov/mads/rdf/v1#authoritativeLabel>', 'District of Columbia'), ('<http://id.loc.gov/vocabulary/geographicAreas/n-us-ny>',  '<http://www.loc.gov/mads/rdf/v1#authoritativeLabel>', 'New York'), ('<http://id.loc.gov/vocabulary/geographicAreas/n-us-wa>','<http://www.loc.gov/mads/rdf/v1#authoritativeLabel>', 'Washington'), ('<http://id.loc.gov/vocabulary/geographicAreas/n-us-fl>', '<http://www.loc.gov/mads/rdf/v1#authoritativeLabel>', 'Florida');
+drop table gaz_marc_state;
+drop table gaz_marc_states;
+create table gaz_marc_states as select distinct substr(subj,2,length(subj)-2), url, name from gazetteer g, marc_areas m where name=obj and fcode='ADM1' and subj not like '_:%' and pred = '<http://www.loc.gov/mads/rdf/v1#authoritativeLabel>';
+select state.name from  (select distinct name from gazetteer where fcode='ADM1' and admin1 <> '') as state left join (select distinct name from gaz_marc_states) as found  on (found.name=state.name) where found.name is  null;
+drop table gaz_marc_states;
+drop table gaz_marc_states;
+create table gaz_marc_states as select distinct substr(subj,2,length(subj)-2) as auth, gaz, name from gazetteer g, marc_areas m where name=obj and fcode='ADM1' and subj not like '_:%' and pred = '<http://www.loc.gov/mads/rdf/v1#authoritativeLabel>';
+create table gaz_marc_states as select distinct substr(subj,2,length(subj)-2) as auth, url as gaz, name from gazetteer g, marc_areas m where name=obj and fcode='ADM1' and subj not like '_:%' and pred = '<http://www.loc.gov/mads/rdf/v1#authoritativeLabel>';
+update gaz_marc_states set name=obj where pred = '<http://www.loc.gov/mads/rdf/v1#authoritativeLabel>' and subj='<'||auth||'>';
+update gaz_marc_states set name=obj from marc_areas where pred = '<http://www.loc.gov/mads/rdf/v1#authoritativeLabel>' and subj='<'||auth||'>';
+\d us_auth_places
+drop table gaz_marc_states;
+create table gaz_marc_states as select distinct substr(subj,2,length(subj)-2) as auth, gaz, name, stusps10 as admin1 from gazetteer g, marc_areas m, tiger_state t where name=obj and fcode='ADM1' and subj not like '_:%' and pred = '<http://www.loc.gov/mads/rdf/v1#authoritativeLabel>' and state10=name;
+create table gaz_marc_states as select distinct substr(subj,2,length(subj)-2) as auth, url as gaz, name, stusps10 as admin1 from gazetteer g, marc_areas m, tiger_state t where name=obj and fcode='ADM1' and subj not like '_:%' and pred = '<http://www.loc.gov/mads/rdf/v1#authoritativeLabel>' and state10=name;
+\d tiger_state
+create table gaz_marc_states as select distinct substr(subj,2,length(subj)-2) as auth, url as gaz, name, stusps10 as admin1 from gazetteer g, marc_areas m, tiger_state t where name=obj and fcode='ADM1' and subj not like '_:%' and pred = '<http://www.loc.gov/mads/rdf/v1#authoritativeLabel>' and name10=name;
+update gaz_marc_states set name=obj from marc_areas where pred = '<http://www.loc.gov/mads/rdf/v1#authoritativeLabel>' and subj='<'||auth||'>';
+\d us_auth_places
+insert into us_auth_place select distinct auth, name, admin1, null, null, name from gaz_marc_states;
+insert into us_auth_places select distinct auth, name, admin1, null, null, name from gaz_marc_states;
+\d us_auth_places
+\d gaz_auth_best
+insert into gaz_auth_best select gaz, auth, 1, 0, 1 from gaz_marc_states;
+select * from auth_records where pred = '<http://www.loc.gov/mads/rdf/v1#authoritativeLabel>' and obj like '"San Francisco%';
+select * from auth_records where pred = '<http://www.loc.gov/mads/rdf/v1#authoritativeLabel>' and obj like '"Cook%';
+select * from us_auth_places where name like '%County%';
+select count(*) from us_auth_places where name like '%County%';
+select count(*) from us_auth_places where basename like '%County';
+select count(*) (select distinct name from nhgis_county_combined);
+select count(*) from (select distinct name, admin1 from nhgis_county_combined);
+select count(*) from (select distinct name, admin1 from nhgis_county_combined) as foo;
+select count(*) from (select distinct name, admin1 from gazetteer where fcode='ADM2') as foo;
+select g.name, g.admin1 from gazetteer g left join us_auth_places a on (g.name + " County"=a.basename and g.admin1=a.admin1) where a.uri is null;
+\d us_auth_places
+select g.name, g.admin1 from gazetteer g left join us_auth_places a on (g.name + ' County'=a.basename and g.admin1=a.admin1) where a.uri is null;
+select g.name, g.admin1 from gazetteer g left join us_auth_places a on (g.name || ' County'=a.basename and g.admin1=a.admin1) where a.uri is null;
+explain select g.name, g.admin1 from gazetteer g left join us_auth_places a on (g.name || ' County'=a.basename and g.admin1=a.admin1) where a.uri is null;
+explain select g.name, g.admin1 from gazetteer g left join us_auth_places a on (g.name || ' County' % a.basename and g.admin1=a.admin1) where a.uri is null;
+explain select g.name, g.admin1 from gazetteer g left join us_auth_places a on ((g.name || ' County') % a.basename and g.admin1=a.admin1) where a.uri is null;
+explain select g.name, g.admin1 from gazetteer g left join us_auth_places a on ((g.name || ' County') = a.basename and g.admin1=a.admin1) where a.uri is null;
+explain select g.name, g.admin1 from gazetteer g left join us_auth_places a on ((g.name || ' County') = a.basename and g.admin1=a.admin1) where a.uri is null and fcode='ADM2';
+vacuum analyze us_auth_places;
+explain select g.name, g.admin1 from gazetteer g left join us_auth_places a on ((g.name || ' County') = a.basename and g.admin1=a.admin1) where a.uri is null and fcode='ADM2';
+select g.name, g.admin1 from gazetteer g left join us_auth_places a on ((g.name || ' County') = a.basename and g.admin1=a.admin1) where a.uri is null and fcode='ADM2' limit 15;
+select * from us_auth_places where a.name like 'Santa Anna %';
+select * from us_auth_places where name like 'Santa Anna %';
+select * from us_auth_places where name like 'Santa Anna%';
+select * from us_auth_places where name like 'Santa Anna';
+select * from us_auth_places where name like 'Santa An';
+select * from us_auth_places where name like 'Santa';
+select * from us_auth_places where name like 'Santa%';
+select * from us_auth_places where name like 'Santa An%';
+select g.name, g.admin1 from gazetteer g left join us_auth_places a on ((g.name || ' County') = a.basename and g.admin1=a.admin1) where a.uri is null and fcode='ADM2';
+select g.name, g.admin1 from gazetteer g left join us_auth_places a on (((g.name || ' County') = a.basename or g.name=a.basename) and g.admin1=a.admin1) where a.uri is null and fcode='ADM2';
+select count(*) from gazetteer g, us_auth_places a where (g.name=a.basename or (g.name||' County')=a.basename) and fcode='ADM2';
+explain select count(*) from gazetteer g, us_auth_places a where (g.name=a.basename or (g.name||' County')=a.basename) and fcode='ADM2';
+create index us_auth_places_basename on us_auth_places (basename);
+vacuum analyze us_auth_places;
+select set_limit(0.85);
+explain select count(*) from gazetteer g, us_auth_places a where (g.name % a.basename or (g.name||' County') % a.basename) and fcode='ADM2';
+select count(*) from gazetteer g, us_auth_places a where (g.name % a.basename or (g.name||' County') % a.basename) and fcode='ADM2';
+explain select count(*) from gazetteer g, us_auth_places a where (g.name % a.basename or (g.name||' County') % a.basename) and fcode='ADM2' and g.admin1=a.admin1;
+select count(*) from gazetteer g, us_auth_places a where (g.name % a.basename or (g.name||' County') % a.basename) and fcode='ADM2' and g.admin1=a.admin1;
+create table gaz_auth_county as select a.uri as auth, g.url as gaz, g.admin1, g.name, a.basename from gazetteer g, us_auth_places a where (g.name % a.basename or (g.name||' County') % a.basename) and fcode='ADM2' and g.admin1=a.admin1;
+select count(*) from gaz_auth_county;
+select count(*) from (select distinct gaz from gaz_auth_county);
+select count(*) from (select distinct gaz from gaz_auth_county) as f;
+select count(*) from gazetteer where fcode='ADM2';
+insert into gaz_auth_county select a.uri as auth, g.url as gaz, g.admin1, g.name, a.basename from gazetteer g, us_auth_places a where ((g.name||' City') % a.basename) and fcode='ADM2' and g.admin1=a.admin1 and g.admin1='VA';
+select * from gaz_auth_county order by gaz;
+delete from gaz_auth_county where basename not like '% County';
+select count(*) from (select distinct gaz from gaz_auth_county) as f;
+insert into gaz_auth_county select a.uri as auth, g.url as gaz, g.admin1, g.name, a.basename from gazetteer g, us_auth_places a where ((g.name||' City') % a.basename) and fcode='ADM2' and g.admin1=a.admin1 and g.admin1='VA';
+select * from gaz_auth_county order by gaz;
+select count(*) from tiger_county;
+select count(*) from (select distinct auth from gaz_auth_county) as f;
+\d
+\d auth_records
+copy auth_records from '/mnt/id.loc.gov/counties_names.tsv';
+\d
+insert into gaz_auth_county select a.uri as auth, g.url as gaz, g.admin1, g.name, a.basename from gazetteer g, us_auth_places a where ((g.name||' City') % a.basename) and fcode='ADM2' and g.admin1=a.admin1 and g.admin1='VA' \e
+insert into gaz_auth_county select a.uri as auth, g.url as gaz, g.admin1, g.name, a.basename from gazetteer g, us_auth_places a where ((g.name||' City') % a.basename) and fcode='ADM2' and g.admin1=a.admin1 and g.admin1='VA' 
+\c
+\r
+\q
+create temporary table auth_counties (subj varchar, pred varchar, obj varchar);
+\d gaz_auth_counties
+\d
+\d gaz_auth_county
+\d gaz_auth_best
+insert into gaz_auth_best select gaz, auth, similarity(name, basename), 0, 2000*similarity(name, basename) from gaz_auth_county;
+select count(*) from (select distinct gaz from gaz_auth_county) as f;
+create temporary table oops as select gaz_uri, auth_uri, similarity, distance, score from (select *, rank() over (partition by gaz_uri order by score desc) from gaz_auth_best) where rank=1;
+create temporary table oops as select gaz_uri, auth_uri, similarity, distance, score from (select *, rank() over (partition by gaz_uri order by score desc) from gaz_auth_best) as f where rank=1;
+select count(*) from oops;
+select count(*) from gaz_auth_best;
+delete from gaz_auth_best;
+insert into gaz_auth_best select * from oops;
+select * from gaz_auth_best;
+select count(*) from gaz_auth_best where score < 1;
+select count(*) from gaz_auth_best where score < 0.5;
+\d
+select count(*) from us_auth_places u left join gaz_auth_best g on (u.uri=g.auth) where g.auth is null;
+select count(*) from us_auth_places u left join gaz_auth_best g on (u.uri=g.auth_uri) where g.auth_uri is null;
+\d us_auth_places
+\d gaz_marc_states
+create unique index us_auth_places_uri2 on us_auth_places(uri);
+insert into us_auth_places select distinct auth, name, admin1, null, null, null from gaz_marc_states;
+select distinct auth, name, admin1 from gaz_marc_States;
+select * from us_auth_places where uri like '%geographicAreas%';
+update us_auth_places set uri='http://id.loc.gov/vocabulary/geographicAreas/n-us-ma' where uri='http://id.loc.gov/vocabulary/geographicAreas/n-us-ma';
+update us_auth_places set uri='http://id.loc.gov/vocabulary/geographicAreas/n-us-ma' where uri='http://id.loc.gov/vocabulary/geographicAreas/n-us-m';
+update gaz_auth_best set auth_uri='http://id.loc.gov/vocabulary/geographicAreas/n-us-ma' where auth_uri= 'http://id.loc.gov/vocabulary/geographicAreas/n-us-m';
+\d
+select count(*) from (select distinct auth from gaz_auth_county);
+select count(*) from (select distinct auth from gaz_auth_county) as f;
+\d gaz_auth_county
+insert into us_auth_places select distinct auth, name, admin1, replace(replace(basename, ' County', ''), ' City', ''), null, basename from gaz_auth_county;
+select distinct auth, name, admin1, replace(replace(basename, ' County', ''), ' City', ''), null, basename from gaz_auth_county order by auth desc;
+select distinct auth, null, admin1, replace(replace(basename, ' County', ''), ' City', ''), null, basename from gaz_auth_county order by auth desc;
+insert into us_places_auth select distinct auth, null, admin1, replace(replace(basename, ' County', ''), ' City', ''), null, basename from gaz_auth_county order by auth desc;
+insert into us_auth_places select distinct auth, null, admin1, replace(replace(basename, ' County', ''), ' City', ''), null, basename from gaz_auth_county order by auth desc;
+select * from gaz_auth_county where auth in (select auth from gaz_auth_county group by auth having count(*) > 1);
+\d us_auth_places
+insert into us_auth_places select distinct auth, basename, admin1, replace(replace(basename, ' County', ''), ' City', ''), null, basename from gaz_auth_county order by auth desc;
+select * from gaz_auth_county where auth in (select auth from gaz_auth_county group by auth, basename, admin1 having count(*) > 1);
+select auth, basename, admin1 from gaz_auth_county where auth in (select auth from gaz_auth_county group by auth, basename, admin1 having count(*) > 1);
+select auth, basename, admin1 from gaz_auth_county where auth in (select auth from gaz_auth_county group by auth, basename, admin1 having count(*) > 1) order by basename, admin1;
+select auth, basename, admin1 from gaz_auth_county group by auth, basename, admin1 having count(*) > 1 order by basename, admin1;
+select auth, basename, admin1 from gaz_auth_county group by auth, basename, admin1 having count(*) > 3 order by basename, admin1;
+\d us_places_auth
+\d us_auth_places
+insert into us_auth_places select distinct uri, null, null, null, null, null, null from us_places_auth;
+insert into us_auth_places select distinct auth, null, null, null, null, null, null from gaz_auth_county left join us_auth_places on (uri=auth) where uri is null;
+insert into us_auth_places select distinct auth, null, null, null, null, null from gaz_auth_county left join us_auth_places on (uri=auth) where uri is null;
+select count(*) from (select * from gaz_auth_county left join us_auth_places on (uri=auth) where uri is null) as f;
+select * from us_auth_places left join gaz_auth_best on (uri=auth_uri) where auth_uri is null;
+select us_auth_places.* from us_auth_places left join gaz_auth_best on (uri=auth_uri) where auth_uri is null;
+select gaz_auth_best.* from  gaz_auth_best left join us_auth_places on (uri=auth_uri) where _uri is null;
+select gaz_auth_best.* from  gaz_auth_best left join us_auth_places on (uri=auth_uri) where uri is null;
+select us_auth_places.* from us_auth_places left join gaz_auth_best on (uri=auth_uri) where auth_uri is null;
+delete from us_auth_places where uri in (select uri from us_auth_places left join gaz_auth_best on (uri=auth_uri) where auth_uri is null);
+create table uri_timeframes as select uri, start_date, end_Date from nhgis_county_combined;
+insert into uri_timeframes as select uri, start_date, end_date from nhgis_state_combined;
+insert into uri_timeframes  select uri, start_date, end_date from nhgis_state_combined;;
+\q
+copy alt_names from '/mnt/geonames/alternateNames.txt';
+\q
+drop table alt_names;
+\i /home/ubuntu/code/geonames_alt.sql
+copy alt_names from '/mnt/geonames/alternateNames.txt';
+\q
+select distinct lang from alt_names;
+create table us_alt_names as select * from alt_names where url is null;
+select count(*) from us_alt_names;
+drop table us_alt_names;
+create table us_alt_names as select * from alt_names where url is not null;
+select count(*) from us_alt_names;
+select * from us_alt_na,es;
+select * from us_alt_names;
+select lang, count(*) from us_alt_names order by count(*) desc;
+select lang, count(*) from us_alt_names group by lang order by count(*) desc;
+select lang, count(*) from us_alt_names group by lang order by count(*) desc;
+delete from us_alt_names where length(lang) = 2 and lang not in ('en','es');
+select lang, count(*) from us_alt_names group by lang order by count(*) desc;
+delete from us_alt_names where length(lang) < 4 and length(lang) > 0 and lang not in ('en','es');
+select lang, count(*) from us_alt_names group by lang order by count(*) desc;
+select * from us_alt_names where lang = '';
+select * from us_alt_names where lang = 'faac';
+delete from us_alt_names where lang='faac';
+select * from us_alt_names where lang='post';
+select * from us_alt_names where lang='link';
+delete from us_alt_names where lang='link';
+update us_alt_names set lang='unk' where lang='';
+\d
+select count(*) from geoname_osm_best;
+\d geoname_osm_best;
+select min(similarity) from geoname_osm_best;
+select geonameid, geoname, osmname from geoname_osm_best where geoname <> osmname;
+select geonameid, geoname, osmname from geoname_osm_best where geoname <> osmname and similarity > 0.6;
+select geonameid, geoname, osmname from geoname_osm_best where geoname <> osmname and 2000*similarity/(distance+1) > 1;
+select geonameid, geoname, osmname from geoname_osm_best where geoname <> osmname and 2000*similarity/(dist+1) > 1;
+select count(*) from geoname_osm_best where geoname <> osmname and 2000*similarity/(dist+1) > 1;
+\d alt_name
+\d alt_names
+\d us_alt_names
+insert into us_alt_names select geonameid, 'en', osmname, '', '', 'http://www.geonames.org/'||geonameid from geoname_osm_best where geoname <> osmname and 2000*similarity/(dist+1) > 1;
+insert into us_alt_names select null, geonameid, 'en', osmname, '', '', 'http://www.geonames.org/'||geonameid from geoname_osm_best where geoname <> osmname and 2000*similarity/(dist+1) > 1;
+select count(*) from us_alt_names;
+copy us_alt_names to '/tmp/us_alt_names.txt';
+select count(*) from gazetteer;
+select count(*) from authority_records;
+select count(*) from authority_record;
+\d
+select count(*) from us_auth_places;
+\q
+\d
+\d so_gns
+\q 
+\d
+\d nhgis_state_combined
+create temporary table places_feature as select uri from nhgis_state_combined union select uri from nhgis_county_combined;
+create index places_feature_uri on places_feature (uri varchar_pattern_ops);
+create temporary table relns as select url, url2 from (select f.url, f2.url as url2, rank() over (partition by f.url order by f2.url) from places_feature f, places_feature f2 where f.url like 'http://nhgis.org/%' and f2.url like substr(f.url,1,length(f.url)-4)||'%')) as foo where rank = 1;
+create temporary table relns as select url, url2 from (select f.url, f2.url as url2, rank() over (partition by f.url order by f2.url) from places_feature f, places_feature f2 where f.url like 'http://nhgis.org/%' and f2.url like substr(f.url,1,length(f.url)-4)||'%') as foo where rank = 1;
+create temporary table relns as select url, url2 from (select f.url, f2.url as url2, rank() over (partition by f.url order by f2.url) from places_feature f, places_feature f2 where f.url like 'http://nhgis.org/%' and f2.url like substr(f.url,1,length(f.url)-4)||'%') as foo where rank = 1 \e
+create temporary table relns as select uri, uri2 from (select f.uri, f2.uri as uri2, rank() over (partition by f.uri order by f2.uri) from places_feature f, places_feature f2 where f.uri like 'http://nhgis.org/%' and f2.uri like substr(f.uri,1,length(f.uri)-4)||'%') as foo where rank = 1 ;
+select * from relns;
+drop table relns;
+create temporary table relns as select uri, uri2 from (select f.uri, f2.uri as uri2, rank() over (partition by f.uri order by f2.uri) from places_feature f, places_feature f2 where f.uri like 'http://nhgis.org/%' and f2.uri like substr(f.uri,1,length(f.uri)-4)||'%' and f.ur) as foo where rank = 1 \e
+create temporary table relns as select uri, uri2 from (select f.uri, f2.uri as uri2, rank() over (partition by f.uri order by f2.uri) from places_feature f, places_feature f2 where f.uri like 'http://nhgis.org/%' and f2.uri like substr(f.uri,1,length(f.uri)-4)||'%' and f.url < f2.url) as foo where rank = 1 ;
+create temporary table relns as select uri, uri2 from (select f.uri, f2.uri as uri2, rank() over (partition by f.uri order by f2.uri) from places_feature f, places_feature f2 where f.uri like 'http://nhgis.org/%' and f2.uri like substr(f.uri,1,length(f.uri)-4)||'%' and f.ur) as foo where rank = 1 \e
+create temporary table relns as select uri, uri2 from (select f.uri, f2.uri as uri2, rank() over (partition by f.uri order by f2.uri) from places_feature f, places_feature f2 where f.uri like 'http://nhgis.org/%' and f2.uri like substr(f.uri,1,length(f.uri)-4)||'%' and f.uri < f2.uri) as foo where rank = 1 ;
+select * from relns;
+copy relns to '/tmp/relns.tt';
+\q
+explain select 'http://www.openstreetmap.org/browse/'||osmtype||'/'||osmid, name, fcode, 'US', null, lat, lon from osm o, geoname_osm_best g, osm_xwalk     x where o.feature_class=x.feature_class and o.feature_type=x.feature_type and fcode is not null and fcode <> '' and o.osmid=b.osmid and o.osmtype=b.osmtype; 
+explain select 'http://www.openstreetmap.org/browse/'||o.osmtype||'/'||o.osmid, name, fcode, 'US', null, lat, lon from osm o, geoname_osm_best g, osm_xwalk     x where o.feature_class=x.feature_class and o.feature_type=x.feature_type and fcode is not null and fcode <> '' and o.osmid=b.osmid and o.osmtype=b.osmtype; 
+explain select 'http://www.openstreetmap.org/browse/'||o.osmtype||'/'||o.osmid, name, o.fcode, 'US', null, lat, lon from osm o, geoname_osm_best g, osm_xwalk     x where o.feature_class=x.feature_class and o.feature_type=x.feature_type and fcode is not null and fcode <> '' and o.osmid=b.osmid and o.osmtype=b.osmtype; 
+\d osm
+explain select 'http://www.openstreetmap.org/browse/'||o.osmtype||'/'||o.osmid, name, x.fcode, 'US', null, lat, lon from osm o, geoname_osm_best g, osm_xwalk     x where o.feature_class=x.feature_class and o.feature_type=x.feature_type and fcode is not null and fcode <> '' and o.osmid=b.osmid and o.osmtype=b.osmtype; 
+explain select 'http://www.openstreetmap.org/browse/'||o.osmtype||'/'||o.osmid, name, x.fcode, 'US', null, lat, lon from osm o, geoname_osm_best g, osm_xwalk     x where o.feature_class=x.feature_class and o.feature_type=x.feature_type and x.fcode is not null and x.fcode <> '' and o.osmid=b.osmid and o.osmtype=b.osmtype; 
+explain select 'http://www.openstreetmap.org/browse/'||o.osmtype||'/'||o.osmid, name, x.fcode, 'US', null, lat, lon from osm o, geoname_osm_best g, osm_xwalk     x where o.feature_class=x.feature_class and o.feature_type=x.feature_type and x.fcode is not null and x.fcode <> '' and o.osmid=g.osmid and o.osmtype=g.osmtype; 
+\d osm_xwalk
+create index on osm_xwalk_fc_type on osm_xwalk(feature_class, feature_type);
+create index  osm_xwalk_fc_type on osm_xwalk(feature_class, feature_type);
+explain select 'http://www.openstreetmap.org/browse/'||o.osmtype||'/'||o.osmid, name, x.fcode, 'US', null, lat, lon from osm o, geoname_osm_best g, osm_xwalk     x where o.feature_class=x.feature_class and o.feature_type=x.feature_type and x.fcode is not null and x.fcode <> '' and o.osmid=g.osmid and o.osmtype=g.osmtype; 
+\d osm
+create table gazetteer_dups as select 'http://www.openstreetmap.org/browse/'||o.osmtype||'/'||o.osmid, name, x.fcode, 'US', null, lat, lon from osm o, geoname_osm_best g, osm_xwalk     x where o.feature_class=x.feature_class and o.feature_type=x.feature_type and x.fcode is not null and x.fcode <> '' and o.osmid=g.osmid and o.osmtype=g.osmtype; 
+create table gazetteer_dups as select 'http://www.openstreetmap.org/browse/'||o.osmtype||'/'||o.osmid, name, x.fcode, 'US', null, lat, lon from osm o, geoname_osm_best g, osm_xwalk     x where o.feature_class=x.feature_class and o.feature_type=x.feature_type and x.fcode is not null and x.fcode <> '' and o.osmid=g.osmid and o.osmtype=g.osmtype \e
+create table gazetteer_dups as select'http://www.openstreetmap.org/browse/'||o.osmtype||'/'||o.osmid, name, x.fcode,'US'::char(2) as country, null::char(2) as admin1, null::varchar as admin2,lat, lon, setsrid(st_point(lon, lat),4326) from osm o, geoname_osm_best g,osm_xwalk     x where o.feature_class=x.feature_class ando.feature_type=x.feature_type and x.fcode is not null and x.fcode <> '' ando.osmid=g.osmid and o.osmtype=g.osmtype ;
+select count(*) from gazetteer_dups;
+\d gazetteer_dups
+alter table gazetteer_dups rename column "?column?" to url;
+create unique index gazetteer_dups_url on gazetteer_dups(url);
+create temporary table gd2 as select distinct * from gazetteer_dups;
+create unique index gd2_url on gd2(url);
+delete from gazetteer_dups;
+insert into gazetteer_dups as select * from gd2;
+insert into gazetteer_dups select * from gd2;
+create unique index gazetteer_dups_url on gazetteer_dups(url);
+\i ~/code/create_gaz_dups.sql
+\i ~/code/create_gaz_dups.sql
+update gazetteer set admin1=statefp10, admin2=name10 from tiger_county where gazetteer.admin2 is null and st_buffer(gazetteer.the_geom, 0.25) && tiger_county.the_geom and st_intersects(st_buffer(gazetteer.the_geom, 0.25), tiger_county.the_geom) \e
+alter table gazetteer_dups rename setsrid to the_geom;
+update gazetteer_dups g set admin1=statefp10, admin2=name10 from tiger_county where g.the_geom && tiger_county.the_geom and st_intersects(g.the_geom, tiger_county.the_geom) ;
+update gazetteer_dups set the_geom=setsrid(the_geom,4326);
+explain update gazetteer_dups g set admin1=statefp10, admin2=name10 from tiger_county where g.the_geom && tiger_county.the_geom and st_intersects(g.the_geom, tiger_county.the_geom) ;
+update gazetteer_dups g set admin1=statefp10, admin2=name10 from tiger_county where g.the_geom && tiger_county.the_geom and st_intersects(g.the_geom, tiger_county.the_geom) ;
+update gazetteer_dups g set admin1=statefp10, admin2=name10 from tiger_county where g.the_geom && tiger_county.the_geom and st_intersects(g.the_geom, setsrid(tiger_county.the_geom,4326)) ;
+update gazetteer_dups set fcode='UNK' where fcode='' or fcode is null;
+select count(*) from gazetteer_dups where fcode='UNK';
+update gazetteer_dups g set admin1=statefp10, admin2=name10 from tiger_county where g.the_geom && tiger_county.the_geom and st_intersects(g.the_geom, setsrid(tiger_county.the_geom,4326)) ;
+\q

@@ -1,0 +1,24 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ title }} | {% trans 'Library of Congress Digital Gazetteer' %}{% endblock %}
+
+{% block extrahead %}
+    <link rel="stylesheet" href="/static/css/gaz_admin.css" />
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">{% trans 'Library of Congress Digital Gazetteer' %}</h1>
+{% endblock %}
+
+{% block nav-global %}     
+<div class="nav">
+    <ul>
+        <li><a href="/">Search</a></li>
+        <li><a href="/admin/places/feature">Features</a></li>
+        <li><a href="/admin/places/featuretype">Feature Types</a></li>
+        <li><a href="/admin/places/authorityrecord">Authority Records</a></li>
+        <li><a href="/admin/places/timeframe">Time Frames</a></li>
+    </ul>
+</div>
+{% endblock %}

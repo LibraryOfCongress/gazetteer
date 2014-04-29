@@ -1,0 +1,4 @@
+create table gazetteer_dups as select ('http://www.openstreetmap.org/browse/'||o.osmtype||'/'||o.osmid) as url, name, x.fcode, 'US'::char(2) as country, null::char(2) as admin1, null::varchar as admin2, lat, lon, setsrid(st_point(lon, lat),4326) from osm o, geoname_osm_best g, osm_xwalk     x where o.feature_class=x.feature_class and o.feature_type=x.feature_type and x.fcode is not null and x.fcode <> '' and o.osmid=g.osmid and o.osmtype=g.osmtype ;
+
+insert into gazetteer_dups select distinct 'http://nrhp.focus.nps.gov/md5/'||hash, name, 'HSTS', 'US', null, null, y(the_geom), x(the_geom), the_geom from nrhp , gaz_nrhp_best where nrhp.gid=gaz_nrhp_best.gid;
+insert into gazetteer select distinct link1_href, name, 'HSTS', 'US', null, y(the_geom), x(the_geom), the_geom from hmdb , gaz_hmdb_best where hmdb.gid=gaz_hmdb_best.gid;

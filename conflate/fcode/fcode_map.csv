@@ -1,0 +1,282 @@
+amenity	courthouse	1734	BLDG 	building
+amenity	prison	667	BLDG 	building
+amenity	arts_centre	475	BLDG 	building
+natural	glacier	424	GLCR 	glacier
+historic	pa	277	HSTS 	historical site
+natural	hills	268	HLLS 	hills
+natural	heath	253	PLN  	plain
+natural	peaks	181	MTS  	mountains
+natural	cave_entrance	175	CAVE 	cave
+place	census-designated	138	PPL  	populated place
+natural	crater	135	CRTR 	crater
+place	comunidad	127	PPL  	populated place
+man_made	lookout_tower	127	TOWR 	tower
+boundary	political	115	PPL  	populated place
+tourism	artwork	115	PRK  	park
+natural	geyser	114	SPNG 	spring
+man_made	works	109	BLDG 	building
+amenity	cemetery	107	CMTY 	cemetery
+natural	cape	99	CAPE 	cape
+amenity	college	75	SCH  	school
+place	township	70	PPL  	populated place
+man_made	well	67	WLL  	well
+place	zona urbana	66	PPL  	populated place
+natural	sand	66	SAND 	sand area
+tourism	motel	66	HTL  	hotel
+amenity	hospital	64	PPL  	populated place
+natural	valley	59	VAL  	valley
+place	sea	58	SEA  	sea
+amenity	dentist	57	BLDG 	building
+amenity	doctors	57	HSP  	hospital
+landuse	conservation	50	PRK  	park
+place	FIXME	47	PPL  	populated place
+landuse	cemetery	44	PPL  	populated place
+man_made	monitoring_station	43	PPL  	populated place
+place	neighborhood	39	PPLX 	section of populated place
+place	neighbourhood	35	AREA 	area
+natural	strait	33	STRT 	strait
+natural	C3022	32	MT   	mountain
+man_made	water_tower	32	TOWR 	tower
+amenity	library	31	PPL  	populated place
+aeroway	terminal	31	AIRP 	airport
+aeroway	runway	31	AIRP 	airport
+amenity	theatre	30	THTR 	theater
+amenity	embassy	29	DIP  	diplomatic facility
+amenity	parking;fuel	28	PPL  	populated place
+leisure	playground	28	PPL  	populated place
+natural	waterfall	28	OVF  	overfalls
+historic	memorial	28	PPL  	populated place
+historic	monument	27	MNMT 	monument
+natural	channel	27	CHN  	channel
+natural	ridge	27	RDGE 	ridge
+amenity	pharmacy	27	PPLX 	section of populated place
+man_made	mast	26	TOWR 	tower
+place	municipality	26	PPL  	populated place
+place	unincorporated_area	26	PPL  	populated place
+natural	sea	25	GULF 	gulf
+landuse	mine	24	BLDG 	building
+leisure	common	23	PRK  	park
+boundary	postal_code	23	PPL  	populated place
+building	yes	22	HSP  	hospital
+amenity	kindergarten	22	SCH  	school
+tourism	cabin	22	FRM  	farm
+tourism	cabin	22	HUT  	hut
+amenity	grave_yard	21	PRK  	park
+amenity	bank	21	BLDG 	building
+natural	land	21	PPL  	populated place
+amenity	grave_yard	21	PPL  	populated place
+place	archipelago	20	ISLS 	islands
+natural	island	19	ISLS 	islands
+amenity	cafe	19	FRM  	farm
+landuse	farmyard	19	PPL  	populated place
+amenity	recycling	19	PPL  	populated place
+natural	point	19	CAPE 	cape
+natural	oilfield	19	OILF 	oilfield
+leisure	sports_centre	19	PPL  	populated place
+leisure	sports_centre	19	PRK  	park
+landuse	public	18	SCH  	school
+leisure	stadium	18	STDM 	stadium
+natural	mud	18	CONE 	cone
+amenity	fountain	18	PPL  	populated place
+amenity	hospital (historic)	17	HSP  	hospital
+natural	oasis	17	OAS  	oasis
+amenity	nursing_home	17	HSP  	hospital
+amenity	pub	17	HTL  	hotel
+natural	feature	17	PPLL 	populated locality
+amenity	bicycle_parking	17	BLDG 	building
+landuse	meadow	17	PLN  	plain
+natural	reef	17	SHOL 	shoal
+landuse	road	16	PTGE 	portage
+railway	platform	16	PPL  	populated place
+amenity	toilets	16	PPL  	populated place
+landuse	farm	16	AGRC 	agricultural colony
+amenity	drinking_water	16	PRK  	park
+man_made	wastewater_plant	16	PPL  	populated place
+leisure	slipway	16	BAY  	bay
+natural	col	16	PASS 	pass
+natural	C3081	16	MALL 	mall
+amenity	fuel	16	ADM3 	third-order administrative division
+leisure	water_park	16	PPL  	populated place
+military	barracks	15	BLDG 	building
+boundary	Bing Aerial Imagery	15	PPL  	populated place
+boundary	ceremonial	15	ADM2 	county
+natural	scrub	15	ISL  	island
+leisure	pitch	15	PRK  	park
+tourism	guest_house	15	HTL  	hotel
+railway	station_site	15	ADM3 	third-order administrative division
+natural	shoal	14	SHOL 	shoal
+historic	wayside_shrine	14	SHRN 	shrine
+tourism	preserved_railway	14	ADM4 	fourth-order administrative division
+tourism	museum	14	PRK  	park
+place	historical_division	14	ADM2 	county
+railway	subway	14	RSTN 	railroad station
+boundary	town	14	PPL  	populated place
+boundary	protected_area	14	STM  	stream
+railway	subway_entrance	14	PPLA3	seat of a third-order administrative division
+railway	abandoned	14	PPLA4	seat of a fourth-order administrative division
+amenity	veterinary	14	BLDG 	building
+amenity	bicycle_rental	14	PPL  	populated place
+military	airfield	14	PPL  	populated place
+tourism	hostel	14	HTL  	hotel
+natural	beach	14	PPLL 	populated locality
+man_made	windmill	14	PPL  	populated place
+natural	saddle	14	GAP  	gap
+tourism	picnic_site	13	RES  	reserve
+amenity	clinic	13	HSP  	hospital
+landuse	vineyard	13	VIN  	vineyard
+natural	fell	13	GRSLD	grassland
+amenity	post_box	13	ADM4 	fourth-order administrative division
+landuse	leisure	13	PRK  	park
+amenity	fire_station	13	PPLA3	seat of a third-order administrative division
+tourism	picnic_site	13	MT   	mountain
+natural	dune	13	HLL  	hill
+natural	hill	13	LCTY 	locality
+man_made	village_sign	13	PPL  	populated place
+railway	disused_station	13	PPLA3	seat of a third-order administrative division
+tourism	alpine_hut	13	FRM  	farm
+railway	historic_station	13	ADM4 	fourth-order administrative division
+natural	cliff	13	SLP  	slope
+railway	historic_station	13	ADM3 	third-order administrative division
+amenity	university	13	SCHC 	college
+railway	abandoned_station	13	RSTN 	railroad station
+landuse	village_green	12	PPL  	populated place
+amenity	fire_hydrant	12	PPL  	populated place
+amenity	restaurant	12	GRAZ 	grazing area
+amenity	telephone	12	PPL  	populated place
+building	school	12	SCH  	school
+building	university	12	BLDG 	building
+historic	grave	12	CMTY 	cemetery
+landuse	quarry	12	VAL  	valley
+leisure	marina	12	BAY  	bay
+man_made	lighthouse	12	ADM3 	third-order administrative division
+man_made	lighthouse	12	ADM2 	county
+man_made	survey_point	12	RDGE 	ridge
+natural	scree	12	RKS  	rocks
+natural	volcano	12	PK   	peak
+place	borough	12	PPLX 	section of populated place
+place	borough	12	STM  	stream
+place	county	12	PPLA 	seat of a first-order administrative division
+place	islet	12	RF   	reef
+railway	level_crossing	12	RSTN 	railroad station
+tourism	theme_park	12	PRK  	park
+tourism	yes	12	PPL  	populated place
+landuse	reservoir	11	BCH  	beach
+leisure	golf_course	11	PPL  	populated place
+railway	tram_stop	11	FRM  	farm
+amenity	place_of_worship	11	TMPL 	temple
+amenity	parking	11	CH   	church
+tourism	attraction	11	STM  	stream
+leisure	park	11	STDM 	stadium
+boundary	geomorphological-unit	11	MTS  	mountains
+tourism	camp_site	11	LCTY 	locality
+boundary	Bing Aerial Imagery Brazil	11	PPL  	populated place
+amenity	taxi	11	ADM3 	third-order administrative division
+place	country	11	PCLI 	independent political entity
+historic	ruins	11	PPLQ 	abandoned populated place
+place	region	11	PLN  	plain
+place	region	11	BAY  	bay
+amenity	public_building	11	SCH  	school
+amenity	biergarten	11	FRM  	farm
+boundary	Bing Aerial Image Brazil	11	PPLA 	seat of a first-order administrative division
+place	state	11	ADM2 	county
+place	farm	11	HSE  	house
+leisure	park	11	CMTY 	cemetery
+boundary	aerial_views	11	PPL  	populated place
+landuse	reservoir	11	SPNG 	spring
+landuse	reservoir	11	PPLX 	section of populated place
+railway	stop	11	ADM2 	county
+natural	headland	11	CAPE 	cape
+man_made	water_well	11	AREA 	area
+natural	spring	11	STM  	stream
+man_made	surveillance	11	PPLA2	seat of a second-order administrative division
+tourism	viewpoint	10	LCTY 	locality
+historic	archaeological_site	10	CSTL 	castle
+place	hamlet	10	BAR  	bar
+place	hamlet	10	RSRT 	resort
+place	hamlet	10	MOOR 	moor
+place	hamlet	10	PPLF 	farm village
+boundary	Yahoo! Aerial Imagery	10	PPL  	populated place
+place	island	10	FRMS 	farms
+tourism	village_sign	10	PPL  	populated place
+place	isolated_dwelling	10	HLL  	hill
+place	locality	10	OVF  	overfalls
+place	locality	10	AIRP 	airport
+place	locality	10	LGN  	lagoon
+place	locality	10	PIER 	pier
+place	locality	10	GATE 	gate
+place	locality	10	LKS  	lakes
+place	locality	10	RDJCT	road junction
+boundary	national_park	10	ISL  	island
+place	province	10	HSP  	hospital
+place	province	10	MKT  	market
+place	suburb	10	AIRQ 	abandoned airfield
+place	town	10	HTL  	hotel
+boundary	administrative	10	MSSN 	mission
+place	village	10	PP   	police post
+place	village	10	MSTY 	monastery
+place	village	10	SWT  	sewage treatment plant
+boundary	administrative	10	PCLD 	dependent political entity
+boundary	administrative	10	FJD  	fjord
+amenity	townhall	10	AIRF 	airfield
+man_made	beacon	10	PPL  	populated place
+railway	halt	10	PPLA 	seat of a first-order administrative division
+amenity	shelter	10	MT   	mountain
+amenity	school	10	UNIV 	university
+\N	country	10	LCTY 	locality
+railway	station	10	ISL  	island
+railway	station	10	AIRQ 	abandoned airfield
+railway	station	10	ST   	street
+railway	station	10	RR   	railroad
+railway	station site	10	ADM4 	fourth-order administrative division
+railway	station site	10	PPL  	populated place
+amenity	post_office	10	AIRF 	airfield
+amenity	post_office	10	BLDG 	building
+amenity	police	10	RSTN 	railroad station
+railway	technical_station	10	PPLA2	seat of a second-order administrative division
+amenity	ferry_terminal	10	BAY  	bay
+amenity	fast_food	10	REST 	restaurant
+tourism	caravan_site	10	CMP  	camp
+amenity	cinema	10	HTL  	hotel
+amenity	bus_station	10	PPLA4	seat of a fourth-order administrative division
+tourism	hotel	10	ADM2 	county
+tourism	information	10	PND  	pond
+tourism	information	10	AREA 	area
+tourism	information	10	HTH  	heath
+amenity	bar	10	PPLX 	section of populated place
+amenity	atm	10	BANK 	bank
+aeroway	helipad	10	HSP  	hospital
+natural	bay	10	ANCH 	anchorage
+natural	bay	10	ADM3 	third-order administrative division
+natural	fjord	10	FRM  	farm
+man_made	water_works	10	RSTN 	railroad station
+man_made	water_works	10	PPL  	populated place
+man_made	tower	10	PPLA 	seat of a first-order administrative division
+railway	disused	10	PPL  	populated place
+leisure	nature_reserve	10	PEN  	peninsula
+natural	peak	10	STMI 	intermittent stream
+natural	peak	10	ADM2 	county
+natural	peak	10	PPLA3	seat of a third-order administrative division
+aeroway	aerodrome	10	STNM 	meteorological station
+landuse	residential	10	AIRF 	airfield
+landuse	recreation_ground	10	RES  	reserve
+aeroway	aerodrome	10	AREA 	area
+landuse	military	10	CMP  	camp
+landuse	forest	10	RDGE 	ridge
+historic	yes	10	PPL  	populated place
+historic	wreck	10	WRCK 	wreck
+natural	tree	10	TREE 	tree
+historic	wayside_cross	10	PPL  	populated place
+tourism	zoo	10	ZOO  	zoo
+natural	water	10	PPLA3	seat of a third-order administrative division
+natural	water	10	SPNG 	spring
+natural	water	10	DCKB 	docking basin
+historic	school	10	SCH  	school
+natural	wetland	10	RSV  	reservoir
+natural	wood	10	PPL  	populated place
+tourism	viewpoint	10	OBPT 	observation point
+tourism	viewpoint	10	STM  	stream
+historic	railway_station	10	ADM4 	fourth-order administrative division
+place	city	10	LCTY 	locality
+place	city	10	CAPE 	cape
+place	city	10	AIRQ 	abandoned airfield
+historic	castle	10	HLL  	hill

@@ -1,0 +1,13 @@
+$ wget http://id.loc.gov/static/data/authoritiesnames.nt.madsrdf.gz
+$ make
+$ ./extract_ntriples authoritiesnames.nt.madsrdf.gz > geo_entities.nt
+pass 0: read=226442713 old_items=287104 current_items=13 new_items=287104
+pass 1: read=226442713 old_items=1193525 current_items=287104 new_items=906421
+pass 2: read=226442713 old_items=1370509 current_items=906421 new_items=176984
+pass 3: read=226442713 old_items=1371045 current_items=176984 new_items=536
+pass 4: read=226442713 old_items=1371194 current_items=536 new_items=149
+pass 5: read=226442713 old_items=1371233 current_items=149 new_items=39
+pass 6: read=226442713 old_items=1371248 current_items=39 new_items=15
+pass 7: read=226442713 old_items=1371249 current_items=15 new_items=1
+pass 8: read=226442713 old_items=1371249 current_items=1 new_items=0... done.
+$ python construct_objects <geo_entities.nt >geoents.json 

@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+
+<html lang="en">
+
+<head>
+
+<meta charset="utf-8">
+
+<title>Digital Gazetteer: {% block page_title %} {% endblock %}</title>
+
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+
+{% block base_css %}
+<link rel="stylesheet" href="/static/css/reset.css" type="text/css" />
+<link rel="stylesheet" href="/static/css/main.css" type="text/css" />
+{% endblock %}
+
+{% block admin_css %}
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
+{% endblock %}
+
+{% block leaflet_includes %}
+<link rel="stylesheet" href="/static/leaflet/leaflet.css" />
+<script src="/static/leaflet/leaflet.js"></script>
+{% endblock %}
+
+{% block extra_head %}
+
+
+{% endblock %}
+</head>
+
+<body>
+
+<div class="header">
+    <div id="logoMain">
+        <!-- <p>Supported By: </p> -->
+        <a href="{{ supported_by_website_url }}"><img src="{{ supported_by_image_url }}" alt="Supported By, logo" id="logo"></a>
+      
+    </div>
+    
+    <div id="user-tools"> 
+ 
+    <!--Welcome,<strong> admin.</strong><a href="/admin/password_change/"> Change password</a> /
+     <a href="/admin/logout/">Log out</a>--> 
+        <p id="logoText">Digital Gazetteer Demo</p>
+        <p id="entropyLink"><a href="http://entropyfree.com">by Topomancy LLC</a></p>
+             
+    </div> 
+    {% block site_header_extra %}
+    {% endblock %}
+
+</div> 
+<div class="content">
+    {% block content %}
+    {% endblock %}
+</div>
+   
+{% block footer %}
+<div class="footer">
+<p id="footerLinks">Data from <a href="http://geonames.org">Geonames</a>, <a href="http://openstreetmap.org">OpenStreetMap, <a href="http://nhgis.org">National Historical GIS</a>, <a href="http://nrhp.focus.nps.gov/natreg/docs/Download.html">National Park Service</a>, <a href="http://hpdb.org">Historic Places Database</a> and <a href="http://id.loc.gov/">Library of Congress Authorities & Vocabularies</a></p>
+</div>
+{% endblock %}
+
+</body>

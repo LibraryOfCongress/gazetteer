@@ -1,0 +1,305 @@
+{% extends 'base.html' %}
+{% load detail_extras %}
+{% block page_title %} {{ place.name }} {% endblock %}
+
+{% block login_next %}?next={% url 'detail' place_id=place.id %}{% endblock %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}select2/select2.css" />
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/detail.css" />
+    <script src="{{ STATIC_URL }}select2/select2.js"></script>
+    <script>
+        {% autoescape off %} 
+        var place_geojson = {{ place_geojson }} ;
+        var similar_geojson = {{ similar_geojson }} ;
+        var revisions_json = {{ revisions_json }} ;
+        var wms_layers = {{ wms_layers }};
+        {% endautoescape %} 
+    </script>
+    <script src="{{ STATIC_URL }}js/detail.js"></script>
+
+{% endblock %}
+
+
+{% block content %}
+<div id="contentWrapper">
+    <div class="topPane">
+        <div class="topLeftPane">
+            <h4> {{ place.name }} </h4>
+            <form id="editPlaceForm" action="" method="PUT">
+                <ul id="placeDetails">
+                    <li><a href="{% url 'detail' place_id=place.id %}" class="linkColor">Permalink</a> | <a href="{% url 'place_json' id=place.id %}" class="linkColor">GeoJSON</a></li>
+                    <li><span class="infoLabel">Name: </span><span id="placeName">{{ place.name }}</span></li>
+                    <li><span class="infoLabel">Feature Code: </span><span id="featureCode">{{ feature_code.typ }}: {{ feature_code.name }}</span></li>
+                    {% if place.population %}
+                    <li><span class="infoLabel">Population:</span> {{ place.population }}</li>
+                    {% endif %}
+                    {% if place.area %}
+                    <li><span class="infoLabel">Area:</span> {{ place.area }}</li>
+                    {% endif %}        
+                    <li><span class="infoLabel">Updated:</span> {{ updated|date:"d M Y" }}</li>
+                    <li><span class="infoLabel">URIs:</span>
+                        <ul id="uriList" class="detailList"> 
+                            {% for uri in place.uris %}
+                            <li>{{ uri|urlize }}</li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                   <!-- <li class="commitMessage" style="display:none;">
+                        <span class="infoLabel">Change notes:</span><br />
+                        <textarea required name="comment" id="comment" placeholder="Please add a comment about your changes"></textarea>                
+                    </li>-->
+                </ul>
+            </form>
+            <br />
+
+            {% if user.is_authenticated %} 
+                <a href="{% url 'edit_place' place_id=place.id %}" data-state="" id="editPlace" class="button">Edit</a> <span id="saveStatus"></span>
+            {% endif %}
+        </div> <!-- end topLeftPane -->
+        <div class="topRightPane">
+            <div class="map" id="map">
+
+            </div>
+        </div> <!-- end topRightPane -->
+    </div> <!-- end topPane -->
+    
+    <div class="bottomPane">
+        <ul class="tabButtons">
+            <li><a href="#alternateNames">Alternate Names</a></li>
+            <li><a href="#history">Revisions</a></li>
+            <li><a href="#relations">Relations</a></li>
+            <li><a href="#timeframes">Timeframes</a></li>
+            <br />
+           <li class="commitMessage" style="display:none;">
+                <span class="infoLabel">Edit notes:</span><br />
+                <textarea required name="comment" id="comment" placeholder="Please add a comment about your changes"></textarea>                
+            </li>
+        </ul>
+
+
+ 
+
+        <div class="tabPanel">
+
+            <div class="tab_content" id="alternateNames">
+                <table id="alternateNamesTable">
+                    <thead>
+                        <tr>
+                            <td class="col1">Lang</td>
+                            <td class="col2">Name</td>
+                            <td class="col3">Type</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if place.alternate %}
+                            {% for a in place.alternate %}
+                            <tr>
+                                <td class="col1"><input type="text" class="alternateLang" disabled value="{{ a.lang }}" /></td>
+                                <td class="col2"><input type="text" class="alternateName" disabled value="{{ a.name }}" /></td>
+                                <td class="col3"><input type="text" class="alternateType" disabled value="{{ a.type }}" /> <span class="removeAltName">x</span></td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr style="display:none;">
+                                <td class="col1"><input type="text" class="alternateLang" disabled value="" /></td>
+                                <td class="col2"><input type="text" class="alternateName" disabled value="" /></td>
+                                <td class="col3"><input type="text" class="alternateType" disabled value="" /><span class="removeAltName">x</span></td>                        
+                            </tr>
+
+                        {% endif %}
+                    </tbody>
+                    <tfoot style="display:none;">
+                        <tr>
+                            <td>
+                                <a href="#" id="addAlternateName">+ Add Alternate Name</a>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div> <!-- end alternateNames -->
+
+
+            <div class="tab_content" id="history">
+                <span id="currentVersion">Version: {{ revisions.version }}</span>
+                <ul id="revisions">
+                   {% for revision in revisions.revisions %}
+                        <li>
+                            
+                            <a href="{% url 'revision_json' id=place.id revision=revision.digest %}">
+                                {{ revision.digest }}
+                            </a> 
+                            by {{ revision.user }} on <span class="timestamp">{{ revision.created_at }}</span>
+                            {% if revision.comment %}
+                            <em> - {{ revision.comment }}</em>
+                            {% endif %}
+                            {% if not forloop.last %}
+                            {% if user.is_authenticated %}
+                            <a href="#{{ revision.digest }}" class="rollback_place" data-revision="{{ revision.digest }}">revert</a>
+                            {% endif %}
+                            {% endif %}    
+                        </li>
+                   {% endfor %} 
+                </ul>
+            </div> <!-- end history -->
+
+            <div class="tab_content" id="relations">
+                <table id="relationsTable">
+                    <thead>
+                        <tr>
+                            <td>Place</td>
+                            <td>Relations</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if place.relationships %}
+                            {% for relation in place.relationships %} 
+                        <tr data-id="{{ relation.place.id }}">
+                            <td>
+                                <a href="{% url 'detail' place_id=relation.place.id %}" target="_blank">
+                                    {{ relation.place.name }}
+                                </a>
+                            </td>
+                            <td class="relation">
+                                {{ relation.type }}
+
+                            </td>
+                            {% if user.is_authenticated %}
+                            <td class="deleteRelation">
+                                X
+                            </td> 
+                            {% endif %}
+                        </tr>
+                            {% endfor %}
+                        {% endif %}
+
+                    </tbody>
+
+                </table>
+
+                <div class="similarPlacesCol">
+                    {% if place.is_composite == True %}
+                        <label for="searchPlace">Search for places</label>
+                        <input type="text" name="searchPlace" id="searchPlace" value="" />
+                        <input type="button" name="searchPlaceButton" id="searchPlaceButton" value=" Search " />
+                        <ul id="searchedPlaces">
+                            <li class="similarPlace blankSimilarPlace"  style="display:none" data-id="blank" >
+                                <a class="similarPlaceA" href="{% url 'detail' place_id=2 %}" >
+                                    <!--name -->
+                                </a>
+                                <span class="admin_names"> </span>
+                               {% if user.is_authenticated %}
+                                <select class="relation_type">
+                                    <option value="">------</option>
+                                    {% for choice in RELATION_CHOICES.keys %}
+                                    <option value="{{ choice }}">
+                                        {{ choice }}
+                                    </option>
+                                    {% endfor %}                                                                    
+                                </select>
+                                <button class="addRelation">Add Relation</button>
+                                {% endif %}
+                            </li>
+                        </ul>
+                        <br />
+                    {% endif %}
+                    <a id="showSimilar" href="">Show Similar</a>
+                    <ul id="similarPlaces" style="display:none;">
+                        {% for p in similar_places.features %}
+                            <li class="similarPlace" data-id="{{ p.properties.id }}">
+                                <a class="similarPlaceA" href="{% url 'detail' place_id=p.properties.id %}">
+                                    {{ p.properties.name }}
+                                </a>
+                                {%if p.properties.admin %}
+                                   <span class="admin_names">
+                                        {{ p.properties.admin|to_admin_string }}
+                                {% endif %}
+                                </span>
+                                
+                                {% if user.is_authenticated %}
+                                <select class="relation_type">
+                                    <option value="">------</option>
+                                    {% for choice in RELATION_CHOICES.keys %}
+                                    <option value="{{ choice }}">
+                                        {{ choice }}
+                                    </option>
+                                    {% endfor %}                                                                    
+                                </select>
+                                <button class="addRelation">Add Relation</button>
+                                {% endif %}
+                            </li>                
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div> <!-- end relations -->
+
+            <div class="tab_content" id="timeframes">
+                {% if place.timeframe.start %}
+                    Start Date: <input type="text" id="timeframe_start" disabled value="{{ place.timeframe.start }}" /> <br />
+                    Start Granularity:
+                        <select id="timeframe_start_range" disabled>
+                            {% for choice in GRANULARITY_CHOICES %}
+                            <option value="{{ choice.0 }}"
+                                {% ifequal choice.0 place.timeframe.start_range %} selected="selected" {% endifequal %}
+                                >
+                                {{ choice.1 }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <br />
+                    End Date: <input type="text" id="timeframe_end" disabled value="{{ place.timeframe.end }}" /><br />
+
+                    End Granularity:
+                        <select id="timeframe_end_range" disabled>
+                            {% for choice in GRANULARITY_CHOICES %}
+                            <option value="{{ choice.0 }}"
+                                {% ifequal choice.0 place.timeframe.end_range %} selected="selected" {% endifequal %}
+                                >
+                                {{ choice.1 }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <br />
+
+                {% else %}
+                    No time-frame data for this place. <span class="toggleNext button">Add Timeframe Data</span>
+                    <div style="display:none">
+                        Start Date: <input type="text" id="timeframe_start" disabled value="" /> <br />
+                        Start Granularity:
+                            <select id="timeframe_start_range" disabled>
+                                {% for choice in GRANULARITY_CHOICES %}
+                                <option value="{{ choice.0 }}">
+                                    {{ choice.1 }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                            <br />
+                        <br />
+                        End Date: <input type="text" id="timeframe_end" disabled value="" /><br />
+                        End Granularity:
+                            <select id="timeframe_end_range" disabled>
+                                {% for choice in GRANULARITY_CHOICES %}
+                                <option value="{{ choice.0 }}">
+                                    {{ choice.1 }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                            <br />
+                    </div>
+                {% endif %}
+
+            </div>
+
+        </div> <!-- end tabPanel -->
+
+
+
+</div> <!-- close contentWrapper -->
+
+
+<div style="clear:both;"></div>
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
+

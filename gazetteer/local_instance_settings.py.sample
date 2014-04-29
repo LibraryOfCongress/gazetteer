@@ -1,0 +1,8 @@
+SHORT_NAME = 'loc'
+API_BASE = '/gazetteer/1.0/' #base url for the API
+APP_BASE = '/gazetteer/' #base url for the app, if not running at root of domain
+CENTER_LAT = 0
+CENTER_LON = 0
+MIN_YEAR = 1700
+MAX_YEAR = 2013 
+WARPER_URLS = []

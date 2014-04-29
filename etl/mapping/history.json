@@ -1,0 +1,10 @@
+{
+    "mappings": {
+        "place": {
+            "revisions": {
+                "type": "object",
+                "index": "no",
+            }
+        }
+    }
+}

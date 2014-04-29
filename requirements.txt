@@ -1,0 +1,16 @@
+git+git://github.com/django/django.git@stable/1.5.x
+ox
+django_extensions
+Werkzeug
+django_debug_toolbar
+django-ajax-selects
+psycopg2
+pyelasticsearch==0.2
+requests==0.14.0
+isodate
+unidecode
+-e git+git@topomancy.com:pyelasticobjects#egg=pyelasticobjects
+-e git+git@topomancy.com:pyelastichistory#egg=pyelastichistory
+fiona
+egenix-mx-base
+shapely
