@@ -3,11 +3,8 @@ Note: this is a snapshot pulled on 2014-04-29 from :
 * http://topomancy.com/gazetteer/release/gazetteer_docs_7.1.2013.pdf
 * http://topomancy.com/gazetteer/release/gazetteer-29-6-13.zip
 
-Ideally Topmancy will be making their Git repository available to the public, or
-will give us a copy so we can use that as a baseline for this project. But if
-not this is here as a backup. The goal being to make this codebase available 
-as opensource on Github, either on Topomancy's site or LC's.
-
+Please note that several of the build files present in static/ have been
+removed from our release.
 --
 
 Topomancy LLC Gazetteer installation
