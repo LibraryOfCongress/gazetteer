@@ -1,7 +1,7 @@
 import sys, json, os, datetime
 
-from shapely.geometry import asShape, mapping
-from fiona import collection
+from shapely.geometry import shape, mapping
+import fiona
 
 from core import Dump
 from feature_type_maps.digitizer_types import use_types_map, use_sub_types_map
@@ -9,7 +9,7 @@ from feature_type_maps.digitizer_types import use_types_map, use_sub_types_map
 
 def extract_shapefile(shapefile, uri_name, simplify_tolerance=None):
     
-    for feature in collection(shapefile, "r"):
+    for feature in fiona.open(shapefile, "r"):
         
         geometry = feature["geometry"]
         properties = feature["properties"]
@@ -20,7 +20,7 @@ def extract_shapefile(shapefile, uri_name, simplify_tolerance=None):
         del properties["updated_at"]
         
         #calculate centroid
-        geom_obj = asShape(geometry)
+        geom_obj = shape(geometry)
         try:
             centroid = [geom_obj.centroid.x , geom_obj.centroid.y]    
         except AttributeError:
