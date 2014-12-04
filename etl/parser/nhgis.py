@@ -1,7 +1,7 @@
 import sys, json, os, datetime, glob
 
-from shapely.geometry import asShape, mapping
-from fiona import collection
+from shapely.geometry import shape, mapping
+import fiona
 
 from core import Dump
 
@@ -13,11 +13,11 @@ def extract_shapefile(shapefile, uri_name, simplify_tolerance):
     #with collection(shapefile, 'r') as source:
     #  #print country_code, geo_type, year, os.path.basename(shapefile), source.schema["properties"].keys()
     
-    for feature in collection(shapefile, "r"):
+    for feature in fiona.open(shapefile, "r"):
         
         geometry = feature["geometry"]
         properties = feature["properties"]
-        geom_obj = asShape(geometry)
+        geom_obj = shape(geometry)
         
         if simplify_tolerance:
             geometry = mapping(geom_obj.simplify(simplify_tolerance))

@@ -1,7 +1,7 @@
 import sys, json, os, datetime, glob, codecs
 
-from shapely.geometry import asShape, mapping
-from fiona import collection
+from shapely.geometry import shape, mapping
+import fiona
 
 from core import Dump, tab_file
 

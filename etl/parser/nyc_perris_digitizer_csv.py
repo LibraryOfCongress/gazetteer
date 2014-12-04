@@ -1,8 +1,8 @@
 import sys, json, os, datetime
 
-from shapely.geometry import asShape, mapping
+from shapely.geometry import shape, mapping
 from shapely import wkt
-from fiona import collection
+import fiona
 
 from feature_type_maps.digitizer_types import use_types_map, use_sub_types_map
 

@@ -1,7 +1,7 @@
 import sys, json, os, datetime
 
-from shapely.geometry import asShape, mapping
-from fiona import collection
+from shapely.geometry import shape, mapping
+import fiona
 
 from core import Dump
 import core
@@ -12,13 +12,13 @@ import codecs
 def extract_shapefile(shapefile, uri_name, simplify_tolerance=None):
 
     
-    for feature in collection(shapefile, "r"):
+    for feature in fiona.open(shapefile, "r"):
     
         geometry = feature["geometry"]
         properties = feature["properties"]
         
         #calculate centroid
-        geom_obj = asShape(geometry)
+        geom_obj = shape(geometry)
         centroid = feature["geometry"]["coordinates"]
 
         name = properties["name"]
